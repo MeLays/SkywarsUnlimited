@@ -15,11 +15,13 @@ public class MainCommand implements CommandExecutor {
 	
 	ClusterCommand clusterCommand;
 	TeamCommand teamCommand;
+	SetupCommand setupCommand;
 	
 	public MainCommand(Main main) {
 		this.main = main;
 		this.clusterCommand = new ClusterCommand(main);
 		this.teamCommand = new TeamCommand(main);
+		this.setupCommand = new SetupCommand(main);
 	}
 	
 	@Override
@@ -28,6 +30,7 @@ public class MainCommand implements CommandExecutor {
 		
 		helpSender.addAlias("help [page]", "Show this overview", "Use 'help <page>' to get to the next help pages" , "/bw help");
 		helpSender.addAlias("cluster [...]", "Get to the cluster management overview", "Shows commands to manage the clusters.\nUse 'cluster <page>' to get to the next help pages" , "/bw cluster");
+		helpSender.addAlias("setup [...]", "Get to the cluster-setup management overview", "Shows commands to manage the clusters locations.\nUse 'setup <page>' to get to the next help pages" , "/bw setup");
 		helpSender.addAlias("arenas [...]", "Get to the arena management overview", "Shows commands to manage the arenas.\nManage the running arenas.\nUse 'arenas <page>' to get to the next help pages" , "/bw arenas");
 		helpSender.addAlias("teams [...]", "Get to the team management overview", "Shows commands to manage the teams.\nUse 'teams <page>' to get to the next help pages" , "/bw teams");
 		helpSender.addAlias("lobby [...]", "Get to the lobby management overview", "Shows commands to manage the lobby.\nUse 'lobby <page>' to get to the next help pages" , "/bw lobby");
@@ -68,6 +71,10 @@ public class MainCommand implements CommandExecutor {
 		
 		else if (args[0].equals("arenas")) {
 			
+		}
+		
+		else if (args[0].equals("setup")) {
+			setupCommand.onCommand(sender, alias + " " + args[0], args);
 		}
 		
 		else if (args[0].equals("teams")) {

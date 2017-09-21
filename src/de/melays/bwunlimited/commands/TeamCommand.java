@@ -5,7 +5,9 @@ import org.bukkit.command.CommandSender;
 import de.melays.bwunlimited.Main;
 import de.melays.bwunlimited.error.InvalidNameException;
 import de.melays.bwunlimited.teams.Color;
+import de.melays.bwunlimited.teams.Team;
 import de.melays.bwunlimited.teams.error.TeamAlreadyExistsException;
+import net.md_5.bungee.api.ChatColor;
 
 public class TeamCommand {
 	
@@ -83,6 +85,26 @@ public class TeamCommand {
 				sender.sendMessage(main.prefix + "The team doesn't exist!");
 			}
 		}
+		
+		else if (args[1].equalsIgnoreCase("list")) {
+			if (!main.getMessageFetcher().checkPermission(sender, "bwunlimited.setup"))return;
+			ListSender teamlist = new ListSender (main , "Team-List");
+			for (Team team : main.getTeamManager().getTeams().values()) {
+				teamlist.addItem(team.Color.toChatColor() + team.name + ChatColor.YELLOW + " - " + team.display + ChatColor.RESET +" max. "+ ChatColor.ITALIC + ""  + team.max);
+			}
+			if (args.length == 2) {
+				teamlist.sendList(sender, 1);
+			}
+			else {
+				try {
+					int page = Integer.parseInt(args[2]);
+					teamlist.sendList(sender, page);
+				} catch (NumberFormatException e) {
+					teamlist.sendList(sender, 1);
+				}
+			}
+		}
+		
 	}
 	
 }

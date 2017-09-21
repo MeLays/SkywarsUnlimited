@@ -6,4 +6,9 @@ help:
   hover_top: "&8/%command% &7%alias%:"
   hover_body_color: "&e"
   footer: "&9&m--------------------"
+list:
+  header: "%prefix% &9%list%: (%page%/%max_pages%)"
+  command: "    %entry%"
+  hover_body_color: "&e"
+  footer: "&9&m--------------------"
 command_usage:  "%prefix% Use: %command%"

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.HashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -11,16 +12,20 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import de.melays.bwunlimited.Main;
 import de.melays.bwunlimited.error.InvalidNameException;
+import de.melays.bwunlimited.log.Logger;
 import de.melays.bwunlimited.teams.error.TeamAlreadyExistsException;
 
 public class TeamManager {
 	
 	Main main;
 	
+	HashMap<String , Team> teams = new HashMap<String , Team>();
+	
 	public TeamManager (Main main){
 		this.main = main;
 		this.getTeamFile().options().copyDefaults(true);
 		this.saveFile();
+		reload();
 	}
 	
 	public void createTeam (String name , String displayname , Color color , int max) throws TeamAlreadyExistsException, InvalidNameException{
@@ -35,6 +40,27 @@ public class TeamManager {
 		getTeamFile().set(name+".color", color.color);
 		getTeamFile().set(name+".max", max);
 		saveFile();
+		load(name);
+	}
+	
+	public void reload() {
+		teams = new HashMap<String , Team>();
+		for (String s : getTeamFile().getKeys(false)) {
+			try {
+				load(s);
+			} catch (Exception e) {
+
+			}
+		}
+	}
+	
+	public HashMap<String , Team> getTeams(){
+		return teams;
+	}
+	
+	public void load (String s) {
+		teams.put(s, new Team(main, s, this.getTeamFile().getString(s+".display"), new Color(this.getTeamFile().getString(s+".color")), this.getTeamFile().getInt(s+".max")));
+		Logger.log(main.console_prefix + "Loaded team '" + s + "'");
 	}
 	
 	public void removeTeam (String name){

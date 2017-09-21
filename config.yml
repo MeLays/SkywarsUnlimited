@@ -1,6 +1,7 @@
 gameworld: bw_gameworld
 presetworld: presets
 creature_spawn: false
+default_team_choose_item: STAINED_GLASS_PANE
 generator:
    splitted:
       panels: 5

@@ -1,67 +1,32 @@
 package de.melays.bwunlimited.teams;
 
-import java.util.ArrayList;
-
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
+import org.bukkit.Material;
 
 import de.melays.bwunlimited.Main;
-import net.md_5.bungee.api.ChatColor;
+import de.melays.bwunlimited.map_manager.AdvancedMaterial;
 
 public class Team{
 	
-	Color Color;
-	String display;
-	String name;
-	int max;
-	
-	Location spawn;
-	
-	boolean bed = true;
+	public Color Color;
+	public String display;
+	public String name;
+	public int max;
 	
 	Main main;
 	
-	ArrayList<Player> players = new ArrayList<Player>();
+	AdvancedMaterial chooseItem;
 	
-	public Team (Main main , String name , String displayname , Color c , int max , Location spawn){
+	public Team (Main main , String name , String displayname , Color c , int max){
 		
 		this.name = name;
 		display = displayname;
 		Color = c;
-		this.spawn = spawn;
 		
 		this.main = main;
 		
 		this.max = max;
 		
-	}
-	
-	public boolean add (Player p){
-		if (players.size() < max){
-			players.add(p);
-			return true;
-		}
-		else{
-			return false;
-		}
-	}
-	
-	public void send(String s){
-		for (Player p : players){
-			p.sendMessage(ChatColor.translateAlternateColorCodes('&', s));
-		}
-	}
-	
-	public boolean conatins(Player p){
-		return (players.contains(p));
-	}
-	
-	@SuppressWarnings("deprecation")
-	public void title(String top , String bottom){
-		
-		for (Player p : players){
-			p.sendTitle(top, bottom);
-		}
+		chooseItem = new AdvancedMaterial(Material.getMaterial(main.getConfig().getString("default_team_choose_item")) , Color.toByte());
 		
 	}
 	
