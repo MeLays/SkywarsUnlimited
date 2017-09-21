@@ -1,0 +1,12 @@
+name: BedwarsUnlimited
+version: 1.0.0 INDEV
+description: This plugin is so 31337. You can set yourself on fire.
+author: MeLays
+website: http://melays.de/
+main: de.melays.bwunlimited.Main
+softdepend: [StatsAPI]
+commands:
+  bw:
+    description: Manage the BedwarsUnlimited Plugin
+    aliases: [bedwars , bwunlimited , bedwarsunlimited]
+    usage: /bw

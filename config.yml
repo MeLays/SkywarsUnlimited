@@ -1,0 +1,7 @@
+gameworld: bw_gameworld
+presetworld: presets
+creature_spawn: false
+generator:
+   splitted:
+      panels: 5
+      per: 10

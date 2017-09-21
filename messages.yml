@@ -1,0 +1,9 @@
+prefix: "&9BW&1\u221E &8- &e"
+no_permission: "%prefix% You don't have the permission to use this command!"
+help:
+  header: "%prefix% &9%command%-help: (%page%/%max_pages%)"
+  command: "    &9%alias% &7- &e%short_descr%"
+  hover_top: "&8/%command% &7%alias%:"
+  hover_body_color: "&e"
+  footer: "&9&m--------------------"
+command_usage:  "%prefix% Use: %command%"
