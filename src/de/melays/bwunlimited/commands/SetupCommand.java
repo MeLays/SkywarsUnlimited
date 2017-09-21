@@ -18,14 +18,14 @@ public class SetupCommand {
 		helpSender.addAlias("help [page]", "Show this overview", "Use 'help <page>' to get to the next help pages" , "/bw setup help");
 		helpSender.addAlias("addteam <cluster> <team>", "Adds a team to a cluster", "Adds a team to a cluster.\nA cluster can have a infinite amount of teams." , "/bw setup addteam <cluster> <team>");
 		helpSender.addAlias("listteams <cluster>", "List the teams of the cluster", "Lists all teams added to the cluster." , "/bw setup listteams <cluster>");
-		helpSender.addAlias("removeteam <cluster> <team>", "Removes a team from a cluster", "Removes a team from a cluster.\nA cluster can have a infinite amount of teams." , "/bw setup removeteam <cluster> <team>");
+		helpSender.addAlias("removeteam <cluster> <team>", "Removes a team", "Removes a team from a cluster.\nA cluster can have a infinite amount of teams." , "/bw setup removeteam <cluster> <team>");
 		helpSender.addAlias("setteamspawn <cluster> <team>", "Sets a teamspawn", "Sets the teamspawn to your current location\nYou must be inside the cluster!" , "/bw setup setteamspawn <cluster> <team>");
-		helpSender.addAlias("addspawner <...>", "Add a spawner to a cluster", "Adds an itemspawner to a cluster\nto you Location.\nYou must be inside the cluster!" , "/bw setup addspawner <cluster> <material/ID> <ticks> <displayname>");
-		helpSender.addAlias("listspawners <cluster>", "List the itemspawners of the cluster", "Lists all itemspawners added to the cluster." , "/bw setup listspawners <cluster>");
-		helpSender.addAlias("removespawner <cluster> <id>", "Removes a itemspawner from a cluster", "Removes a itemspawner from a cluster" , "/bw setup removespawner <cluster> <id>");
+		helpSender.addAlias("addspawner <...>", "Add a spawner", "Adds an itemspawner to a cluster\nto you Location.\nYou must be inside the cluster!" , "/bw setup addspawner <cluster> <material/ID> <ticks> <displayname>");
+		helpSender.addAlias("listspawners <cluster>", "List the itemspawners", "Lists all itemspawners added to the cluster." , "/bw setup listspawners <cluster>");
+		helpSender.addAlias("removespawner <cluster> <id>", "Removes a itemspawner", "Removes a itemspawner from a cluster" , "/bw setup removespawner <cluster> <id>");
 		helpSender.addAlias("addshop <cluster>", "Add a merchant to a cluster", "Adds an merchant to a cluster\nto you Location.\nYou must be inside the cluster!" , "/bw setup addshop <cluster>");
-		helpSender.addAlias("listshops <cluster>", "List the merchants of the cluster", "Lists all merchants added to the cluster." , "/bw setup listshops <cluster>");
-		helpSender.addAlias("removeshop <cluster> <id>", "Removes a shop from a cluster", "Removes a shop from a cluster" , "/bw setup removeshop <cluster> <id>");
+		helpSender.addAlias("listshops <cluster>", "List the merchants", "Lists all merchants added to the cluster." , "/bw setup listshops <cluster>");
+		helpSender.addAlias("removeshop <cluster> <id>", "Removes a shop", "Removes a shop from a cluster" , "/bw setup removeshop <cluster> <id>");
 		
 		if (args.length == 1) {
 			if (!main.getMessageFetcher().checkPermission(sender, "bwunlimited.help"))return;

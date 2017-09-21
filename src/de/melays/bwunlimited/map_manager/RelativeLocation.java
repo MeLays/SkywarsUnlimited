@@ -1,6 +1,7 @@
 package de.melays.bwunlimited.map_manager;
 
 import org.bukkit.Location;
+import org.bukkit.World;
 
 public class RelativeLocation {
 	
@@ -8,10 +9,27 @@ public class RelativeLocation {
 	double shift_y;
 	double shift_z;
 	
+	long yaw = 0;
+	long pitch;
+	
+	World world;
+	
 	public RelativeLocation(Location relative , Location loc){
 		shift_x = loc.getBlockX() - relative.getBlockX();
 		shift_y = loc.getBlockY() - relative.getBlockY();
 		shift_z = loc.getBlockZ() - relative.getBlockZ();
+		yaw = (long) loc.getYaw();
+		pitch = (long) loc.getPitch();
+		world = loc.getWorld();
+	}
+	
+	public RelativeLocation(World world , double x , double y , double z , long pitch , long yaw) {
+		this.shift_x = x;
+		this.shift_y = y;
+		this.shift_z = z;
+		this.pitch = pitch;
+		this.yaw = yaw;
+		this.world = world;
 	}
 	
 	public Location toLocation (Location relative) {

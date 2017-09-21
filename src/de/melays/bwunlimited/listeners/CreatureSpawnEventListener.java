@@ -17,7 +17,7 @@ public class CreatureSpawnEventListener implements Listener{
 	
 	@EventHandler
 	public void onCreatureSpawn(CreatureSpawnEvent e) {
-		if (!main.getConfig().getBoolean("creature_spawn") && (e.getSpawnReason() == SpawnReason.CHUNK_GEN || e.getSpawnReason() == SpawnReason.NATURAL || e.getSpawnReason() == SpawnReason.LIGHTNING)) {
+		if (!main.getConfig().getBoolean("creature_spawn") && (e.getSpawnReason() == SpawnReason.CHUNK_GEN || e.getSpawnReason() == SpawnReason.NATURAL || e.getSpawnReason() == SpawnReason.DEFAULT)) {
 			e.setCancelled(true);
 		}
 	}

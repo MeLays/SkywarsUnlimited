@@ -73,6 +73,44 @@ public class ClusterTools {
 		return new Location(Bukkit.getWorld(world) , x , y , z);
 	}
 	
+	public static void saveLocation (FileConfiguration config , String path , Location loc) {
+		config.set(path + ".x", loc.getBlockX());
+		config.set(path + ".y", loc.getBlockY());
+		config.set(path + ".z", loc.getBlockZ());
+		config.set(path + ".yaw", loc.getYaw());
+		config.set(path + ".pitch", loc.getPitch());
+		config.set(path + ".world", loc.getWorld().getName());
+	}
+	
+	public static Location getLocation (FileConfiguration config , String path) {
+		double x = config.getDouble(path + ".x");
+		double y = config.getDouble(path + ".y");
+		double z = config.getDouble(path + ".z");
+		double yaw = config.getDouble(path + ".yaw");
+		double pitch = config.getDouble(path + ".pitch");
+		String world = config.getString(path + ".world");
+		return new Location(Bukkit.getWorld(world) , x , y , z , (long)yaw , (long)pitch);
+	}
+	
+	public static void saveFineRelativeLocation (FileConfiguration config , String path , FineRelativeLocation loc) {
+		config.set(path + ".x", loc.shift_x);
+		config.set(path + ".y", loc.shift_y);
+		config.set(path + ".z", loc.shift_z);
+		config.set(path + ".yaw", loc.yaw);
+		config.set(path + ".pitch", loc.pitch);
+		config.set(path + ".world", loc.world);
+	}
+	
+	public static FineRelativeLocation getFineRelativeLocation (FileConfiguration config , String path) {
+		double x = config.getDouble(path + ".x");
+		double y = config.getDouble(path + ".y");
+		double z = config.getDouble(path + ".z");
+		double yaw = config.getDouble(path + ".yaw");
+		double pitch = config.getDouble(path + ".pitch");
+		String world = config.getString(path + ".world");
+		return new FineRelativeLocation(Bukkit.getWorld(world) , x , y , z , (long)yaw , (long)pitch);
+	}
+	
 	public static Class<?> getNMSClass(String nmsClassString) throws ClassNotFoundException {
 	    String version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3] + ".";
 	    String name = "net.minecraft.server." + version + nmsClassString;
