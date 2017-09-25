@@ -11,9 +11,12 @@ public class Settings {
 	public int min_players = 2;
 	public int max_players = 0;
 	
+	public int lobby_countdown = 30;
+	public int game_end = 36000;
+	
 	Arena arena;
 	
-	public Settings (Arena arena) {
+	public void setArena(Arena arena) {
 		this.arena = arena;
 		this.min_players = arena.cluster.teams.size();
 		this.max_players = 0;

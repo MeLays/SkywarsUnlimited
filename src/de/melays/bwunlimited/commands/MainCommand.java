@@ -17,6 +17,7 @@ public class MainCommand implements CommandExecutor {
 	TeamCommand teamCommand;
 	SetupCommand setupCommand;
 	LobbyCommand lobbyCommand;
+	ArenaCommand arenaCommand;
 	
 	public MainCommand(Main main) {
 		this.main = main;
@@ -24,6 +25,7 @@ public class MainCommand implements CommandExecutor {
 		this.teamCommand = new TeamCommand(main);
 		this.setupCommand = new SetupCommand(main);
 		this.lobbyCommand = new LobbyCommand(main);
+		this.arenaCommand = new ArenaCommand(main);
 	}
 	
 	@Override
@@ -72,7 +74,7 @@ public class MainCommand implements CommandExecutor {
 		}
 		
 		else if (args[0].equals("arenas")) {
-			
+			arenaCommand.onCommand(sender, alias + " " + args[0], args);
 		}
 		
 		else if (args[0].equals("lobby")) {

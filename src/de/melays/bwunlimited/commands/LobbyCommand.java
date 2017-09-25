@@ -16,7 +16,7 @@ public class LobbyCommand {
 	public void onCommand (CommandSender sender , String command , String args[]) {
 		HelpSender helpSender = new HelpSender (main , command);
 		
-		helpSender.addAlias("help [page]", "Show this overview", "Use 'help <page>' to get to the next help pages" , "/bw teams help");
+		helpSender.addAlias("help [page]", "Show this overview", "Use 'help <page>' to get to the next help pages" , "/bw lobby help");
 		helpSender.addAlias("setlobby", "Set the lobby location", "Set the location where\nwhere players get when they join\nyour server." , "/bw lobby setlobby");
 		helpSender.addAlias("setgamelobby", "Set the game-lobby location", "Set the location where\nwhere players get when they join\na arena." , "/bw lobby setgamelobby");
 		

@@ -25,7 +25,6 @@ public class ArenaManager {
 	HashMap<Integer , Arena> running = new HashMap<Integer , Arena>();
 	
 	public Location getFreeLocation () {
-		
 		int x = 0;
 		
 		if (running.size() == 0) {
@@ -63,6 +62,28 @@ public class ArenaManager {
 	private void startGame(Cluster cluster , Settings settings , TeamPackage teampackage , ArrayList<Player> players) throws ClusterAvailabilityException, UnknownClusterException {
 		Location relative = getFreeLocation();
 		Arena arena = new Arena(main, cluster , relative , settings);
+		if (players != null) arena.addPlayers(players);
+		if (teampackage != null) arena.addTeamPackage(teampackage);
 		running.put(getNewID(), arena);
+	}
+	
+	//Player methonds
+	
+	public boolean isInGame(Player p) {
+		for (Arena a : running.values()) {
+			if (a.getAllPlayers().contains(p)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public Arena searchPlayer(Player p) {
+		for (Arena a : running.values()) {
+			if (a.getAllPlayers().contains(p)) {
+				return a;
+			}
+		}
+		return null;
 	}
 }

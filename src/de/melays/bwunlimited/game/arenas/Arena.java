@@ -37,6 +37,8 @@ public class Arena {
 		this.main = main;
 		this.cluster = cluster;
 		this.relative = relative;
+		this.settings = settings;
+		this.settings.setArena(this);
 		
 		//Setting up instances
 		this.arenaLobby = new ArenaLobby(this);

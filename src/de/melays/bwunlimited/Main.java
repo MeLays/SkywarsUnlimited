@@ -10,6 +10,8 @@ import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import de.melays.bwunlimited.commands.MainCommand;
+import de.melays.bwunlimited.game.ItemManager;
+import de.melays.bwunlimited.game.arenas.ArenaManager;
 import de.melays.bwunlimited.game.lobby.LobbyManager;
 import de.melays.bwunlimited.listeners.CreatureSpawnEventListener;
 import de.melays.bwunlimited.listeners.PlayerJoinEventListener;
@@ -52,6 +54,18 @@ public class Main extends JavaPlugin{
 	
 	public LobbyManager getLobbyManager() {
 		return lobbyManager;
+	}
+	
+	ItemManager itemManager;
+	
+	public ItemManager getItemManager() {
+		return itemManager;
+	}
+	
+	ArenaManager arenaManager;
+	
+	public ArenaManager getArenaManager() {
+		return arenaManager;
 	}
 	
 	//Tools
@@ -102,9 +116,11 @@ public class Main extends JavaPlugin{
 		
 		//Initialize Management Objects
 		this.teamManager = new TeamManager(this);
+		this.itemManager = new ItemManager(this);
 		this.clusterManager = new ClusterManager(this);
 		this.clusterManager.loadClusters();
 		this.lobbyManager = new LobbyManager(this);
+		this.arenaManager = new ArenaManager(this);
 		this.messageFetcher = new MessageFetcher(this);
 		prefix = this.getMessageFetcher().getMessage("prefix", false);
 		

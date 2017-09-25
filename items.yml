@@ -1,0 +1,13 @@
+lobby:
+  vote:
+    material: PAPER
+    byte: 0
+    displayname: "&eMapvoting"
+    lore:
+      - "&2Rightclick to open the Voting GUI"
+  team:
+    material: BOOK
+    byte: 0
+    displayname: "&cTeamchooser"
+    lore:
+      - "&2Rightclick to open the Teamchoose GUI"
