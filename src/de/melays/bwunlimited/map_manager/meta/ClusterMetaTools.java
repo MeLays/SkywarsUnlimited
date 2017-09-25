@@ -1,7 +1,7 @@
 package de.melays.bwunlimited.map_manager.meta;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Set;
 
 import org.bukkit.Location;
@@ -61,7 +61,24 @@ public class ClusterMetaTools {
 			for (String s : keys) {
 				locs.add(ClusterTools.getFineRelativeLocation(this.getClusterFile(), counterpath+"."+s));
 			}
-			Collections.shuffle(locs);
+			return locs;
+		} catch (Exception e) {
+			return locs;
+		}
+	}
+	
+	public LinkedHashMap<Integer , FineRelativeLocation> getFineRelativeLocationsCountingMap (String counterpath) {
+		ConfigurationSection section = getClusterFile().getConfigurationSection(counterpath);
+		LinkedHashMap<Integer , FineRelativeLocation> locs = new LinkedHashMap<Integer , FineRelativeLocation>();
+		try {
+			Set<String> keys = section.getKeys(false);
+			for (String s : keys) {
+				try {
+					locs.put(Integer.parseInt(s), ClusterTools.getFineRelativeLocation(this.getClusterFile(), counterpath+"."+s));
+				} catch (Exception e) {
+
+				}
+			}
 			return locs;
 		} catch (Exception e) {
 			return locs;
@@ -110,7 +127,6 @@ public class ClusterMetaTools {
 			for (String s : keys) {
 				locs.add(ClusterTools.getLocation(this.getClusterFile(), counterpath+"."+s));
 			}
-			Collections.shuffle(locs);
 			return locs;
 		} catch (Exception e) {
 			return locs;

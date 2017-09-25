@@ -14,9 +14,9 @@ public class Cluster {
 	
 	Location max;
 	//Min Location is ALWAYS the relativ Location
-	Location min;
+	public Location min;
 	
-	String name;
+	public String name;
 	ClusterState state = ClusterState.PROCESSING;
 	
 	ClusterGeneratorType generator = ClusterGeneratorType.COMPLETE;

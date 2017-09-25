@@ -47,6 +47,14 @@ public class SetupCommand {
 			}
 		}
 		
+		else if (args[1].equalsIgnoreCase("addteam")) {
+			if (!main.getMessageFetcher().checkPermission(sender, "bwunlimited.help"))return;
+			if (args.length <= 3) {
+				sender.sendMessage(main.getMessageFetcher().getMessage("command_usage", true).replaceAll("%command%", "/bw setup addteam <cluster> <team>"));
+			}
+			
+		}
+		
 	}
 	
 }
