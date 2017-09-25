@@ -1,6 +1,8 @@
 package de.melays.bwunlimited.map_manager;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import org.bukkit.Location;
@@ -9,6 +11,10 @@ import org.bukkit.block.Block;
 
 import de.melays.bwunlimited.Main;
 import de.melays.bwunlimited.log.Logger;
+import de.melays.bwunlimited.map_manager.meta.ClusterMeta;
+import de.melays.bwunlimited.map_manager.meta.ItemSpawner;
+import de.melays.bwunlimited.teams.Team;
+import de.melays.bwunlimited.teams.error.UnknownTeamException;
 
 public class Cluster {
 	
@@ -32,10 +38,16 @@ public class Cluster {
 	public int y_size;
 	public int z_size;
 	
+	ClusterMeta clusterMeta;
+	
 	Cluster(Main main , String name){
 		this.main = main;
 		this.name = name;
 		reloadCluster();
+	}
+	
+	public ClusterMeta getClusterMeta() {
+		return clusterMeta;
 	}
 	
 	public void reloadCluster() {
@@ -76,6 +88,12 @@ public class Cluster {
 			state = ClusterState.READY;
 			if (!main.getClusterManager().getConfiguration().getBoolean(name+".enabled"))
 				state = ClusterState.DISABLED;
+			clusterMeta = new ClusterMeta(main , this);
+			loadMeta();
+			if (!checkReady()) {
+				Logger.log(main.console_prefix + "The cluster '" + name + "' will not be activated. See info above!");
+				state = ClusterState.DISABLED;
+			}
 			Logger.log(main.console_prefix + "Cluster '" + name + "' succesfully loaded in " + (ended.getTime() - started.getTime()) + "ms, stored " + cluster_list.size() + " blocks");
 			if (main.getClusterManager().getConfiguration().getString(name+".generator") == null) {
 				String generator = "";
@@ -112,5 +130,49 @@ public class Cluster {
                 }
             }
         }
+	}
+	
+	public ArrayList<Team> teams = new ArrayList<Team>();
+	public HashMap<String, FineRelativeLocation> teamspawner = new HashMap<String , FineRelativeLocation>();
+	public ArrayList<ItemSpawner> itemspawners = new ArrayList<ItemSpawner>();
+	public ArrayList<FineRelativeLocation> shops = new ArrayList<FineRelativeLocation>();
+	
+	public void loadMeta() {
+		teams = this.getClusterMeta().getTeams();
+		for (Team t : new ArrayList<Team>(teams)) {
+			try {
+				teamspawner.put(t.name, this.getClusterMeta().getTeamSpawn(t.name));
+			} catch (UnknownTeamException e) {
+				teams.remove(t);
+				Logger.log(main.console_prefix + "Corrupted team '"+t.name+"' detected in cluster '"+this.name+"'!");
+			}
+		}
+		itemspawners = this.getClusterMeta().getItemSpawners();
+		shops = this.getClusterMeta().getShops();
+	}
+	
+	public boolean checkReady() {
+		boolean isReady = true;
+		if (teams.size() <= 1) {
+			Logger.log(main.console_prefix + "The cluster does not have enought teams ("+teams.size()+")");
+			isReady = false;
+		}
+		for (Team t : teams) {
+			if (!teamspawner.containsKey(t.name)) {
+				Logger.log(main.console_prefix + "The team '"+t.name+"' does not have a teamspawn");
+				isReady = false;
+			}
+			else if (teamspawner.get(t.name) == null) {
+				Logger.log(main.console_prefix + "The team '"+t.name+"' does not have a teamspawn");
+				isReady = false;
+			}
+		}
+		if (itemspawners.size() == 0) {
+			Logger.log(main.console_prefix + "WARNING: The cluster '"+this.name+"' has no itemspawners");
+		}
+		if (shops.size() == 0) {
+			Logger.log(main.console_prefix + "WARNING: The cluster '"+this.name+"' has no shops");
+		}
+		return isReady;
 	}
 }

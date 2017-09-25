@@ -16,4 +16,9 @@ public class FineRelativeLocation extends RelativeLocation{
 		super (world , x , y , z , pitch , yaw);
 	}
 	
+	public String toString() {
+		String r = "x: "+super.shift_x+" y: "+super.shift_y+" z: "+super.shift_z;
+		return r;
+	}
+	
 }

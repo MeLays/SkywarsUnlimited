@@ -16,12 +16,14 @@ public class MainCommand implements CommandExecutor {
 	ClusterCommand clusterCommand;
 	TeamCommand teamCommand;
 	SetupCommand setupCommand;
+	LobbyCommand lobbyCommand;
 	
 	public MainCommand(Main main) {
 		this.main = main;
 		this.clusterCommand = new ClusterCommand(main);
 		this.teamCommand = new TeamCommand(main);
 		this.setupCommand = new SetupCommand(main);
+		this.lobbyCommand = new LobbyCommand(main);
 	}
 	
 	@Override
@@ -71,6 +73,10 @@ public class MainCommand implements CommandExecutor {
 		
 		else if (args[0].equals("arenas")) {
 			
+		}
+		
+		else if (args[0].equals("lobby")) {
+			lobbyCommand.onCommand(sender, alias + " " + args[0], args);
 		}
 		
 		else if (args[0].equals("setup")) {

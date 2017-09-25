@@ -56,7 +56,6 @@ public class TeamCommand {
 				sender.sendMessage(main.prefix + "This color does not exist! Use /bw colorlist");
 				return;
 			}
-			
 			try {
 				int max = Integer.parseInt(args[5]);
 				main.getTeamManager().createTeam(args[2], args[3], c , max);

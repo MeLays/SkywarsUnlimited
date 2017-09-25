@@ -21,6 +21,22 @@ import de.melays.bwunlimited.map_manager.error.WrongWorldException;
 
 public class ClusterTools {
 	
+	public static boolean isInArea (Location loc , Location in1 , Location in2) {
+		Location[] locs = generateMaxMinPositions(in1 , in2);
+		Location min = locs[0];
+		Location max = locs[1];
+		if (loc.getX() >= min.getX() && loc.getY() >= min.getY() && loc.getZ() >= min.getZ()) {
+			if (loc.getX() <= max.getX() && loc.getY() <= max.getY() && loc.getZ() <= max.getZ()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean isInCluster(Location l , Cluster c) {
+		return isInArea(l , c.min , c.max);
+	}
+	
 	public static Location[] generateMaxMinPositions (Location l1 , Location l2){
 		double xpos1;
 		double ypos1;
@@ -98,7 +114,7 @@ public class ClusterTools {
 		config.set(path + ".z", loc.shift_z);
 		config.set(path + ".yaw", loc.yaw);
 		config.set(path + ".pitch", loc.pitch);
-		config.set(path + ".world", loc.world);
+		config.set(path + ".world", loc.world.getName());
 	}
 	
 	public static FineRelativeLocation getFineRelativeLocation (FileConfiguration config , String path) {

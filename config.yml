@@ -6,3 +6,5 @@ generator:
    splitted:
       panels: 5
       per: 10
+gameplacement:
+   gap: 500 

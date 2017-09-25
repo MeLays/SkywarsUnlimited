@@ -17,7 +17,6 @@ public class Team{
 	AdvancedMaterial chooseItem;
 	
 	public Team (Main main , String name , String displayname , Color c , int max){
-		
 		this.name = name;
 		display = displayname;
 		Color = c;
@@ -27,7 +26,6 @@ public class Team{
 		this.max = max;
 		
 		chooseItem = new AdvancedMaterial(Material.getMaterial(main.getConfig().getString("default_team_choose_item")) , Color.toByte());
-		
 	}
 	
 }

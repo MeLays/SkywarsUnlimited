@@ -35,10 +35,10 @@ public class ClusterMetaTools {
 				}
 			}
 			int new_loc = highest + 1;
-			ClusterTools.saveFineRelativeLocation(this.getClusterFile(), counterpath+".id", loc);
+			ClusterTools.saveFineRelativeLocation(this.getClusterFile(), counterpath+"." + new_loc, loc);
 			return new_loc;
 		} catch (Exception e) {
-			ClusterTools.saveFineRelativeLocation(this.getClusterFile(), counterpath+".id", loc);
+			ClusterTools.saveFineRelativeLocation(this.getClusterFile(), counterpath+"." + 1, loc);
 			return 1; 
 			
 		}
@@ -101,10 +101,10 @@ public class ClusterMetaTools {
 				}
 			}
 			int new_loc = highest + 1;
-			ClusterTools.saveLocation(this.getClusterFile(), counterpath+".id", loc);
+			ClusterTools.saveLocation(this.getClusterFile(), counterpath+"." + new_loc, loc);
 			return new_loc;
 		} catch (Exception e) {
-			ClusterTools.saveLocation(this.getClusterFile(), counterpath+".id", loc);
+			ClusterTools.saveLocation(this.getClusterFile(), counterpath+"." + 1, loc);
 			return 1; 
 			
 		}

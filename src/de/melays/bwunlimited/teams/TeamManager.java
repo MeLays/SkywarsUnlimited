@@ -33,9 +33,11 @@ public class TeamManager {
 		if (exists (name)) {
 			throw new TeamAlreadyExistsException();
 		}
-		if (!StringUtils.isAlphanumeric(name) || !StringUtils.isAlphanumeric(displayname) ) {
+		if (!StringUtils.isAlphanumeric(name)) {
 			throw new InvalidNameException();
 		}
+		displayname = displayname.replaceAll(".", "");
+		displayname = displayname.replaceAll("\"", "");
 		getTeamFile().set(name+".display", displayname);
 		getTeamFile().set(name+".color", color.color);
 		getTeamFile().set(name+".max", max);

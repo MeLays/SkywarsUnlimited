@@ -10,7 +10,9 @@ import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import de.melays.bwunlimited.commands.MainCommand;
+import de.melays.bwunlimited.game.lobby.LobbyManager;
 import de.melays.bwunlimited.listeners.CreatureSpawnEventListener;
+import de.melays.bwunlimited.listeners.PlayerJoinEventListener;
 import de.melays.bwunlimited.log.Logger;
 import de.melays.bwunlimited.map_manager.ClusterManager;
 import de.melays.bwunlimited.messages.MessageFetcher;
@@ -44,6 +46,12 @@ public class Main extends JavaPlugin{
 	
 	public TeamManager getTeamManager() {
 		return teamManager;
+	}
+	
+	LobbyManager lobbyManager;
+	
+	public LobbyManager getLobbyManager() {
+		return lobbyManager;
 	}
 	
 	//Tools
@@ -93,9 +101,10 @@ public class Main extends JavaPlugin{
 		}
 		
 		//Initialize Management Objects
+		this.teamManager = new TeamManager(this);
 		this.clusterManager = new ClusterManager(this);
 		this.clusterManager.loadClusters();
-		this.teamManager = new TeamManager(this);
+		this.lobbyManager = new LobbyManager(this);
 		this.messageFetcher = new MessageFetcher(this);
 		prefix = this.getMessageFetcher().getMessage("prefix", false);
 		
@@ -107,6 +116,7 @@ public class Main extends JavaPlugin{
 		
 		//Register Listeners
 		Bukkit.getPluginManager().registerEvents(new CreatureSpawnEventListener(this), this);
+		Bukkit.getPluginManager().registerEvents(new PlayerJoinEventListener(this), this);
 	}
 	
 	public void onDisable() {
