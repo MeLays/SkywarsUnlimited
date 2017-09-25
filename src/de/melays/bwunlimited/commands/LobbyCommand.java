@@ -18,6 +18,7 @@ public class LobbyCommand {
 		
 		helpSender.addAlias("help [page]", "Show this overview", "Use 'help <page>' to get to the next help pages" , "/bw teams help");
 		helpSender.addAlias("setlobby", "Set the lobby location", "Set the location where\nwhere players get when they join\nyour server." , "/bw lobby setlobby");
+		helpSender.addAlias("setgamelobby", "Set the game-lobby location", "Set the location where\nwhere players get when they join\na arena." , "/bw lobby setgamelobby");
 		
 		if (args.length == 1) {
 			if (!main.getMessageFetcher().checkPermission(sender, "bwunlimited.help"))return;
@@ -51,7 +52,22 @@ public class LobbyCommand {
 			}
 			Player p = (Player) sender;
 			main.getLobbyManager().setLobbyLocation(p.getLocation());
-			p.sendMessage(main.prefix + "The lobbylocation has been set!");
+			p.sendMessage(main.prefix + "The lobby location has been set!");
+		}
+		
+		else if (args[1].equalsIgnoreCase("setgamelobby")) {
+			if (!(sender instanceof Player)) {
+				sender.sendMessage(main.prefix + "You cant run this command from the console!");
+				return;
+			}
+			if (!main.getMessageFetcher().checkPermission(sender, "bwunlimited.setup"))return;
+			if (args.length <= 1) {
+				sender.sendMessage(main.getMessageFetcher().getMessage("command_usage", true).replaceAll("%command%", "/bw lobby setgamelobby"));
+				return;
+			}
+			Player p = (Player) sender;
+			main.getLobbyManager().setGameLobbyLocation(p.getLocation());
+			p.sendMessage(main.prefix + "The game-lobby location has been set!");
 		}
 	}
 	

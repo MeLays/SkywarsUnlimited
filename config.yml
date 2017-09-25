@@ -7,4 +7,6 @@ generator:
       panels: 5
       per: 10
 gameplacement:
-   gap: 500 
+   gap: 500
+   y-position: 70
+   z-position: 500 

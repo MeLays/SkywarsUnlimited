@@ -32,6 +32,18 @@ public class LobbyManager {
 		}
 		return null;
 	}
+
+	public void setGameLobbyLocation(Location loc) {
+		ClusterTools.saveLocation(getLobbyFile(), "gamelobby", loc);
+		this.saveFile();
+	}
+	
+	public Location getGameLobbyLocation() {
+		if (getLobbyFile().getString("gamelobby.x") != null) {
+			return ClusterTools.getLocation(getLobbyFile(), "gamelobby");
+		}
+		return null;
+	}
 	
 	//Team File Managment
 	
