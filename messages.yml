@@ -12,3 +12,5 @@ list:
   hover_body_color: "&e"
   footer: "&9&m--------------------"
 command_usage:  "%prefix% Use: %command%"
+team:
+  enter: "%prefix% You entered the team %color%%team%&e!"

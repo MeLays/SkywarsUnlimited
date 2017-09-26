@@ -1,0 +1,10 @@
+gamelobby:
+  inventory:
+    teamselector:
+      name: "&6Team selector"
+      type: STAINED_GLASS_PANE
+      display: "&7Team: %color%%displayname% &7(%current%/%max%)"
+      lore: "%color%Players:"
+      lore_selected: "%color%>> &lPlayers %color%<<:"
+      lore_empty: "  %color%-  &7&oNo players"
+      playerlist: "  %color%-  %color%%player%"

@@ -26,6 +26,46 @@ public class ItemManager {
 	}
 	
 	@SuppressWarnings("deprecation")
+	public boolean isItem (String id , ItemStack compare) {
+		String material_str = getItemFile().getString(id + ".material");
+		String data_str = getItemFile().getString(id + ".data");
+		String displayname = getItemFile().getString(id + ".displayname");
+		
+		Material material = Material.getMaterial(material_str);
+		if (material == null) {
+			try {
+				material = Material.getMaterial(Integer.parseInt(material_str));
+				if (material == null) {
+					material = Material.PAPER;
+				}
+			} catch (NumberFormatException e) {
+				material = Material.PAPER;
+			}
+		}
+		
+		if (!compare.getType().equals(material)) {
+			return false;
+		}
+		
+		byte data = 0;
+		try {
+			data = (byte) Integer.parseInt(data_str);
+		} catch (NumberFormatException e) {
+
+		}
+		
+		if (compare.getData().getData() != data) {
+			return false;
+		}
+		
+		if (!compare.getItemMeta().getDisplayName().equals(main.c(displayname))) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	@SuppressWarnings("deprecation")
 	public ItemStack getItem (String id) {
 		String material_str = getItemFile().getString(id + ".material");
 		String data_str = getItemFile().getString(id + ".data");

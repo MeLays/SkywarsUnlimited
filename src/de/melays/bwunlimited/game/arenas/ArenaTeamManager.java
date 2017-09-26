@@ -12,13 +12,14 @@ public class ArenaTeamManager {
 	
 	public ArenaTeamManager(Arena arena) {
 		this.arena = arena;
+		load();
 	}
 	
 	ArrayList<ArenaTeam> teams = new ArrayList<ArenaTeam>();
 	
 	public void load() {
 		for (Team team : arena.cluster.getClusterMeta().getTeams()) {
-			teams.add(new ArenaTeam(team));
+			teams.add(new ArenaTeam(arena , team));
 		}
 	}
 	
@@ -40,6 +41,16 @@ public class ArenaTeamManager {
 	
 	public ArrayList<ArenaTeam> getTeams() {
 		return teams;
+	}
+	
+	public void setTeam (Player p , String team) {
+		if (getTeam(team) == null) {
+			return;
+		}
+		if (findPlayer(p) != null) {
+			findPlayer(p).removePlayer(p);
+		}
+		getTeam(team).addPlayer(p);
 	}
 	
 }

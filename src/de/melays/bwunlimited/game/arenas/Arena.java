@@ -25,9 +25,9 @@ public class Arena {
 	
 	Main main;
 	
-	ArenaLobby arenaLobby;
-	ArenaTeamManager teamManager;
-	ClusterHandler clusterHandler;
+	public ArenaLobby arenaLobby;
+	public ArenaTeamManager teamManager;
+	public ClusterHandler clusterHandler;
 	
 	//PlayerLists
 	public ArrayList<Player> players = new ArrayList<Player>();

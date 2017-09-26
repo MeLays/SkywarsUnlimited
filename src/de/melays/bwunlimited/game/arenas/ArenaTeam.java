@@ -13,8 +13,11 @@ public class ArenaTeam {
 	
 	ArrayList<Player> players = new ArrayList<Player>();
 	
-	public ArenaTeam (Team team) {
+	Arena arena;
+	
+	public ArenaTeam (Arena arena , Team team) {
 		this.team = team;
+		this.arena = arena;
 	}
 	
 	public boolean addPlayer(Player p) {
@@ -22,7 +25,12 @@ public class ArenaTeam {
 			return false;
 		}
 		players.add(p);
+		p.sendMessage(arena.main.getMessageFetcher().getMessage("team.enter", true).replaceAll("%color%", team.Color.toChatColor().toString()).replaceAll("%team%", team.display));
 		return true;
+	}
+	
+	public void removePlayer(Player p) {
+		players.remove(p);
 	}
 	
 	public boolean hasPlayer(Player p) {

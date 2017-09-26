@@ -12,8 +12,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 import de.melays.bwunlimited.commands.MainCommand;
 import de.melays.bwunlimited.game.ItemManager;
 import de.melays.bwunlimited.game.arenas.ArenaManager;
+import de.melays.bwunlimited.game.arenas.settings.SettingsManager;
 import de.melays.bwunlimited.game.lobby.LobbyManager;
+import de.melays.bwunlimited.listeners.BlockBreakEventListener;
+import de.melays.bwunlimited.listeners.BlockPlaceEventListener;
 import de.melays.bwunlimited.listeners.CreatureSpawnEventListener;
+import de.melays.bwunlimited.listeners.InventoryClickEventListener;
+import de.melays.bwunlimited.listeners.PlayerDropItemEventListener;
+import de.melays.bwunlimited.listeners.PlayerInteractEventListener;
 import de.melays.bwunlimited.listeners.PlayerJoinEventListener;
 import de.melays.bwunlimited.log.Logger;
 import de.melays.bwunlimited.map_manager.ClusterManager;
@@ -68,6 +74,12 @@ public class Main extends JavaPlugin{
 		return arenaManager;
 	}
 	
+	SettingsManager settingsManager;
+	
+	public SettingsManager getSettingsManager() {
+		return settingsManager;
+	}
+	
 	//Tools
 	MarkerTool markerTool; 
 	public MarkerTool getMarkerTool() {
@@ -115,6 +127,7 @@ public class Main extends JavaPlugin{
 		}
 		
 		//Initialize Management Objects
+		this.settingsManager = new SettingsManager(this);
 		this.teamManager = new TeamManager(this);
 		this.itemManager = new ItemManager(this);
 		this.clusterManager = new ClusterManager(this);
@@ -133,6 +146,11 @@ public class Main extends JavaPlugin{
 		//Register Listeners
 		Bukkit.getPluginManager().registerEvents(new CreatureSpawnEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new PlayerJoinEventListener(this), this);
+		Bukkit.getPluginManager().registerEvents(new BlockBreakEventListener(this), this);
+		Bukkit.getPluginManager().registerEvents(new BlockPlaceEventListener(this), this);
+		Bukkit.getPluginManager().registerEvents(new InventoryClickEventListener(this), this);
+		Bukkit.getPluginManager().registerEvents(new PlayerDropItemEventListener(this), this);
+		Bukkit.getPluginManager().registerEvents(new PlayerInteractEventListener(this), this);
 	}
 	
 	public void onDisable() {
@@ -157,6 +175,10 @@ public class Main extends JavaPlugin{
 		prefix = this.getMessageFetcher().getMessage("prefix", false);
 	}
 	
+	//Get Instance
+	public static Main getInstance() {
+		return (Main) Bukkit.getPluginManager().getPlugin("BedwarsUnlimited");
+	}
 	
 	//Register the World-Generator:
 	public ChunkGenerator getDefaultWorldGenerator(String worldName, String id)
