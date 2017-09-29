@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 
 import de.melays.bwunlimited.Main;
 import de.melays.bwunlimited.error.InvalidNameException;
+import de.melays.bwunlimited.map_manager.Cluster;
 import de.melays.bwunlimited.map_manager.ClusterHandler;
 import de.melays.bwunlimited.map_manager.ClusterTools;
 import de.melays.bwunlimited.map_manager.error.ClusterAlreadyExistsException;
@@ -28,7 +29,10 @@ public class ClusterCommand {
 		helpSender.addAlias("create <name>", "Create a Cluster-Template from Selection", "Create a Cluster-Template from\nthe locations you set with\nthe selction tool" , "/bw cluster create <name>");
 		helpSender.addAlias("createWithTemplate", "Create a Cluster-Template", "\nRun the command for more help\nGenerates a Cluster-Template\nto make it easier for you\nto create a new Cluster" , "/bw cluster createWithTemplate");
 		helpSender.addAlias("generate <name>", "Generate a Cluster-Template", "For test purposes only!" , "/bw cluster generate <cluster>");
-		
+		helpSender.addAlias("enable <name>", "Enable a cluster", "To make it possible to generate the cluster" , "/bw cluster enable <cluster>");
+		helpSender.addAlias("disable <name>", "Disable a cluster", "To make it impossible to generate the cluster" , "/bw cluster disable <cluster>");
+
+
 		if (args.length == 1) {
 			if (!main.getMessageFetcher().checkPermission(sender, "bwunlimited.help"))return;
 			helpSender.sendHelp(sender, 1);
@@ -187,6 +191,48 @@ public class ClusterCommand {
 				sender.sendMessage(main.prefix +  "This cluster does not exist!");
 			} catch (ClusterAvailabilityException e) {
 				sender.sendMessage(main.prefix +  "This cluster is not ready yet!");
+			}
+		}
+		
+		else if (args[1].equalsIgnoreCase("enable")) {
+			if (!(sender instanceof Player)) {
+				sender.sendMessage(main.prefix + "You cant run this command from the console!");
+				return;
+			}
+			if (!main.getMessageFetcher().checkPermission(sender, "bwunlimited.setup"))return;
+			if (args.length <= 1) {
+				sender.sendMessage(main.getMessageFetcher().getMessage("command_usage", true).replaceAll("%command%", "/bw cluster generate <cluster>"));
+				return;
+			}
+			try {
+				Cluster cluster = main.getClusterManager().getCluster(args[2]);
+				main.getClusterManager().getConfiguration().set(cluster.name + ".enabled", true);
+				main.getClusterManager().saveFile();
+				cluster.reloadCluster();
+				sender.sendMessage(main.prefix +  "The cluster has been enabled and reloaded!");
+			} catch (UnknownClusterException e) {
+				sender.sendMessage(main.prefix +  "This cluster does not exist!");
+			}
+		}
+		
+		else if (args[1].equalsIgnoreCase("disable")) {
+			if (!(sender instanceof Player)) {
+				sender.sendMessage(main.prefix + "You cant run this command from the console!");
+				return;
+			}
+			if (!main.getMessageFetcher().checkPermission(sender, "bwunlimited.setup"))return;
+			if (args.length <= 1) {
+				sender.sendMessage(main.getMessageFetcher().getMessage("command_usage", true).replaceAll("%command%", "/bw cluster generate <cluster>"));
+				return;
+			}
+			try {
+				Cluster cluster = main.getClusterManager().getCluster(args[2]);
+				main.getClusterManager().getConfiguration().set(cluster.name + ".enabled", false);
+				main.getClusterManager().saveFile();
+				cluster.reloadCluster();
+				sender.sendMessage(main.prefix +  "The cluster has been disabled and reloaded!");
+			} catch (UnknownClusterException e) {
+				sender.sendMessage(main.prefix +  "This cluster does not exist!");
 			}
 		}
 	}

@@ -2,10 +2,12 @@ package de.melays.bwunlimited.game.arenas;
 
 import java.util.ArrayList;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import de.melays.bwunlimited.Main;
+import de.melays.bwunlimited.game.PlayerTools;
 import de.melays.bwunlimited.game.arenas.settings.Settings;
 import de.melays.bwunlimited.game.arenas.settings.TeamPackage;
 import de.melays.bwunlimited.game.arenas.state.ArenaState;
@@ -55,8 +57,18 @@ public class Arena {
 		ArrayList<Player> r = new ArrayList<Player>();
 		r.addAll(players);
 		for (ArenaTeam team: this.teamManager.getTeams()) {
-			r.addAll(team.players);
+			for (Player p : team.players) {
+				if (!r.contains(p))
+					r.add(p);	
+			}
 		}
+		return r;
+	}
+	
+	public ArrayList<Player> getAll() {
+		ArrayList<Player> r = new ArrayList<Player>();
+		r.addAll(getAllPlayers());
+		r.addAll(specs);
 		return r;
 	}
 	
@@ -97,12 +109,80 @@ public class Arena {
 			players.add(p);
 			arenaLobby.updatePlayer(p);
 		}
+		updateTab();
 	}
 	
 	private void join (Player p , String team) {
 		if (this.state == ArenaState.LOBBY) {
 			join (p);
 			this.teamManager.getTeam(team).addPlayer(p);
+		}
+	}
+	
+	public void leave (Player p , boolean silent) {
+		if (teamManager.findPlayer(p) != null) {
+			teamManager.findPlayer(p).removePlayer(p);
+		}
+		if (players.contains(p)) {
+			players.remove(p);
+		}
+		if (specs.contains(p)) {
+			specs.remove(p);
+		}
+		PlayerTools.resetPlayer(p);
+		p.teleport(main.getLobbyManager().getLobbyLocation());
+		updateTab();
+	}
+	
+	public void leave(Player p) {
+		leave(p , false);
+	}
+	
+	//Message management
+	
+	public void sendMessage (String message) {
+		for (Player p : this.getAllPlayers()) {
+			p.sendMessage(message);
+		}
+	}
+	
+	public void sendColoredMessage (String message) {
+		for (Player p : this.getAllPlayers()) {
+			p.sendMessage(main.c(message));
+		}
+	}
+	
+	//Visibility management
+	
+	public void updateTab() {
+		updateVisibility();
+	}
+	
+	public void updateVisibility() {
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			for (Player player : getAll()) {
+				p.hidePlayer(player);
+			}
+		}
+		for (Player p : getAll()) {
+			for (Player player : getAll()) {
+				p.showPlayer(player);
+			}
+		}
+	}
+	
+	//Gamestart methods
+	
+	public void callLobbyEnd() {
+		//Auto Team add
+		for (Player p : new ArrayList<Player>(players)) {
+			if (this.teamManager.findPlayer(p) == null) {
+				for (ArenaTeam t : this.teamManager.getTeams()) {
+					if (t.addPlayer(p))
+						continue;
+				}
+			}
+			players.remove(p);
 		}
 	}
 	

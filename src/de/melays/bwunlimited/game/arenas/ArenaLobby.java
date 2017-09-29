@@ -11,32 +11,25 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import de.melays.bwunlimited.game.PlayerTools;
+import de.melays.bwunlimited.game.arenas.state.ArenaLobbyState;
 
 public class ArenaLobby {
 	
 	Arena arena;
+	ArenaLobbyState state = ArenaLobbyState.NORMAL;
 	
 	public ArenaLobby (Arena arena) {
 		this.arena = arena;
+		startLoop();
 	}
 	
 	public void updatePlayer(Player p) {
 		p.teleport(arena.main.getLobbyManager().getGameLobbyLocation());
-		PlayerTools.clearInventory(p);
-		
+		PlayerTools.resetPlayer(p);
 		p.setGameMode(GameMode.ADVENTURE);
-		
 		p.getInventory().setItem(0, arena.main.getItemManager().getItem("gamelobby.teamselector"));
 	}
-//	gamelobby:
-//		  inventory:
-//		    teamselector:
-//		      name: "&6Team selector"
-//		      type: STAINED_GLASS_PANE
-//		      display: "%color%%displayname%"
-//		      lore: "%color%Players:"
-//		      lore_selected: "%color%>> &lPlayers %color%<<:"
-//		      playerlist: "   %color%%player%"
+
 	@SuppressWarnings("deprecation")
 	public void openTeamMenu(Player p) {
 		Inventory inv = Bukkit.createInventory(null, ((arena.teamManager.getTeams().size() / 9) + 1) * 9, arena.main.c(arena.main.getSettingsManager().getFile().getString("gamelobby.inventory.teamselector.name")));
@@ -98,4 +91,44 @@ public class ArenaLobby {
 		p.openInventory(inv);
 	}
 	
+	int loop;
+	int countdown;
+	
+	public void startLoop() {
+		countdown = arena.settings.min_lobby_countdown;
+		loop = Bukkit.getScheduler().scheduleSyncRepeatingTask(arena.main, new Runnable() {
+			@Override
+			public void run() {
+				if (arena.settings.min_players > arena.getAllPlayers().size()) {
+					if (countdown != arena.settings.min_lobby_countdown)
+						arena.sendMessage(arena.main.getMessageFetcher().getMessage("game.players_missing", true));
+					countdown = arena.settings.min_lobby_countdown;
+					state = ArenaLobbyState.NORMAL;
+					return;
+				}
+				else if (countdown == 0) {
+					if (arena.clusterHandler.isGenerating()) {
+						state = ArenaLobbyState.GENERATING;
+						arena.sendMessage(arena.clusterHandler.getPercent()+"");
+					}
+					else {
+						stopLobby();
+					}
+				}
+				else if (state == ArenaLobbyState.NORMAL) {
+					if (countdown == arena.settings.min_lobby_countdown || countdown % 30 == 0 || (countdown % 5 == 0 && countdown <= 15) || countdown <= 5) {
+						arena.sendMessage(arena.main.getMessageFetcher().getMessage("game.countdown.start", true).replaceAll("%countdown%", countdown + ""));
+					}
+					countdown -= 1;
+					return;
+				}
+			}
+		}, 0, 20);
+	}
+	
+	public void stopLobby () {
+		state = ArenaLobbyState.ENDED;
+		Bukkit.getScheduler().cancelTask(loop);
+		arena.callLobbyEnd();
+	}
 }

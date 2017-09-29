@@ -14,3 +14,7 @@ list:
 command_usage:  "%prefix% Use: %command%"
 team:
   enter: "%prefix% You entered the team %color%%team%&e!"
+game:
+  players_missing: "%prefix% There are not enought players to start the game!"
+  countdown:
+    start: "%prefix% The game starts in &9%countdown% &eseconds!"    

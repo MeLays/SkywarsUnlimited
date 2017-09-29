@@ -9,4 +9,13 @@ public class PlayerTools {
 		p.getInventory().setArmorContents(null);
 	}
 	
+	public static void resetPlayer(Player p) {
+		clearInventory(p);
+		p.setMaxHealth(20);
+		p.setHealth(p.getMaxHealth());
+		p.setFoodLevel(40);
+		p.setLevel(0);
+		p.setExp(0);
+	}
+	
 }

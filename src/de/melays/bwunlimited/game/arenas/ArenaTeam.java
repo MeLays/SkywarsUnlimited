@@ -36,4 +36,17 @@ public class ArenaTeam {
 	public boolean hasPlayer(Player p) {
 		return players.contains(p);
 	}
+	
+	//Message management
+	public void sendMessage (String message) {
+		for (Player p : players) {
+			p.sendMessage(message);
+		}
+	}
+	
+	public void sendColoredMessage (String message) {
+		for (Player p : players) {
+			p.sendMessage(arena.main.c(message));
+		}
+	}
 }

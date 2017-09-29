@@ -71,8 +71,7 @@ public class ArenaCommand {
 				}
 				main.getArenaManager().startGame(cluster, new Settings(), players);
 			} catch (Exception e) {
-				e.printStackTrace();
-				sender.sendMessage(main.prefix +  "Not all players could be recognized!");
+				sender.sendMessage(main.prefix +  "An error occured trying to start the game!");
 				return;
 			}
 		}
