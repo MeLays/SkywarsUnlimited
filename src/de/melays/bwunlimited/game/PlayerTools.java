@@ -10,7 +10,9 @@ public class PlayerTools {
 	}
 	
 	public static void resetPlayer(Player p) {
+		p.closeInventory();
 		clearInventory(p);
+		p.setFallDistance(0);
 		p.setMaxHealth(20);
 		p.setHealth(p.getMaxHealth());
 		p.setFoodLevel(40);

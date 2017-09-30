@@ -13,6 +13,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import de.melays.bwunlimited.Main;
+import de.melays.bwunlimited.Utf8YamlConfiguration;
 import de.melays.bwunlimited.error.InvalidNameException;
 import de.melays.bwunlimited.log.Logger;
 import de.melays.bwunlimited.map_manager.error.ClusterAlreadyExistsException;
@@ -94,16 +95,21 @@ public class ClusterManager {
 	
 	//Cluster File Managment
 	
-	FileConfiguration configuration = null;
+	YamlConfiguration configuration = null;
 	File configurationFile = null;
+	
+	String filenname = "clusters.yml";
 	
 	public void reloadFile() {
 	    if (configurationFile == null) {
-	    	configurationFile = new File(main.getDataFolder(), "clusters.yml");
+	    	configurationFile = new File(main.getDataFolder(), filenname);
 	    }
-	    configuration = YamlConfiguration.loadConfiguration(configurationFile);
+	    if (!configurationFile.exists()) {
+	    	main.saveResource(filenname, true);
+	    }
+	    configuration = new Utf8YamlConfiguration(configurationFile);
 
-	    java.io.InputStream defConfigStream = main.getResource("clusters.yml");
+	    java.io.InputStream defConfigStream = main.getResource(filenname);
 	    if (defConfigStream != null) {
 		    Reader reader = new InputStreamReader(defConfigStream);
 	        YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(reader);

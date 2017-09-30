@@ -42,7 +42,7 @@ public class ClusterMeta {
 		ArrayList<ItemSpawner> returnlist = new ArrayList<ItemSpawner>();
 		HashMap<Integer , FineRelativeLocation> map = tools.getFineRelativeLocationsCountingMap(cluster.name+".meta.spawners");
 		for (Integer id : map.keySet()) {
-			returnlist.add(new ItemSpawner(id , map.get(id) , 
+			returnlist.add(new ItemSpawner(main , id , map.get(id) , 
 					Material.getMaterial(tools.getClusterFile().getString(cluster.name+".meta.spawners."+id+".material")),
 					tools.getClusterFile().getInt(cluster.name+".meta.spawners."+id+".ticks"),
 					tools.getClusterFile().getString(cluster.name+".meta.spawners."+id+".display")));

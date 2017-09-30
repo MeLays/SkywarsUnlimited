@@ -27,7 +27,11 @@ public class BlockBreakEventListener implements Listener{
 			if (arena.state == ArenaState.LOBBY) {
 				e.setCancelled(true);
 			}
-			
+			else if (arena.state == ArenaState.INGAME) {
+				if (!arena.blockManager.removeBlock(e.getBlock().getLocation(), p)) {
+					e.setCancelled(true);
+				}
+			}
 			
 		}
 	}

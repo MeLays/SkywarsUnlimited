@@ -10,7 +10,7 @@ public class RelativeLocation {
 	double shift_z;
 	
 	long yaw = 0;
-	long pitch;
+	long pitch = 0;
 	
 	World world;
 	
@@ -33,7 +33,7 @@ public class RelativeLocation {
 	}
 	
 	public Location toLocation (Location relative) {
-		return new Location (relative.getWorld() , shift_x + relative.getX() , shift_y + relative.getY() , shift_z + relative.getZ() , relative.getYaw() , relative.getPitch());
+		return new Location (relative.getWorld() , shift_x + relative.getX() , shift_y + relative.getY() , shift_z + relative.getZ() , pitch , yaw );
 	}
 	
 }

@@ -21,6 +21,9 @@ public class ColorTabAPI {
 			if( prefix == null ) prefix = "";
 			if( suffix == null ) suffix = "";
 			
+			if( prefix.length() > 16 ) prefix = prefix.substring( 0, 16 );
+			if( suffix.length() > 16 ) suffix = suffix.substring( 0, 16 );
+			
 			try {
 				String teamName = priority + UUID.randomUUID().toString();
 				

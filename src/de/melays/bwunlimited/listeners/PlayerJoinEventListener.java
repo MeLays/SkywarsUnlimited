@@ -17,6 +17,10 @@ public class PlayerJoinEventListener implements Listener{
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent e) {
 		
+		//Update all
+		main.getArenaManager().updateAll();
+		
+		e.getPlayer().teleport(main.getLobbyManager().getLobbyLocation());
 	}
 	
 }

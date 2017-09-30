@@ -29,28 +29,28 @@ public class InventoryClickEventListener implements Listener{
 				if (e.getClickedInventory().getName().equals(main.c(main.getSettingsManager().getFile().getString("gamelobby.inventory.teamselector.name")))) {
 					if(arena.teamManager.getTeams().size() == 4) {
 						if (e.getSlot() == 1) {
-							arena.teamManager.setTeam(p, arena.teamManager.getTeams().get(0).team.name);
+							arena.teamManager.setTeamSound(p, arena.teamManager.getTeams().get(0).team.name);
 						}
 						if (e.getSlot() == 3) {
-							arena.teamManager.setTeam(p, arena.teamManager.getTeams().get(1).team.name);
+							arena.teamManager.setTeamSound(p, arena.teamManager.getTeams().get(1).team.name);
 						}
 						if (e.getSlot() == 5) {
-							arena.teamManager.setTeam(p, arena.teamManager.getTeams().get(2).team.name);
+							arena.teamManager.setTeamSound(p, arena.teamManager.getTeams().get(2).team.name);
 						}
 						if (e.getSlot() == 7) {
-							arena.teamManager.setTeam(p, arena.teamManager.getTeams().get(3).team.name);
+							arena.teamManager.setTeamSound(p, arena.teamManager.getTeams().get(3).team.name);
 						}
 					}
 					else if(arena.teamManager.getTeams().size() == 2) {
 						if (e.getSlot() == 2) {
-							arena.teamManager.setTeam(p, arena.teamManager.getTeams().get(0).team.name);
+							arena.teamManager.setTeamSound(p, arena.teamManager.getTeams().get(0).team.name);
 						}
 						if (e.getSlot() == 6) {
-							arena.teamManager.setTeam(p, arena.teamManager.getTeams().get(1).team.name);
+							arena.teamManager.setTeamSound(p, arena.teamManager.getTeams().get(1).team.name);
 						}
 					}
 					else {
-						arena.teamManager.setTeam(p, arena.teamManager.getTeams().get(e.getSlot()).team.name);
+						arena.teamManager.setTeamSound(p, arena.teamManager.getTeams().get(e.getSlot()).team.name);
 					}
 					arena.arenaLobby.openTeamMenu(p);
 				}

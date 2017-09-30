@@ -17,10 +17,14 @@ import de.melays.bwunlimited.game.lobby.LobbyManager;
 import de.melays.bwunlimited.listeners.BlockBreakEventListener;
 import de.melays.bwunlimited.listeners.BlockPlaceEventListener;
 import de.melays.bwunlimited.listeners.CreatureSpawnEventListener;
+import de.melays.bwunlimited.listeners.EntityDamageByEntityEventListener;
+import de.melays.bwunlimited.listeners.EntityDamageEventListener;
 import de.melays.bwunlimited.listeners.InventoryClickEventListener;
 import de.melays.bwunlimited.listeners.PlayerDropItemEventListener;
 import de.melays.bwunlimited.listeners.PlayerInteractEventListener;
 import de.melays.bwunlimited.listeners.PlayerJoinEventListener;
+import de.melays.bwunlimited.listeners.PlayerMoveEventListener;
+import de.melays.bwunlimited.listeners.PlayerQuitEventListener;
 import de.melays.bwunlimited.log.Logger;
 import de.melays.bwunlimited.map_manager.ClusterManager;
 import de.melays.bwunlimited.messages.MessageFetcher;
@@ -135,7 +139,7 @@ public class Main extends JavaPlugin{
 		this.lobbyManager = new LobbyManager(this);
 		this.arenaManager = new ArenaManager(this);
 		this.messageFetcher = new MessageFetcher(this);
-		prefix = this.getMessageFetcher().getMessage("prefix", false);
+		prefix = this.getMessageFetcher().getMessage("prefix", false) + " ";
 		
 		//Set Command Executers
 		getCommand("bw").setExecutor(new MainCommand(this));
@@ -151,9 +155,16 @@ public class Main extends JavaPlugin{
 		Bukkit.getPluginManager().registerEvents(new InventoryClickEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new PlayerDropItemEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new PlayerInteractEventListener(this), this);
+		Bukkit.getPluginManager().registerEvents(new EntityDamageByEntityEventListener(this), this);
+		Bukkit.getPluginManager().registerEvents(new EntityDamageEventListener(this), this);
+		Bukkit.getPluginManager().registerEvents(new PlayerQuitEventListener(this), this);
+		Bukkit.getPluginManager().registerEvents(new PlayerMoveEventListener(this), this);
+
+
 	}
 	
 	public void onDisable() {
+		this.getArenaManager().cancleAll();
 		//Delete the gameworld to reset it
 		try {
 			Logger.log(console_prefix + "Deleting the gameworld '" + gameworld + "' to reset it.");
@@ -171,8 +182,8 @@ public class Main extends JavaPlugin{
 		Logger.log(console_prefix + "Reloading config.yml");
 		this.reloadConfig();
 		Logger.log(console_prefix + "Reloading messages.yml");
-		this.getMessageFetcher().reloadMessageFile();
-		prefix = this.getMessageFetcher().getMessage("prefix", false);
+		this.getMessageFetcher().reloadFile();
+		prefix = this.getMessageFetcher().getMessage("prefix", false) + " ";
 	}
 	
 	//Get Instance

@@ -33,6 +33,18 @@ public class ClusterTools {
 		return false;
 	}
 	
+	public static boolean isInAreaIgnoreHeight (Location loc , Location in1 , Location in2) {
+		Location[] locs = generateMaxMinPositions(in1 , in2);
+		Location min = locs[0];
+		Location max = locs[1];
+		if (loc.getX() >= min.getX() && loc.getZ() >= min.getZ()) {
+			if (loc.getX() <= max.getX() && loc.getZ() <= max.getZ()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public static boolean isInCluster(Location l , Cluster c) {
 		return isInArea(l , c.min , c.max);
 	}
@@ -239,7 +251,7 @@ public class ClusterTools {
 			Class<?> iblockdata_class = getNMSClass("IBlockData");
 			Class<?> block_class = getNMSClass("Block");
 			
-			for (RelativeLocation rl : cluster_list.keySet()) {		
+			for (RelativeLocation rl : cluster_list.keySet()) {	
 				
 				Location loc = rl.toLocation(relative);
 								
@@ -250,6 +262,9 @@ public class ClusterTools {
 				byte data = cluster_list.get(rl).getData();
 				int blockId = cluster_list.get(rl).getMaterial().getId();
 				
+				if (!world.isChunkLoaded( x >> 4, z >> 4)) {
+					world.loadChunk( x >> 4, z >> 4);
+				}
 				Object chunk = getChunkAt.invoke(world_server , x >> 4, z >> 4);
 				Object bp = bp_constructor.newInstance(x , y , z);
 				

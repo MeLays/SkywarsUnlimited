@@ -67,6 +67,18 @@ public class ArenaManager {
 		running.put(getNewID(), arena);
 	}
 	
+	public void cancleAll() {
+		for (Arena a : running.values()) {
+			a.removeAll();
+		}
+	}
+	
+	public void updateAll() {
+		for (Arena a : running.values()) {
+			a.updateTab();
+		}
+	}
+	
 	//Player methonds
 	
 	public boolean isInGame(Player p) {

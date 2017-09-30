@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.bukkit.entity.Player;
 
+import de.melays.bwunlimited.game.SoundDebugger;
 import de.melays.bwunlimited.teams.Team;
 
 public class ArenaTeamManager {
@@ -43,14 +44,30 @@ public class ArenaTeamManager {
 		return teams;
 	}
 	
-	public void setTeam (Player p , String team) {
+	public boolean setTeam (Player p , String team) {
 		if (getTeam(team) == null) {
-			return;
+			return false;
 		}
-		if (findPlayer(p) != null) {
-			findPlayer(p).removePlayer(p);
+		ArenaTeam old = findPlayer(p);
+		if (old == null) {
+			arena.updateColors();
+			return getTeam(team).addPlayer(p);
 		}
-		getTeam(team).addPlayer(p);
+		if (getTeam(team).addPlayer(p)) {
+			old.removePlayer(p);
+			arena.updateColors();
+			return true;
+		}
+		return false;
+	}
+	
+	public void setTeamSound(Player p , String team) {
+		if (setTeam (p , team)) {
+			SoundDebugger.playSound(p, "SLIME_WALK", "ENTITY_SLIME_SQUISH");
+		}
+		else {
+			SoundDebugger.playSound(p, "CLICK", "UI_BUTTON_CLICK");
+		}
 	}
 	
 }

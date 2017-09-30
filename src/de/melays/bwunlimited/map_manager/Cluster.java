@@ -19,7 +19,7 @@ import net.md_5.bungee.api.ChatColor;
 
 public class Cluster {
 	
-	Location max;
+	public Location max;
 	//Min Location is ALWAYS the relativ Location
 	public Location min;
 	

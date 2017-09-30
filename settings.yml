@@ -8,3 +8,36 @@ gamelobby:
       lore_selected: "%color%>> &lPlayers %color%<<:"
       lore_empty: "  %color%-  &7&oNo players"
       playerlist: "  %color%-  %color%%player%"
+  title:
+    title_3: "&1&l»&9»» &c➌ &9««&1&l«"
+    title_2: "&9»&1&l»&9» &e➋ &9«&1&l«&9«"
+    title_1: "&9»»&1&l»&r &2➊ &1&l«&9««"
+    title_0: "&9»»&1&l»&r &aGO! &1&l«&9««"
+    sub_title: "&9%cluster_display%"
+game:
+  tab:
+    format_prefix: "%color%"
+    format_suffix: " &8[%color%%display%&8]"
+    unknown_format_prefix: "&7"
+    unknown_format_suffix: ""
+    spectator_format_prefix: "&8&o"
+    spectator_format_suffix: ""
+  scoreboard:
+    title: "&1BW&9UNLMTD"
+    symbol: "❤ &8| "
+    color_alive: "&c"
+    color_dead: "&8"
+    content:
+      - " "
+      - "&8&l» &9Time &9Remaining:"
+      - time-line
+      - "  "
+      - "&8&l» &9Teams:"
+      - team-lines
+      - "   "
+  titles:
+    win: "%color%%display%"
+    win_sub: "&awon the game!"
+shop:
+  type: villager
+  display: "&6Dealer"

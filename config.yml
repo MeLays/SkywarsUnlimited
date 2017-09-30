@@ -9,3 +9,5 @@ gameplacement:
    gap: 500
    y-position: 70
    z-position: 500 
+death_y_offset: 20
+death_timeout: 80

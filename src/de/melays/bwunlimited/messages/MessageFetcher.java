@@ -11,29 +11,36 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import de.melays.bwunlimited.Main;
+import de.melays.bwunlimited.Utf8YamlConfiguration;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 public class MessageFetcher {
-	FileConfiguration configuration = null;
-	File configurationFile = null;
 	Main main;
 	
 	public MessageFetcher(Main main){
 		this.main = main;
-		this.reloadMessageFile();
+		this.reloadFile();
 		this.getMessageFetcher().options().copyDefaults(true);
 		this.saveMessageFile();
 	}
 	
-	public void reloadMessageFile() {
+	YamlConfiguration configuration = null;
+	File configurationFile = null;
+	
+	String filenname = "messages.yml";
+	
+	public void reloadFile() {
 	    if (configurationFile == null) {
-	    	configurationFile = new File(main.getDataFolder(), "messages.yml");
+	    	configurationFile = new File(main.getDataFolder(), filenname);
 	    }
-	    configuration = YamlConfiguration.loadConfiguration(configurationFile);
+	    if (!configurationFile.exists()) {
+	    	main.saveResource(filenname, true);
+	    }
+	    configuration = new Utf8YamlConfiguration(configurationFile);
 
-	    java.io.InputStream defConfigStream = main.getResource("messages.yml");
+	    java.io.InputStream defConfigStream = main.getResource(filenname);
 	    if (defConfigStream != null) {
 		    Reader reader = new InputStreamReader(defConfigStream);
 	        YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(reader);
@@ -43,7 +50,7 @@ public class MessageFetcher {
 	
 	public FileConfiguration getMessageFetcher() {
 	    if (configuration == null) {
-	    	reloadMessageFile();
+	    	reloadFile();
 	    }
 	    return configuration;
 	}

@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import de.melays.bwunlimited.Main;
+import de.melays.bwunlimited.Utf8YamlConfiguration;
 
 public class ItemManager {
 	
@@ -106,16 +107,21 @@ public class ItemManager {
 	
 	//Team File Managment
 	
-	FileConfiguration configuration = null;
+	YamlConfiguration configuration = null;
 	File configurationFile = null;
+	
+	String filenname = "items.yml";
 	
 	public void reloadFile() {
 	    if (configurationFile == null) {
-	    	configurationFile = new File(main.getDataFolder(), "items.yml");
+	    	configurationFile = new File(main.getDataFolder(), filenname);
 	    }
-	    configuration = YamlConfiguration.loadConfiguration(configurationFile);
+	    if (!configurationFile.exists()) {
+	    	main.saveResource(filenname, true);
+	    }
+	    configuration = new Utf8YamlConfiguration(configurationFile);
 
-	    java.io.InputStream defConfigStream = main.getResource("items.yml");
+	    java.io.InputStream defConfigStream = main.getResource(filenname);
 	    if (defConfigStream != null) {
 		    Reader reader = new InputStreamReader(defConfigStream);
 	        YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(reader);

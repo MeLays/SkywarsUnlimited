@@ -24,17 +24,21 @@ public class PlayerInteractEventListener implements Listener{
 		if (main.getArenaManager().isInGame(p)) {
 			Arena arena = main.getArenaManager().searchPlayer(p);
 			
-			//Arena relevant Event stuff
-			if (arena.state == ArenaState.LOBBY) {
-				e.setCancelled(true);
-				//Item Interact Check
-				if (e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK 
-						|| e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-					if (main.getItemManager().isItem("gamelobby.teamselector", e.getItem())) {
-						//Teamchooser
-						arena.arenaLobby.openTeamMenu(p);
+			try {
+				//Arena relevant Event stuff
+				if (arena.state == ArenaState.LOBBY) {
+					e.setCancelled(true);
+					//Item Interact Check
+					if (e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK 
+							|| e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+						if (main.getItemManager().isItem("gamelobby.teamselector", e.getItem())) {
+							//Teamchooser
+							arena.arenaLobby.openTeamMenu(p);
+						}
 					}
 				}
+			} catch (Exception e1) {
+
 			}
 			
 			

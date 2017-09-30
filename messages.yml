@@ -1,20 +1,27 @@
-prefix: "&9BW&1\u221E &8- &e"
+prefix: "&8» &9BW&1\u221E &8-&7"
 no_permission: "%prefix% You don't have the permission to use this command!"
 help:
-  header: "%prefix% &9%command%-help: (%page%/%max_pages%)"
-  command: "    &9%alias% &7- &e%short_descr%"
+  header: "%prefix% &7%command%-help: (&a%page%&7/&a%max_pages%&7)"
+  command: "    &a%alias% &7- &e%short_descr%"
   hover_top: "&8/%command% &7%alias%:"
   hover_body_color: "&e"
-  footer: "&9&m--------------------"
+  footer: "&7&m--------------------"
 list:
-  header: "%prefix% &9%list%: (%page%/%max_pages%)"
+  header: "%prefix% &7%list%: (&a%page%&7/&a%max_pages%&7)"
   command: "    %entry%"
   hover_body_color: "&e"
-  footer: "&9&m--------------------"
+  footer: "&7&m--------------------"
 command_usage:  "%prefix% Use: %command%"
 team:
-  enter: "%prefix% You entered the team %color%%team%&e!"
+  enter: "%prefix% You entered the team %color%%team%&7!"
 game:
   players_missing: "%prefix% There are not enought players to start the game!"
+  join: "%prefix% &a%player% &7joined the game"
+  leave: "%prefix% &c%player% &7left the game"
+  leave_ingame: "%prefix% %color%%player% &8[%color%%display%&8] &7left the game"
   countdown:
-    start: "%prefix% The game starts in &9%countdown% &eseconds!"    
+    start: "%prefix% The game starts in &9%countdown% &7seconds!"    
+  death: "%prefix% %color%%player% &8[%color%%display%&8] &7has died."
+  death_killed: "%prefix% %color%%player% &8[%color%%display%&8] &7has been killed by %killer_color%%killer% &8[%killer_color%%killer_display%&8]"
+  bed:
+    destroy_chat: "%prefix% %color%%player% &8[%color%%display%&8] &7has destroyed the bed of %destroyed_color%%destroyed_display%&7!"
