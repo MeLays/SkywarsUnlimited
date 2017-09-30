@@ -26,7 +26,7 @@ public class EntityDamageByEntityEventListener implements Listener{
 				Arena arena = main.getArenaManager().searchPlayer(p);
 				
 				//Arena relevant Event stuff
-				if (arena.state == ArenaState.LOBBY) {
+				if (arena.state == ArenaState.LOBBY || arena.state == ArenaState.ENDING) {
 					e.setCancelled(true);
 				}
 				else if (arena.state == ArenaState.INGAME) {
@@ -46,7 +46,7 @@ public class EntityDamageByEntityEventListener implements Listener{
 				Arena arena = main.getArenaManager().searchPlayer(p);
 				
 				//Arena relevant Event stuff
-				if (arena.state == ArenaState.LOBBY) {
+				if (arena.state == ArenaState.LOBBY || arena.state == ArenaState.ENDING) {
 					e.setCancelled(true);
 				}
 				
