@@ -14,6 +14,7 @@ public class PlayerJoinEventListener implements Listener{
 		this.main = main;
 	}
 	
+	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent e) {
 		
 		//Update all

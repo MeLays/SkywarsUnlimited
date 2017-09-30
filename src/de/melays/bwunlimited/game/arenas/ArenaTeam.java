@@ -22,7 +22,7 @@ public class ArenaTeam {
 	}
 	
 	public boolean addPlayer(Player p) {
-		if (players.size() >= team.max) {
+		if (players.size() >= team.max || players.size() >= arena.teamManager.getMaxPlayersPerTeam()) {
 			return false;
 		}
 		players.add(p);

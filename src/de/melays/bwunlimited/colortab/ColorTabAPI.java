@@ -2,6 +2,7 @@ package de.melays.bwunlimited.colortab;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -25,7 +26,7 @@ public class ColorTabAPI {
 			if( suffix.length() > 16 ) suffix = suffix.substring( 0, 16 );
 			
 			try {
-				String teamName = priority + UUID.randomUUID().toString();
+				String teamName = priority + p.getName();
 				
 				if( teamName.length() > 16 ) teamName = teamName.substring( 0, 16 );
 				
@@ -52,9 +53,8 @@ public class ColorTabAPI {
 	                setField( packet, "i", 0 );
 	                setField( packet, "h", contents );
 	            }
-				
 				for( Player t : receivers ) sendPacket( t, packet );
-				tabTeam.put( p.getUniqueId(), teamName );
+				tabTeam.put( p.getUniqueId(), teamName);
 			} catch ( Exception e ) {
 				
 			}
@@ -92,7 +92,6 @@ public class ColorTabAPI {
 	                setField( packet, "i", 1 );
 	                setField( packet, "h", contents );
 	            }
-				
 				for( Player t : receivers ) sendPacket( t, packet );
 				tabTeam.put( p.getUniqueId(), teamName );
 			} catch ( Exception e ) {
@@ -104,38 +103,50 @@ public class ColorTabAPI {
 		}
 	}
 	
-	/* This Methods are unreachable from outside of the API because they are
-	 * only relevant for processing the given Data 
-	*/
-	
-	private static Class< ? > getNMSClass( String name ) {
-		String version = Bukkit.getServer().getClass().getPackage().getName().split( "\\." )[ 3 ];
-		try {
-			return Class.forName( "net.minecraft.server." + version + "." + name );
-		} catch ( Exception e ) {
-			
-		}
-		return null;
-	}
-	
-	private static void sendPacket( Player to, Object packet ) {
-		try {
-			Object playerHandle = to.getClass().getMethod( "getHandle" ).invoke( to );
-			Object playerConnection = playerHandle.getClass().getField( "playerConnection" ).get( playerHandle );
-			playerConnection.getClass().getMethod( "sendPacket", getNMSClass( "Packet" ) ).invoke( playerConnection, packet );
-		} catch ( Exception e ) {
-			
-		}
-	}
-	
-	private static void setField( Object change, String name, Object to ) {
-		try {
-			Field field = change.getClass().getDeclaredField( name );
-			field.setAccessible( true );
-			field.set( change, to );
-			field.setAccessible( false );
-		} catch ( Exception e ) {
-			
-		}
-	}
+    public static Field modifiers = getField( Field.class, "modifiers" );
+
+    public static Class< ? > getNMSClass( String name ) {
+        String version = Bukkit.getServer().getClass().getPackage().getName().split( "\\." )[ 3 ];
+        try {
+            return Class.forName( "net.minecraft.server." + version + "." + name );
+        } catch ( Exception e ) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static void sendPacket( Player to, Object packet ) {
+        try {
+            Object playerHandle = to.getClass().getMethod( "getHandle" ).invoke( to );
+            Object playerConnection = playerHandle.getClass().getField( "playerConnection" ).get( playerHandle );
+            playerConnection.getClass().getMethod( "sendPacket", getNMSClass( "Packet" ) ).invoke( playerConnection, packet );
+        } catch ( Exception e ) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void setField( Object change, String name, Object to ) throws Exception {
+        Field field = change.getClass().getDeclaredField( name );
+        field.setAccessible( true );
+        field.set( change, to );
+        field.setAccessible( false );
+    }
+
+    public static Field getField( Class< ? > clazz, String name ) {
+        try {
+            Field field = clazz.getDeclaredField( name );
+            field.setAccessible( true );
+            if( Modifier.isFinal( field.getModifiers() ) ) {
+                modifiers.set( field, field.getModifiers() & ~Modifier.FINAL );
+            }
+            return field;
+        } catch ( Exception e ) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public String getVersion() {
+        return Bukkit.getServer().getClass().getPackage().getName().split( "\\." )[ 3 ];
+    }
 }

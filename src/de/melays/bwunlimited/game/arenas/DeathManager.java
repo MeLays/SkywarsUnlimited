@@ -66,7 +66,12 @@ public class DeathManager {
 			arena.sendMessage(msg);
 		}
 		resetKiller(p);
-		arena.respawnPlayer(p);
+		ArenaTeam team = arena.teamManager.findPlayer(p);
+		if (team.bed)
+			arena.respawnPlayer(p);
+		else {
+			arena.switchToSpec(p);
+		}
 	}
 	
 	public void resetKiller (Player p) {

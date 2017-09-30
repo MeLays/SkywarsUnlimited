@@ -1,5 +1,7 @@
 package de.melays.bwunlimited.game;
 
+import java.util.ArrayList;
+
 import org.bukkit.entity.Player;
 
 public class PlayerTools {
@@ -18,6 +20,13 @@ public class PlayerTools {
 		p.setFoodLevel(40);
 		p.setLevel(0);
 		p.setExp(0);
+	}
+	
+	public static void setLevel (ArrayList<Player> players , int lvl) {
+		for (Player p : players) {
+			p.setExp(0);
+			p.setLevel(lvl);
+		}
 	}
 	
 }

@@ -30,6 +30,7 @@ import de.melays.bwunlimited.log.Logger;
 import de.melays.bwunlimited.map_manager.ClusterManager;
 import de.melays.bwunlimited.messages.MessageFetcher;
 import de.melays.bwunlimited.multiworld.EmptyRoomGenerator;
+import de.melays.bwunlimited.shop_old.BWShop;
 import de.melays.bwunlimited.teams.TeamManager;
 import de.melays.bwunlimited.tools.MarkerTool;
 
@@ -161,13 +162,20 @@ public class Main extends JavaPlugin{
 		Bukkit.getPluginManager().registerEvents(new PlayerQuitEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new PlayerMoveEventListener(this), this);
 
-
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			this.getLobbyManager().toLobby(p);
+		}
+		
+		//OLD BW SHOP ONLY FOR TESTS!
+		new BWShop(this);
 	}
 	
 	public void onDisable() {
 		this.getArenaManager().cancleAll();
 		//Fix Visibility
 		for (Player p : Bukkit.getOnlinePlayers()) {
+			p.setAllowFlight(false);
+			p.setFlying(false);
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				p.showPlayer(player);
 			}

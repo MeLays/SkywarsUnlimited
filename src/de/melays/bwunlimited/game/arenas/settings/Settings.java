@@ -7,12 +7,16 @@ public class Settings {
 	
 	public boolean fixed_teams = false;
 	public boolean allow_join = true;
+	public boolean allow_spectate = true;
+	
+	public LeaveType lobby_leave = LeaveType.NORMAL;
 	
 	public int min_players = 2;
 	public int max_players = 0;
 	
 	public int min_lobby_countdown = 10;
 	public int game_end = 36000;
+	public int ending_countdown = 10;
 	
 	Arena arena;
 	

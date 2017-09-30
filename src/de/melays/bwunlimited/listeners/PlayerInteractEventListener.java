@@ -1,5 +1,6 @@
 package de.melays.bwunlimited.listeners;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -34,6 +35,16 @@ public class PlayerInteractEventListener implements Listener{
 						if (main.getItemManager().isItem("gamelobby.teamselector", e.getItem())) {
 							//Teamchooser
 							arena.arenaLobby.openTeamMenu(p);
+						}
+					}
+				}
+				else if (arena.specs.contains(p)) {
+					e.setCancelled(true);
+				}
+				else if (arena.state == ArenaState.INGAME) {
+					if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+						if (e.getClickedBlock().getType() == Material.BED_BLOCK) {
+							e.setCancelled(true);
 						}
 					}
 				}

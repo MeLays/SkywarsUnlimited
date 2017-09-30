@@ -44,6 +44,10 @@ public class ArenaTeamManager {
 		return teams;
 	}
 	
+	public int getMaxPlayersPerTeam() {
+		return (int) Math.ceil((double)arena.getAllPlayers().size() / (double)teams.size());
+	}
+	
 	public boolean setTeam (Player p , String team) {
 		if (getTeam(team) == null) {
 			return false;
@@ -54,6 +58,9 @@ public class ArenaTeamManager {
 				arena.updateColors();	
 				return true;
 			}
+			return false;
+		}
+		if (old.team.name.equals(team)) {
 			return false;
 		}
 		if (getTeam(team).addPlayer(p)) {

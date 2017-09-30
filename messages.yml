@@ -15,6 +15,7 @@ command_usage:  "%prefix% Use: %command%"
 team:
   enter: "%prefix% You entered the team %color%%team%&7!"
 game:
+  abort: "%prefix% A player has left. Stopping the game..."
   players_missing: "%prefix% There are not enought players to start the game!"
   join: "%prefix% &a%player% &7joined the game"
   leave: "%prefix% &c%player% &7left the game"

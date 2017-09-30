@@ -29,7 +29,11 @@ public class EntityDamageEventListener implements Listener{
 					e.setCancelled(true);
 				}
 				else if (arena.state == ArenaState.INGAME) {
-					if (p.getHealth() - e.getDamage() <= 0) {
+					if (arena.specs.contains(p)) {
+						e.setCancelled(true);
+					}
+					else if (p.getHealth() - e.getDamage() <= 0) {
+						e.setDamage(0);
 						arena.deathManager.playerDeath(p);
 					}
 				}

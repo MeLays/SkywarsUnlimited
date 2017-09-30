@@ -24,47 +24,35 @@ public class ArenaManager {
 	
 	HashMap<Integer , Arena> running = new HashMap<Integer , Arena>();
 	
-	public Location getFreeLocation () {
-		int x = 0;
-		
-		if (running.size() == 0) {
-			x = 0;
-		}
-		else {
-			int biggest = 0;
-			for (int i : running.keySet()) {
-				if (i > biggest)
-					biggest = i;
-			}
-			x = running.get(biggest).relative.getBlockX() +  running.get(biggest).cluster.x_size + main.getConfig().getInt("gameplacement.gap");
-		}
-		
+	int last_id = 0;
+	int x = 0;
+	
+	public Location getFreeLocation () {		
 		return new Location(Bukkit.getWorld(main.gameworld) , x , main.getConfig().getInt("gameplacement.y-position") , main.getConfig().getInt("gameplacement.z-position"));
 	}
 	
 	public int getNewID() {
-		int biggest = 0;
-		for (int i : running.keySet()) {
-			if (i > biggest)
-				biggest = i;
-		}
-		return biggest + 1;
+		last_id = last_id + 1;
+		return last_id +1;
 	}
 	
-	public void startGame(Cluster cluster , Settings settings , TeamPackage teampackage) throws ClusterAvailabilityException, UnknownClusterException {
-		startGame(cluster , settings , teampackage , null);
+	public int startGame(Cluster cluster , Settings settings , TeamPackage teampackage) throws ClusterAvailabilityException, UnknownClusterException {
+		return startGame(cluster , settings , teampackage , null);
 	}
 	
-	public void startGame(Cluster cluster , Settings settings , ArrayList<Player> players) throws ClusterAvailabilityException, UnknownClusterException {
-		startGame(cluster , settings , null , players);
+	public int startGame(Cluster cluster , Settings settings , ArrayList<Player> players) throws ClusterAvailabilityException, UnknownClusterException {
+		return startGame(cluster , settings , null , players);
 	}
 	
-	private void startGame(Cluster cluster , Settings settings , TeamPackage teampackage , ArrayList<Player> players) throws ClusterAvailabilityException, UnknownClusterException {
+	private int startGame(Cluster cluster , Settings settings , TeamPackage teampackage , ArrayList<Player> players) throws ClusterAvailabilityException, UnknownClusterException {
 		Location relative = getFreeLocation();
-		Arena arena = new Arena(main, cluster , relative , settings);
+		int id = getNewID();
+		Arena arena = new Arena(main, cluster , relative , settings , id);
 		if (players != null) arena.addPlayers(players);
 		if (teampackage != null) arena.addTeamPackage(teampackage);
-		running.put(getNewID(), arena);
+		running.put(id, arena);
+		x = x + arena.cluster.x_size + main.getConfig().getInt("gameplacement.gap");
+		return id;
 	}
 	
 	public void cancleAll() {
@@ -79,11 +67,15 @@ public class ArenaManager {
 		}
 	}
 	
+	void checkOut (int id) {
+		running.remove(id);
+	}
+	
 	//Player methonds
 	
 	public boolean isInGame(Player p) {
 		for (Arena a : running.values()) {
-			if (a.getAllPlayers().contains(p)) {
+			if (a.getAll().contains(p)) {
 				return true;
 			}
 		}
@@ -92,7 +84,7 @@ public class ArenaManager {
 	
 	public Arena searchPlayer(Player p) {
 		for (Arena a : running.values()) {
-			if (a.getAllPlayers().contains(p)) {
+			if (a.getAll().contains(p)) {
 				return a;
 			}
 		}
