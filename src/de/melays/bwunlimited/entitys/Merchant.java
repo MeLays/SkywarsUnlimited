@@ -55,6 +55,9 @@ public class Merchant {
 				}
 			}
 			setInt.invoke(nbt, "NoAI" , 1);
+			setInt.invoke(nbt, "NoGravity" , 1);
+			setInt.invoke(nbt, "Invulnerable" , 1);
+			setInt.invoke(nbt, "Silent" , 1);
 			villager_entity.getClass().getMethod("f", NBTTagCompound).invoke(villager_entity, nbt);
 			
 		} catch (InvocationTargetException e1) {
@@ -62,15 +65,6 @@ public class Merchant {
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
-		
-//		net.minecraft.server.v1_8_R3.Entity villager = ((CraftEntity) e).getHandle();
-//		NBTTagCompound nbt = villager.getNBTTag();
-//	    if(nbt == null) {
-//	    	nbt = new NBTTagCompound();
-//	    }
-//	    villager.c(nbt);
-//		nbt.setInt("NoAI", 1);
-//		villager.f(nbt);
 	}
 	
 }

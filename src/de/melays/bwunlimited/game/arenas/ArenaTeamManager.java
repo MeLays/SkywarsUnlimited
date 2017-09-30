@@ -50,8 +50,11 @@ public class ArenaTeamManager {
 		}
 		ArenaTeam old = findPlayer(p);
 		if (old == null) {
-			arena.updateColors();
-			return getTeam(team).addPlayer(p);
+			if (getTeam(team).addPlayer(p)) {
+				arena.updateColors();	
+				return true;
+			}
+			return false;
 		}
 		if (getTeam(team).addPlayer(p)) {
 			old.removePlayer(p);
@@ -67,6 +70,25 @@ public class ArenaTeamManager {
 		}
 		else {
 			SoundDebugger.playSound(p, "CLICK", "UI_BUTTON_CLICK");
+		}
+	}
+	
+	
+	public void checkWin() {
+		int alive = 0;
+		ArenaTeam last = null;
+		for (ArenaTeam team : getTeams()) {
+			team.checkTeam();
+			if (team.players.size() >= 1) {
+				alive += 1;
+				last = team;
+			}
+		}
+		if (alive == 1) {
+			arena.endGame(last);
+		}
+		else if (alive == 0) {
+			arena.endGame();
 		}
 	}
 	

@@ -5,9 +5,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 import de.melays.bwunlimited.Main;
 import de.melays.bwunlimited.map_manager.ClusterTools;
@@ -43,6 +45,18 @@ public class LobbyManager {
 			return ClusterTools.getLocation(getLobbyFile(), "gamelobby");
 		}
 		return null;
+	}
+	
+	public void toLobby (Player p) {
+		p.teleport(getLobbyLocation());
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			if (main.getArenaManager().isInGame(player)) {
+				p.hidePlayer(p);
+			}
+			else {
+				p.showPlayer(p);
+			}
+		}
 	}
 	
 	//Team File Managment

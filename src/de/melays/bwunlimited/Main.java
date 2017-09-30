@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
+import org.bukkit.entity.Player;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -165,6 +166,12 @@ public class Main extends JavaPlugin{
 	
 	public void onDisable() {
 		this.getArenaManager().cancleAll();
+		//Fix Visibility
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				p.showPlayer(player);
+			}
+		}
 		//Delete the gameworld to reset it
 		try {
 			Logger.log(console_prefix + "Deleting the gameworld '" + gameworld + "' to reset it.");
@@ -183,6 +190,8 @@ public class Main extends JavaPlugin{
 		this.reloadConfig();
 		Logger.log(console_prefix + "Reloading messages.yml");
 		this.getMessageFetcher().reloadFile();
+		Logger.log(console_prefix + "Reloading settings.yml");
+		this.getSettingsManager().reloadFile();
 		prefix = this.getMessageFetcher().getMessage("prefix", false) + " ";
 	}
 	

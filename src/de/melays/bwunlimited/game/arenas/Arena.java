@@ -142,11 +142,11 @@ public class Arena {
 		if (state == ArenaState.LOBBY) {
 			this.sendMessage(main.getMessageFetcher().getMessage("game.leave", true).replaceAll("%player%", p.getName()));
 		}
-		else if(state == ArenaState.INGAME){
-			this.sendMessage(main.getMessageFetcher().getMessage("game.leave_ingame", true).replaceAll("%player%", p.getName()));
-		}
-		if (teamManager.findPlayer(p) != null) {
-			teamManager.findPlayer(p).removePlayer(p);
+		else if(state == ArenaState.INGAME && !specs.contains(p)){
+			ArenaTeam team = teamManager.findPlayer(p);
+			this.sendMessage(main.getMessageFetcher().getMessage("game.leave_ingame", true).replaceAll("%player%", p.getName())
+					.replaceAll("%color%", team.team.Color.toChatColor().toString())
+					.replaceAll("%display%", team.team.display));
 		}
 		if (players.contains(p)) {
 			players.remove(p);
@@ -154,8 +154,15 @@ public class Arena {
 		if (specs.contains(p)) {
 			specs.remove(p);
 		}
+		ArenaTeam team = teamManager.findPlayer(p);
+		if (team != null) {
+			team.removePlayer(p);
+			if(state == ArenaState.INGAME){
+				teamManager.checkWin();
+			}
+		}
 		PlayerTools.resetPlayer(p);
-		p.teleport(main.getLobbyManager().getLobbyLocation());
+		main.getLobbyManager().toLobby(p);
 		updateTab();
 	}
 	
@@ -196,6 +203,13 @@ public class Arena {
 	public void sendColoredMessage (String message) {
 		for (Player p : this.getAll()) {
 			p.sendMessage(main.c(message));
+		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	public void sendTitle(String str , String str2) {
+		for (Player p : this.getAll()) {
+			p.sendTitle(main.c(str), main.c(str2));
 		}
 	}
 	
@@ -251,6 +265,11 @@ public class Arena {
 			respawnPlayer(p);
 			players.remove(p);
 		}
+		for (ArenaTeam team: new ArrayList<ArenaTeam>(teamManager.teams)) {
+			if (team.players.size() == 0) {
+				teamManager.teams.remove(team);
+			}
+		}
 		this.updateTab();
 		scoreBoard.create();
 		//Start loop
@@ -288,13 +307,28 @@ public class Arena {
 	
 	public void endGame(ArenaTeam winner) {
 		state = ArenaState.ENDING;
+		scoreBoard.remove();
+		Bukkit.getScheduler().cancelTask(this.scheduler);
 		for (Player p : getAll()) {
 			PlayerTools.resetPlayer(p);
 			p.teleport(main.getLobbyManager().getGameLobbyLocation());
 		}
 		if (winner != null) {
-			
+			String title = main.c(main.getSettingsManager().getFile().getString("game.titles.win"));
+			title = title.replaceAll("%color%", winner.team.Color.toChatColor().toString()).replaceAll("%display%", winner.team.display);
+			String subtitle = main.c(main.getSettingsManager().getFile().getString("game.titles.win_sub"));
+			subtitle = subtitle.replaceAll("%color%", winner.team.Color.toChatColor().toString()).replaceAll("%display%", winner.team.display);
+			sendTitle(title , subtitle);
 		}
+	}
+	
+	public void stop() {
+		for (Player p : getAll()) {
+			main.getLobbyManager().toLobby(p);
+		}
+		this.teamManager.teams = new ArrayList<ArenaTeam>();
+		this.players = new ArrayList<Player>();
+		this.specs = new ArrayList<Player>();
 	}
 	
 	public void respawnPlayer(Player p) {
@@ -324,13 +358,16 @@ public class Arena {
 	}
 	
 	int scheduler;
+	int gametimer;
 	
 	public void loop() {
+		gametimer = settings.game_end;
 		scheduler = Bukkit.getScheduler().scheduleSyncRepeatingTask(main, new Runnable() {
 
 			@Override
 			public void run() {
 				
+				gametimer -= 20;
 				scoreBoard.update();
 				
 			}

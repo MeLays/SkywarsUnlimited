@@ -51,6 +51,7 @@ public class BlockManager {
 						bed2.getState().update(true);
 					}
 					arena.BedDestroyed(team, p);
+					arena.scoreBoard.update();
 					return false;
 				}
 			} catch (Exception e) {

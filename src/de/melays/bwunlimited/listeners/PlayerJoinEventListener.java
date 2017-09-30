@@ -20,7 +20,7 @@ public class PlayerJoinEventListener implements Listener{
 		//Update all
 		main.getArenaManager().updateAll();
 		
-		e.getPlayer().teleport(main.getLobbyManager().getLobbyLocation());
+		main.getLobbyManager().toLobby(e.getPlayer());
 	}
 	
 }

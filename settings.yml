@@ -23,10 +23,15 @@ game:
     spectator_format_prefix: "&8&o"
     spectator_format_suffix: ""
   scoreboard:
-    title: "&1BW&9UNLMTD"
-    symbol: "❤ &8| "
+    title: "&9Bedwars"
+    timer:
+      divider: "&8:"
+      minutes: "   &7%minutes%"
+      seconds: "&7%seconds%"
+    symbol: "   ❤ &8| "
     color_alive: "&c"
     color_dead: "&8"
+    symbol_out: "   &8✘ &8| "
     content:
       - " "
       - "&8&l» &9Time &9Remaining:"
