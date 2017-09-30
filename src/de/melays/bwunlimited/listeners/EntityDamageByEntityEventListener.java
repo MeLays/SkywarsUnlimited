@@ -53,8 +53,9 @@ public class EntityDamageByEntityEventListener implements Listener{
 						arena.deathManager.playerDeath(p);
 					}
 				}
-				
-				
+			}
+			else if (!main.canOperateInLobby(p)) {
+				e.setCancelled(true);
 			}
 		}
 		else if (e.getEntity() instanceof Player) {
@@ -67,8 +68,9 @@ public class EntityDamageByEntityEventListener implements Listener{
 				if (arena.state == ArenaState.LOBBY || arena.state == ArenaState.ENDING) {
 					e.setCancelled(true);
 				}
-				
-				
+			}
+			else if (!main.canOperateInLobby(p)) {
+				e.setCancelled(true);
 			}
 		}
 		else {

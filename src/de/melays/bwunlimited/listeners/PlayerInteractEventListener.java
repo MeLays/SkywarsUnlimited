@@ -1,6 +1,7 @@
 package de.melays.bwunlimited.listeners;
 
 import org.bukkit.Material;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,6 +11,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import de.melays.bwunlimited.Main;
 import de.melays.bwunlimited.game.arenas.Arena;
 import de.melays.bwunlimited.game.arenas.state.ArenaState;
+import de.melays.bwunlimited.game.lobby.TemplateSign;
 
 public class PlayerInteractEventListener implements Listener{
 
@@ -51,9 +53,19 @@ public class PlayerInteractEventListener implements Listener{
 			} catch (Exception e1) {
 
 			}
-			
-			
 		}
+		else {
+			if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+				if (e.getClickedBlock().getState() instanceof Sign) {
+					TemplateSign sign = main.getTemplateSignManager().getSign(e.getClickedBlock().getLocation());
+					if (sign != null) {
+						sign.interact(p);
+					}
+				}
+			}
+		}
+		
+		
 	}
 	
 }

@@ -36,6 +36,10 @@ public class ArenaManager {
 		return last_id +1;
 	}
 	
+	public int startGame(Cluster cluster , Settings settings) throws ClusterAvailabilityException, UnknownClusterException {
+		return startGame(cluster , settings , null , null);
+	}
+	
 	public int startGame(Cluster cluster , Settings settings , TeamPackage teampackage) throws ClusterAvailabilityException, UnknownClusterException {
 		return startGame(cluster , settings , teampackage , null);
 	}
@@ -89,5 +93,9 @@ public class ArenaManager {
 			}
 		}
 		return null;
+	}
+
+	public Arena getArena(int id) {
+		return this.running.get(id);
 	}
 }

@@ -34,6 +34,14 @@ public class BlockBreakEventListener implements Listener{
 			}
 			
 		}
+		else if (!main.canOperateInLobby(p)) {
+			e.setCancelled(true);
+		}
+		else {
+			if (main.getTemplateSignManager().removeSign(e.getBlock().getLocation())) {
+				p.sendMessage(main.prefix + "A sign has been removed from config.");
+			}
+		}
 	}
 	
 }

@@ -59,8 +59,9 @@ public class InventoryClickEventListener implements Listener{
 			else if (arena.state == ArenaState.ENDING) {
 				e.setCancelled(true);				
 			}
-			
-			
+		}
+		else if (!main.canOperateInLobby(p)) {
+			e.setCancelled(true);
 		}
 	}
 	

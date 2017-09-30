@@ -34,6 +34,9 @@ public class BlockPlaceEventListener implements Listener{
 			}
 			
 		}
+		else if (!main.canOperateInLobby(p)) {
+			e.setCancelled(true);
+		}
 	}
 	
 }

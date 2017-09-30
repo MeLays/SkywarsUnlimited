@@ -33,7 +33,7 @@ public class Arena {
 
 	public ArenaState state = ArenaState.LOBBY;
 
-	Main main;
+	public Main main;
 
 	public ArenaLobby arenaLobby;
 	public ArenaTeamManager teamManager;

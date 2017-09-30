@@ -8,6 +8,19 @@ generator:
 gameplacement:
    gap: 500
    y-position: 70
-   z-position: 500 
+   z-position: 500
+game:
+   leaveitem_slot: 8
+   teamselector_slot: 0
+defaultsettings:
+   fixed_teams: false
+   allow_join: true
+   allow_spectate: true
+   lobby_leave: NORMAL
+   min_players: 2
+   max_players: 0
+   min_lobby_countdown: 10
+   game_end: 36000
+   ending_countdown: 10   
 death_y_offset: 20
 death_timeout: 80

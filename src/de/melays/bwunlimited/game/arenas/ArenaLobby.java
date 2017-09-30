@@ -27,7 +27,8 @@ public class ArenaLobby {
 		p.teleport(arena.main.getLobbyManager().getGameLobbyLocation());
 		PlayerTools.resetPlayer(p);
 		p.setGameMode(GameMode.ADVENTURE);
-		p.getInventory().setItem(0, arena.main.getItemManager().getItem("gamelobby.teamselector"));
+		p.getInventory().setItem(arena.main.getConfig().getInt("game.teamselector_slot"), arena.main.getItemManager().getItem("gamelobby.teamselector"));
+		p.getInventory().setItem(arena.main.getConfig().getInt("game.leaveitem_slot"), arena.main.getItemManager().getItem("gamelobby.leaveitem"));
 	}
 
 	@SuppressWarnings("deprecation")

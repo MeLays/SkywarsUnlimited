@@ -5,3 +5,9 @@ gamelobby:
     displayname: "&4Team selector"
     lore:
       - "&cRightclick to open the Team select menu"
+  leaveitem:
+    material: SLIME_BALL
+    byte: 0
+    displayname: "&cLeave"
+    lore:
+      - "&cRightclick to leave this arena"

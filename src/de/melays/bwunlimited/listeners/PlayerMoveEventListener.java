@@ -31,6 +31,9 @@ public class PlayerMoveEventListener implements Listener{
 			}
 			
 		}
+		else if (!main.canOperateInLobby(p)) {
+			//TODO TELEPORT BACK
+		}
 	}
 	
 }

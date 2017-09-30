@@ -46,3 +46,15 @@ game:
 shop:
   type: villager
   display: "&6Dealer"
+sign:
+  template:
+    default:
+      1: "&8» &9&lBedwars &8«"
+      2: "&a%current%&8/&2%max%"
+      3: "&9Lobby"
+      4: "&1%cluster%-%id%"
+    full:
+      1: "&8» &c&lBedwars &8«"
+      2: "&c%current%&8/&c%max%"
+      3: "&cVoll"
+      4: "&1%cluster%-%id%"

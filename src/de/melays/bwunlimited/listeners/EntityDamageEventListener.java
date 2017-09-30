@@ -37,8 +37,9 @@ public class EntityDamageEventListener implements Listener{
 						arena.deathManager.playerDeath(p);
 					}
 				}
-				
-				
+			}
+			else if (!main.canOperateInLobby(p)) {
+				e.setCancelled(true);
 			}
 		}
 		else {

@@ -4,6 +4,7 @@ import java.io.File;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.entity.Player;
@@ -15,6 +16,7 @@ import de.melays.bwunlimited.game.ItemManager;
 import de.melays.bwunlimited.game.arenas.ArenaManager;
 import de.melays.bwunlimited.game.arenas.settings.SettingsManager;
 import de.melays.bwunlimited.game.lobby.LobbyManager;
+import de.melays.bwunlimited.game.lobby.TemplateSignManager;
 import de.melays.bwunlimited.listeners.BlockBreakEventListener;
 import de.melays.bwunlimited.listeners.BlockPlaceEventListener;
 import de.melays.bwunlimited.listeners.CreatureSpawnEventListener;
@@ -26,6 +28,7 @@ import de.melays.bwunlimited.listeners.PlayerInteractEventListener;
 import de.melays.bwunlimited.listeners.PlayerJoinEventListener;
 import de.melays.bwunlimited.listeners.PlayerMoveEventListener;
 import de.melays.bwunlimited.listeners.PlayerQuitEventListener;
+import de.melays.bwunlimited.listeners.SignChangeEventListener;
 import de.melays.bwunlimited.log.Logger;
 import de.melays.bwunlimited.map_manager.ClusterManager;
 import de.melays.bwunlimited.messages.MessageFetcher;
@@ -86,6 +89,12 @@ public class Main extends JavaPlugin{
 		return settingsManager;
 	}
 	
+	TemplateSignManager templateSignManager;
+	
+	public TemplateSignManager getTemplateSignManager() {
+		return templateSignManager;
+	}
+	
 	//Tools
 	MarkerTool markerTool; 
 	public MarkerTool getMarkerTool() {
@@ -140,6 +149,7 @@ public class Main extends JavaPlugin{
 		this.clusterManager.loadClusters();
 		this.lobbyManager = new LobbyManager(this);
 		this.arenaManager = new ArenaManager(this);
+		this.templateSignManager = new TemplateSignManager(this);
 		this.messageFetcher = new MessageFetcher(this);
 		prefix = this.getMessageFetcher().getMessage("prefix", false) + " ";
 		
@@ -161,6 +171,8 @@ public class Main extends JavaPlugin{
 		Bukkit.getPluginManager().registerEvents(new EntityDamageEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new PlayerQuitEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new PlayerMoveEventListener(this), this);
+		Bukkit.getPluginManager().registerEvents(new SignChangeEventListener(this), this);
+
 
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			this.getLobbyManager().toLobby(p);
@@ -226,5 +238,12 @@ public class Main extends JavaPlugin{
 	          }
 	      }
 	      return(path.delete());
+	}
+	
+	public boolean canOperateInLobby (Player p) {
+		if (p.hasPermission("bwunlimited.lobby.edit") && p.getGameMode().equals(GameMode.CREATIVE)) {
+			return true;
+		}
+		return false;
 	}
 }

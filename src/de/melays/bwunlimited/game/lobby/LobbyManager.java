@@ -6,12 +6,15 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import de.melays.bwunlimited.Main;
+import de.melays.bwunlimited.colortab.ColorTabAPI;
+import de.melays.bwunlimited.game.PlayerTools;
 import de.melays.bwunlimited.map_manager.ClusterTools;
 
 public class LobbyManager {
@@ -49,6 +52,9 @@ public class LobbyManager {
 	
 	public void toLobby (Player p) {
 		p.teleport(getLobbyLocation());
+		PlayerTools.resetPlayer(p);
+		p.setGameMode(GameMode.SURVIVAL);
+		ColorTabAPI.clearTabStyle(p, Bukkit.getOnlinePlayers());
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			if (main.getArenaManager().isInGame(player)) {
 				p.hidePlayer(p);
