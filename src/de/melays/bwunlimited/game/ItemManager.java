@@ -25,7 +25,7 @@ public class ItemManager {
 		getItemFile().options().copyDefaults(true);
 		saveFile();
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	public boolean isItem (String id , ItemStack compare) {
 		String material_str = getItemFile().getString(id + ".material");
@@ -69,7 +69,7 @@ public class ItemManager {
 	@SuppressWarnings("deprecation")
 	public ItemStack getItem (String id) {
 		String material_str = getItemFile().getString(id + ".material");
-		String data_str = getItemFile().getString(id + ".data");
+		String data_str = getItemFile().getString(id + ".byte");
 		String displayname = getItemFile().getString(id + ".displayname");
 		List<String> lore = getItemFile().getStringList(id + ".lore");
 		
@@ -89,10 +89,10 @@ public class ItemManager {
 		try {
 			data = (byte) Integer.parseInt(data_str);
 		} catch (NumberFormatException e) {
-
+			e.printStackTrace();
 		}
 		ItemStack stack = new ItemStack(material , 1 , data);
-		
+		stack.getData().setData(data);
 		ItemMeta meta = stack.getItemMeta();
 		meta.setDisplayName(main.c(displayname));
 		ArrayList<String> lore_colored = new ArrayList<String>();

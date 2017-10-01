@@ -43,6 +43,17 @@ game:
   titles:
     win: "%color%%display%"
     win_sub: "&awon the game!"
+lobby:
+  inventory:
+    choosemap:
+      title: "&a%p%&7 Players &0(&a%page%&0/&c%max%&0)"
+      map:
+        title: "&c%display%"
+        title_selected: "&2&l>> &a%display% &2&l<<"
+        lore:
+          - "&cClick to choose this map"
+        lore_selected:
+          - "&aSelected"
 shop:
   type: villager
   display: "&6Dealer"
@@ -51,7 +62,7 @@ sign:
     empty:
       1: "&8» &8&lBedwars &8«"
       2: "&8%current%&7/&2%max%"
-      3: "&8Leer"
+      3: "&8Empty"
       4: "&8%cluster%-%id%"
     default:
       1: "&8» &9&lBedwars &8«"

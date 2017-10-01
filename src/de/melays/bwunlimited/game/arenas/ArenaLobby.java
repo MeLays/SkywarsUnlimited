@@ -125,13 +125,13 @@ public class ArenaLobby {
 					if (countdown == arena.settings.min_lobby_countdown || countdown % 30 == 0 || (countdown % 5 == 0 && countdown <= 15) || countdown <= 5) {
 						arena.sendMessage(arena.main.getMessageFetcher().getMessage("game.countdown.start", true).replaceAll("%countdown%", countdown + ""));
 						if (countdown == 3) {
-							sendTitle(arena.main.c(arena.main.getSettingsManager().getFile().getString("gamelobby.title.title_3")) , arena.main.c(arena.main.getSettingsManager().getFile().getString("gamelobby.title.sub_title").replaceAll("%cluster_display%", arena.cluster.name)));
+							sendTitle(arena.main.c(arena.main.getSettingsManager().getFile().getString("gamelobby.title.title_3")) , arena.main.c(arena.main.getSettingsManager().getFile().getString("gamelobby.title.sub_title").replaceAll("%cluster_display%", arena.cluster.getDisplayName())));
 						}
 						else if (countdown == 2) {
-							sendTitle(arena.main.c(arena.main.getSettingsManager().getFile().getString("gamelobby.title.title_2")) , arena.main.c(arena.main.getSettingsManager().getFile().getString("gamelobby.title.sub_title").replaceAll("%cluster_display%", arena.cluster.name)));
+							sendTitle(arena.main.c(arena.main.getSettingsManager().getFile().getString("gamelobby.title.title_2")) , arena.main.c(arena.main.getSettingsManager().getFile().getString("gamelobby.title.sub_title").replaceAll("%cluster_display%", arena.cluster.getDisplayName())));
 						}
 						else if (countdown == 1) {
-							sendTitle(arena.main.c(arena.main.getSettingsManager().getFile().getString("gamelobby.title.title_1")) , arena.main.c(arena.main.getSettingsManager().getFile().getString("gamelobby.title.sub_title").replaceAll("%cluster_display%", arena.cluster.name)));
+							sendTitle(arena.main.c(arena.main.getSettingsManager().getFile().getString("gamelobby.title.title_1")) , arena.main.c(arena.main.getSettingsManager().getFile().getString("gamelobby.title.sub_title").replaceAll("%cluster_display%", arena.cluster.getDisplayName())));
 						}
 					}
 					setGlobalLevel(countdown);
@@ -157,7 +157,7 @@ public class ArenaLobby {
 	}
 	
 	public void stopLobby () {
-		sendTitle(arena.main.c(arena.main.getSettingsManager().getFile().getString("gamelobby.title.title_0")) , arena.main.c(arena.main.getSettingsManager().getFile().getString("gamelobby.title.sub_title").replaceAll("%cluster_display%", arena.cluster.name)));
+		sendTitle(arena.main.c(arena.main.getSettingsManager().getFile().getString("gamelobby.title.title_0")) , arena.main.c(arena.main.getSettingsManager().getFile().getString("gamelobby.title.sub_title").replaceAll("%cluster_display%", arena.cluster.getDisplayName())));
 		state = ArenaLobbyState.ENDED;
 		Bukkit.getScheduler().cancelTask(loop);
 		arena.callLobbyEnd();

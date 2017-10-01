@@ -17,6 +17,7 @@ import de.melays.bwunlimited.commands.groups.GroupCommand;
 import de.melays.bwunlimited.game.ItemManager;
 import de.melays.bwunlimited.game.arenas.ArenaManager;
 import de.melays.bwunlimited.game.arenas.settings.SettingsManager;
+import de.melays.bwunlimited.game.lobby.ArenaSelector;
 import de.melays.bwunlimited.game.lobby.LobbyManager;
 import de.melays.bwunlimited.game.lobby.TemplateSignManager;
 import de.melays.bwunlimited.listeners.BlockBreakEventListener;
@@ -106,6 +107,12 @@ public class Main extends JavaPlugin{
 		return groupManager;
 	}
 	
+	ArenaSelector arenaSelector;
+	
+	public ArenaSelector getArenaSelector() {
+		return arenaSelector;
+	}
+	
 	//Tools
 	MarkerTool markerTool; 
 	public MarkerTool getMarkerTool() {
@@ -162,6 +169,7 @@ public class Main extends JavaPlugin{
 		this.arenaManager = new ArenaManager(this);
 		this.templateSignManager = new TemplateSignManager(this);
 		this.groupManager = new GroupManager(this);
+		this.arenaSelector = new ArenaSelector(this);
 		this.messageFetcher = new MessageFetcher(this);
 		prefix = this.getMessageFetcher().getMessage("prefix", false) + " ";
 		

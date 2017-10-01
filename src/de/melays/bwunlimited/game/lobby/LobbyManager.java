@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -13,9 +15,13 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import de.melays.bwunlimited.Main;
+import de.melays.bwunlimited.challenges.Group;
 import de.melays.bwunlimited.colortab.ColorTabAPI;
 import de.melays.bwunlimited.game.PlayerTools;
+import de.melays.bwunlimited.map_manager.Cluster;
 import de.melays.bwunlimited.map_manager.ClusterTools;
+import de.melays.bwunlimited.map_manager.error.UnknownClusterException;
+import de.melays.bwunlimited.teams.Team;
 
 public class LobbyManager {
 	
@@ -56,7 +62,7 @@ public class LobbyManager {
 		p.setGameMode(GameMode.SURVIVAL);
 		ColorTabAPI.clearTabStyle(p, Bukkit.getOnlinePlayers());
 		updateVisibility();
-		
+		main.getArenaSelector().setupPlayer(p);
 		if (main.getConfig().getBoolean("lobby.challenger.enabled"))
 			p.getInventory().setItem(main.getConfig().getInt("lobby.challenger.slot"), main.getItemManager().getItem("lobby.challenger"));
 		
@@ -78,6 +84,52 @@ public class LobbyManager {
 					}
 				}
 		}
+	}
+	
+	public ArrayList<Cluster> getChallengerClusters() {
+		ArrayList<Cluster> r = new ArrayList<Cluster>();
+		ArrayList<String> temp = (ArrayList<String>) getLobbyFile().getStringList("challenger.clusters");
+		for (String s : temp) {
+			try {
+				Cluster cluster = main.getClusterManager().getCluster(s);
+				if (cluster.getClusterMeta().getTeams().size() == 2) {
+					r.add(cluster);	
+				}
+			} catch (UnknownClusterException e) {
+
+			}
+		}
+		return r;
+	}
+	
+	public LinkedHashMap<Integer , ArrayList<Cluster>> getSuitableArenas(Group group) {
+		LinkedHashMap<Integer , ArrayList<Cluster>> r = new LinkedHashMap<Integer , ArrayList<Cluster>>();
+		for (Cluster cluster : getChallengerClusters()) {
+			int max = 0;
+			for (Team t : cluster.getClusterMeta().getTeams()) {
+				max += t.max;
+			}
+			if (max >= group.getPlayers().size()*2) {
+				if (!r.containsKey(max))
+					r.put(max, new ArrayList<Cluster>());
+				ArrayList<Cluster> temp = r.get(max);
+				temp.add(cluster);
+				r.put(max, temp);
+			}
+		}
+		return r;
+	}
+	
+	public boolean isSuitable (Group group , Cluster cluster) {
+		if (cluster.getClusterMeta().getTeams().size() != 2) return false;
+		int max = 0;
+		for (Team t : cluster.getClusterMeta().getTeams()) {
+			max += t.max;
+		}
+		if (max < group.getPlayers().size()*2) {
+			return false;
+		}
+		return true;
 	}
 	
 	//Team File Managment

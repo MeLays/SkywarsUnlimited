@@ -67,6 +67,13 @@ public class PlayerInteractEventListener implements Listener{
 				}
 			}
 		}
+		if (!main.getArenaManager().isInGame(p) && !main.canOperateInLobby(p)) {
+			if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+				if (main.getItemManager().isItem("lobby.challenger", e.getItem())) {
+					main.getArenaSelector().openArenaSelector(p, 1);
+				}
+			}
+		}
 		
 		
 	}

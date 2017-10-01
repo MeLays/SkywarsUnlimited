@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.inventory.ItemStack;
 
 import de.melays.bwunlimited.Main;
 import de.melays.bwunlimited.log.Logger;
@@ -41,6 +42,17 @@ public class Cluster {
 	
 	ClusterMeta clusterMeta;
 	
+	String displayname;
+	ItemStack displayitem;
+	
+	public String getDisplayName() {
+		return displayname;
+	}
+	
+	public ItemStack getDisplayItem() {
+		return displayitem;
+	}
+	
 	Cluster(Main main , String name){
 		this.main = main;
 		this.name = name;
@@ -51,7 +63,46 @@ public class Cluster {
 		return clusterMeta;
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void reloadCluster() {
+		
+		//Load displayname
+		
+		displayname = main.getClusterManager().getConfiguration().getString(name+".display");
+		if (displayname == null) displayname = name;
+		
+		
+		//Load display item
+		
+		String material = main.getClusterManager().getConfiguration().getString(name+".display_item");
+		if (material == null) material = Material.PAPER.toString();
+		byte data = 0;
+		if (material.contains(":")) {
+			String byte_raw = material.split(":")[1];
+			material = material.split(":")[0];
+			try {
+				data = Byte.parseByte(byte_raw);
+			}catch (Exception ex) {
+				
+			}
+		}
+		
+		Material m = Material.getMaterial(material);
+		if (m == null) {
+			try {
+				m = Material.getMaterial(Integer.parseInt(material));
+			} catch (NumberFormatException e) {
+				m = Material.PAPER;
+			}
+			if (m == null) {
+				m = Material.PAPER;
+			}
+		}
+		
+		this.displayitem = new ItemStack(m, 1 , data);
+		
+		//Load cluster
+		
 		cluster_list = new LinkedHashMap<RelativeLocation , AdvancedMaterial>();
 		
 		if (main.getClusterManager().getConfiguration().getString(name+".generator") != null) {

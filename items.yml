@@ -11,6 +11,22 @@ lobby:
     displayname: "&eRunning games"
     lore:
       - "&eSee all running games"
+  inventory:
+    next:
+      material: PAPER
+      byte: 0
+      displayname: "&aNext page"
+      lore: []
+    back:
+      material: PAPER
+      byte: 0
+      displayname: "&cPrevious page"
+      lore: []
+    spacer:
+      material: STAINED_GLASS_PANE
+      byte: 15
+      displayname: " "
+      lore: []      
 gamelobby:
   teamselector:
     material: BOOK

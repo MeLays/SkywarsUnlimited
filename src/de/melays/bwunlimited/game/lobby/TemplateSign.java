@@ -105,25 +105,25 @@ public class TemplateSign {
 			else {
 				if (arena.getAll().size() == 0) {
 					sign.setLine(0, main.c(main.getSettingsManager().getFile().getString("sign.template.empty.1")
-							.replaceAll("%cluster%", arena.cluster.name)
+							.replaceAll("%cluster%", arena.cluster.getDisplayName())
 							.replaceAll("%min%", arena.settings.min_players+"")
 							.replaceAll("%id%", arena.id+"")
 							.replaceAll("%current%", arena.getAllPlayers().size()+"")
 							.replaceAll("%max%", arena.settings.max_players+"")));
 					sign.setLine(1, main.c(main.getSettingsManager().getFile().getString("sign.template.empty.2")
-							.replaceAll("%cluster%", arena.cluster.name)
+							.replaceAll("%cluster%", arena.cluster.getDisplayName())
 							.replaceAll("%min%", arena.settings.min_players+"")
 							.replaceAll("%id%", arena.id+"")
 							.replaceAll("%current%", arena.getAllPlayers().size()+"")
 							.replaceAll("%max%", arena.settings.max_players+"")));
 					sign.setLine(2, main.c(main.getSettingsManager().getFile().getString("sign.template.empty.3")
-							.replaceAll("%cluster%", arena.cluster.name)
+							.replaceAll("%cluster%", arena.cluster.getDisplayName())
 							.replaceAll("%min%", arena.settings.min_players+"")
 							.replaceAll("%id%", arena.id+"")
 							.replaceAll("%current%", arena.getAllPlayers().size()+"")
 							.replaceAll("%max%", arena.settings.max_players+"")));
 					sign.setLine(3, main.c(main.getSettingsManager().getFile().getString("sign.template.empty.4")
-							.replaceAll("%cluster%", arena.cluster.name)
+							.replaceAll("%cluster%", arena.cluster.getDisplayName())
 							.replaceAll("%min%", arena.settings.min_players+"")
 							.replaceAll("%id%", arena.id+"")
 							.replaceAll("%current%", arena.getAllPlayers().size()+"")
@@ -131,25 +131,25 @@ public class TemplateSign {
 				}
 				else if (arena.getAll().size() >= arena.settings.max_players) {
 					sign.setLine(0, main.c(main.getSettingsManager().getFile().getString("sign.template.full.1")
-							.replaceAll("%cluster%", arena.cluster.name)
+							.replaceAll("%cluster%", arena.cluster.getDisplayName())
 							.replaceAll("%min%", arena.settings.min_players+"")
 							.replaceAll("%id%", arena.id+"")
 							.replaceAll("%current%", arena.getAllPlayers().size()+"")
 							.replaceAll("%max%", arena.settings.max_players+"")));
 					sign.setLine(1, main.c(main.getSettingsManager().getFile().getString("sign.template.full.2")
-							.replaceAll("%cluster%", arena.cluster.name)
+							.replaceAll("%cluster%", arena.cluster.getDisplayName())
 							.replaceAll("%min%", arena.settings.min_players+"")
 							.replaceAll("%id%", arena.id+"")
 							.replaceAll("%current%", arena.getAllPlayers().size()+"")
 							.replaceAll("%max%", arena.settings.max_players+"")));
 					sign.setLine(2, main.c(main.getSettingsManager().getFile().getString("sign.template.full.3")
-							.replaceAll("%cluster%", arena.cluster.name)
+							.replaceAll("%cluster%", arena.cluster.getDisplayName())
 							.replaceAll("%min%", arena.settings.min_players+"")
 							.replaceAll("%id%", arena.id+"")
 							.replaceAll("%current%", arena.getAllPlayers().size()+"")
 							.replaceAll("%max%", arena.settings.max_players+"")));
 					sign.setLine(3, main.c(main.getSettingsManager().getFile().getString("sign.template.full.4")
-							.replaceAll("%cluster%", arena.cluster.name)
+							.replaceAll("%cluster%", arena.cluster.getDisplayName())
 							.replaceAll("%min%", arena.settings.min_players+"")
 							.replaceAll("%id%", arena.id+"")
 							.replaceAll("%current%", arena.getAllPlayers().size()+"")
@@ -157,25 +157,25 @@ public class TemplateSign {
 				}
 				else {
 					sign.setLine(0, main.c(main.getSettingsManager().getFile().getString("sign.template.default.1")
-							.replaceAll("%cluster%", arena.cluster.name)
+							.replaceAll("%cluster%", arena.cluster.getDisplayName())
 							.replaceAll("%min%", arena.settings.min_players+"")
 							.replaceAll("%id%", arena.id+"")
 							.replaceAll("%current%", arena.getAllPlayers().size()+"")
 							.replaceAll("%max%", arena.settings.max_players+"")));
 					sign.setLine(1, main.c(main.getSettingsManager().getFile().getString("sign.template.default.2")
-							.replaceAll("%cluster%", arena.cluster.name)
+							.replaceAll("%cluster%", arena.cluster.getDisplayName())
 							.replaceAll("%min%", arena.settings.min_players+"")
 							.replaceAll("%id%", arena.id+"")
 							.replaceAll("%current%", arena.getAllPlayers().size()+"")
 							.replaceAll("%max%", arena.settings.max_players+"")));
 					sign.setLine(2, main.c(main.getSettingsManager().getFile().getString("sign.template.default.3")
-							.replaceAll("%cluster%", arena.cluster.name)
+							.replaceAll("%cluster%", arena.cluster.getDisplayName())
 							.replaceAll("%min%", arena.settings.min_players+"")
 							.replaceAll("%id%", arena.id+"")
 							.replaceAll("%current%", arena.getAllPlayers().size()+"")
 							.replaceAll("%max%", arena.settings.max_players+"")));
 					sign.setLine(3, main.c(main.getSettingsManager().getFile().getString("sign.template.default.4")
-							.replaceAll("%cluster%", arena.cluster.name)
+							.replaceAll("%cluster%", arena.cluster.getDisplayName())
 							.replaceAll("%min%", arena.settings.min_players+"")
 							.replaceAll("%id%", arena.id+"")
 							.replaceAll("%current%", arena.getAllPlayers().size()+"")

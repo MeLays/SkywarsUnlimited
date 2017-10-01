@@ -27,6 +27,8 @@ public class SetupCommand {
 		HelpSender helpSender = new HelpSender (main , command);
 		
 		helpSender.addAlias("help [page]", "Show this overview", "Use 'help <page>' to get to the next help pages" , "/bw setup help");
+		helpSender.addAlias("setDisplayItem <cluster> <material>", "Sets the displayitem", "Sets the item shown in menus.\nYou can add data by adding a :\nex.: Stone:2." , "/bw setup setDisplayItem <cluster> <material>");
+		helpSender.addAlias("setDisplayName <cluster> <name>", "Sets the displayname", "Sets the displayname of the cluster.\nThis will be shown on signs and menus.\nYou CAN use spaces!" , "/bw setup setDisplayName <cluster> <name>");
 		helpSender.addAlias("addteam <cluster> <team>", "Adds a team to a cluster", "Adds a team to a cluster.\nA cluster can have a infinite amount of teams." , "/bw setup addteam <cluster> <team>");
 		helpSender.addAlias("listteams <cluster>", "List the teams of the cluster", "Lists all teams added to the cluster." , "/bw setup listteams <cluster>");
 		helpSender.addAlias("removeteam <cluster> <team>", "Removes a team", "Removes a team from a cluster.\nA cluster can have a infinite amount of teams." , "/bw setup removeteam <cluster> <team>");
@@ -58,8 +60,119 @@ public class SetupCommand {
 			}
 		}
 		
+		else if (args[1].equalsIgnoreCase("setDisplayItem")) {
+			if (!main.getMessageFetcher().checkPermission(sender, "bwunlimited.setup"))return;
+			if (args.length <= 3) {
+				sender.sendMessage(main.getMessageFetcher().getMessage("command_usage", true).replaceAll("%command%", "/bw setup setDisplayItem <cluster> <item>"));
+				return;
+			}
+			Cluster cluster = null;
+			try {
+				cluster = main.getClusterManager().getCluster(args[2]);
+			} catch (UnknownClusterException e) {
+				sender.sendMessage(main.prefix + "This cluster does not exist!");
+				return;
+			}
+			if (cluster.getClusterMeta() == null) {
+				sender.sendMessage(main.prefix +  "This cluster is not ready yet!");
+				return;
+			}
+			String material = args[3];
+			byte data = 0;
+			if (material.contains(":")) {
+				String byte_raw = material.split(":")[1];
+				material = material.split(":")[0];
+				try {
+					data = Byte.parseByte(byte_raw);
+				}catch (Exception ex) {
+					
+				}
+			}
+			Material m = Material.getMaterial(material);
+			if (m == null) {
+				try {
+					m = Material.getMaterial(Integer.parseInt(material));
+				} catch (NumberFormatException e) {
+					sender.sendMessage(main.prefix + "The material you entered is not valid!");
+					return;
+				}
+				if (m == null) {
+					sender.sendMessage(main.prefix + "The material you entered is not valid!");
+					return;
+				}
+			}
+			main.getClusterManager().getConfiguration().set(cluster.name+".display_item", m.toString()+":"+data);
+			main.getClusterManager().saveFile();
+			sender.sendMessage(main.prefix +  "The item '"+args[3]+"' has been set as the displayitem of '"+cluster.name+"'");
+			return;
+
+		}
+		
+		else if (args[1].equalsIgnoreCase("setDisplayName")) {
+			if (!main.getMessageFetcher().checkPermission(sender, "bwunlimited.setup"))return;
+			if (args.length <= 3) {
+				sender.sendMessage(main.getMessageFetcher().getMessage("command_usage", true).replaceAll("%command%", "/bw setup setDisplayName <cluster> <name>"));
+				return;
+			}
+			Cluster cluster = null;
+			try {
+				cluster = main.getClusterManager().getCluster(args[2]);
+			} catch (UnknownClusterException e) {
+				sender.sendMessage(main.prefix + "This cluster does not exist!");
+				return;
+			}
+			if (cluster.getClusterMeta() == null) {
+				sender.sendMessage(main.prefix +  "This cluster is not ready yet!");
+				return;
+			}
+			String msg = "";
+			for (int i = 3 ; i < args.length ; i++) {
+				if (i == args.length - 1) {
+					msg += args[i];
+				}
+				else {
+					msg += args[i] + " ";
+				}
+			}
+			main.getClusterManager().getConfiguration().set(cluster.name+".display", msg);
+			main.getClusterManager().saveFile();
+			sender.sendMessage(main.prefix +  "The displayname '"+msg+"' has been set as the displayname of '"+cluster.name+"'");
+			return;
+
+		}
+		
 		else if (args[1].equalsIgnoreCase("addteam")) {
-			if (!main.getMessageFetcher().checkPermission(sender, "bwunlimited.help"))return;
+			if (!main.getMessageFetcher().checkPermission(sender, "bwunlimited.setup"))return;
+			if (args.length <= 3) {
+				sender.sendMessage(main.getMessageFetcher().getMessage("command_usage", true).replaceAll("%command%", "/bw setup addteam <cluster> <team>"));
+				return;
+			}
+			Cluster cluster = null;
+			try {
+				cluster = main.getClusterManager().getCluster(args[2]);
+			} catch (UnknownClusterException e) {
+				sender.sendMessage(main.prefix + "This cluster does not exist!");
+				return;
+			}
+			if (cluster.getClusterMeta() == null) {
+				sender.sendMessage(main.prefix +  "This cluster is not ready yet!");
+				return;
+			}
+			try {
+				cluster.getClusterMeta().addTeam(args[3]);
+				sender.sendMessage(main.prefix +  "This team '"+args[3]+"' has been added to the cluster '"+cluster.name+"'");
+				return;
+			} catch (UnknownTeamException e) {
+				sender.sendMessage(main.prefix +  "This team does not exists!");
+				return;
+			} catch (TeamAlreadyAddedException e) {
+				sender.sendMessage(main.prefix +  "This team is already added to this cluster!");
+				return;
+			}
+		}
+		
+		else if (args[1].equalsIgnoreCase("addteam")) {
+			if (!main.getMessageFetcher().checkPermission(sender, "bwunlimited.setup"))return;
 			if (args.length <= 3) {
 				sender.sendMessage(main.getMessageFetcher().getMessage("command_usage", true).replaceAll("%command%", "/bw setup addteam <cluster> <team>"));
 				return;
@@ -89,7 +202,7 @@ public class SetupCommand {
 		}
 		
 		else if (args[1].equalsIgnoreCase("listteams")) {
-			if (!main.getMessageFetcher().checkPermission(sender, "bwunlimited.help"))return;
+			if (!main.getMessageFetcher().checkPermission(sender, "bwunlimited.setup"))return;
 			if (args.length <= 2) {
 				sender.sendMessage(main.getMessageFetcher().getMessage("command_usage", true).replaceAll("%command%", "/bw setup listteams <cluster>"));
 				return;
@@ -123,7 +236,7 @@ public class SetupCommand {
 		}
 		
 		else if (args[1].equalsIgnoreCase("removeteam")) {
-			if (!main.getMessageFetcher().checkPermission(sender, "bwunlimited.help"))return;
+			if (!main.getMessageFetcher().checkPermission(sender, "bwunlimited.setup"))return;
 			if (args.length <= 3) {
 				sender.sendMessage(main.getMessageFetcher().getMessage("command_usage", true).replaceAll("%command%", "/bw setup removeteam <cluster> <team>"));
 				return;
@@ -149,7 +262,7 @@ public class SetupCommand {
 				return;
 			}
 			Player p = (Player) sender;
-			if (!main.getMessageFetcher().checkPermission(sender, "bwunlimited.help"))return;
+			if (!main.getMessageFetcher().checkPermission(sender, "bwunlimited.setup"))return;
 			if (args.length <= 3) {
 				sender.sendMessage(main.getMessageFetcher().getMessage("command_usage", true).replaceAll("%command%", "/bw setup setteamspawn <cluster> <team>"));
 				return;
@@ -185,7 +298,7 @@ public class SetupCommand {
 				return;
 			}
 			Player p = (Player) sender;
-			if (!main.getMessageFetcher().checkPermission(sender, "bwunlimited.help"))return;
+			if (!main.getMessageFetcher().checkPermission(sender, "bwunlimited.setup"))return;
 			if (args.length <= 5) {
 				sender.sendMessage(main.getMessageFetcher().getMessage("command_usage", true).replaceAll("%command%", "/bw setup addspawner <cluster> <material/ID> <ticks> <displayname>"));
 				return;
@@ -239,7 +352,7 @@ public class SetupCommand {
 		}
 		
 		else if (args[1].equalsIgnoreCase("listspawners")) {
-			if (!main.getMessageFetcher().checkPermission(sender, "bwunlimited.help"))return;
+			if (!main.getMessageFetcher().checkPermission(sender, "bwunlimited.setup"))return;
 			if (args.length <= 2) {
 				sender.sendMessage(main.getMessageFetcher().getMessage("command_usage", true).replaceAll("%command%", "/bw setup listteams <cluster>"));
 				return;
@@ -273,7 +386,7 @@ public class SetupCommand {
 		}
 		
 		else if (args[1].equalsIgnoreCase("removespawner")) {
-			if (!main.getMessageFetcher().checkPermission(sender, "bwunlimited.help"))return;
+			if (!main.getMessageFetcher().checkPermission(sender, "bwunlimited.setup"))return;
 			if (args.length <= 3) {
 				sender.sendMessage(main.getMessageFetcher().getMessage("command_usage", true).replaceAll("%command%", "/bw setup removespawner <cluster> <id>"));
 				return;
@@ -306,7 +419,7 @@ public class SetupCommand {
 				return;
 			}
 			Player p = (Player) sender;
-			if (!main.getMessageFetcher().checkPermission(sender, "bwunlimited.help"))return;
+			if (!main.getMessageFetcher().checkPermission(sender, "bwunlimited.setup"))return;
 			if (args.length <= 2) {
 				sender.sendMessage(main.getMessageFetcher().getMessage("command_usage", true).replaceAll("%command%", "/bw setup addshop <cluster>"));
 				return;
@@ -332,7 +445,7 @@ public class SetupCommand {
 		}
 		
 		else if (args[1].equalsIgnoreCase("listshops")) {
-			if (!main.getMessageFetcher().checkPermission(sender, "bwunlimited.help"))return;
+			if (!main.getMessageFetcher().checkPermission(sender, "bwunlimited.setup"))return;
 			if (args.length <= 2) {
 				sender.sendMessage(main.getMessageFetcher().getMessage("command_usage", true).replaceAll("%command%", "/bw setup listshops <cluster>"));
 				return;
@@ -366,7 +479,7 @@ public class SetupCommand {
 		}
 		
 		else if (args[1].equalsIgnoreCase("removeshop")) {
-			if (!main.getMessageFetcher().checkPermission(sender, "bwunlimited.help"))return;
+			if (!main.getMessageFetcher().checkPermission(sender, "bwunlimited.setup"))return;
 			if (args.length <= 3) {
 				sender.sendMessage(main.getMessageFetcher().getMessage("command_usage", true).replaceAll("%command%", "/bw setup removeshop <cluster> <id>"));
 				return;
