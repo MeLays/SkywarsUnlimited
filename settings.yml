@@ -48,6 +48,11 @@ shop:
   display: "&6Dealer"
 sign:
   template:
+    empty:
+      1: "&8» &8&lBedwars &8«"
+      2: "&8%current%&7/&2%max%"
+      3: "&8Leer"
+      4: "&8%cluster%-%id%"
     default:
       1: "&8» &9&lBedwars &8«"
       2: "&a%current%&8/&2%max%"

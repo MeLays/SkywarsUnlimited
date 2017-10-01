@@ -38,6 +38,9 @@ public class PlayerInteractEventListener implements Listener{
 							//Teamchooser
 							arena.arenaLobby.openTeamMenu(p);
 						}
+						else if (main.getItemManager().isItem("gamelobby.leaveitem", e.getItem())) {
+							arena.leave(p);
+						}
 					}
 				}
 				else if (arena.specs.contains(p)) {

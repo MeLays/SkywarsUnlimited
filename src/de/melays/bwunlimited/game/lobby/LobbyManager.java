@@ -55,13 +55,28 @@ public class LobbyManager {
 		PlayerTools.resetPlayer(p);
 		p.setGameMode(GameMode.SURVIVAL);
 		ColorTabAPI.clearTabStyle(p, Bukkit.getOnlinePlayers());
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			if (main.getArenaManager().isInGame(player)) {
-				p.hidePlayer(p);
-			}
-			else {
-				p.showPlayer(p);
-			}
+		updateVisibility();
+		
+		if (main.getConfig().getBoolean("lobby.challenger.enabled"))
+			p.getInventory().setItem(main.getConfig().getInt("lobby.challenger.slot"), main.getItemManager().getItem("lobby.challenger"));
+		
+		if (main.getConfig().getBoolean("lobby.gamelist.enabled"))
+			p.getInventory().setItem(main.getConfig().getInt("lobby.gamelist.slot"), main.getItemManager().getItem("lobby.gamelist"));
+	}
+	
+	public void updateVisibility() {
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			if (!main.getArenaManager().isInGame(p))
+				for (Player player : Bukkit.getOnlinePlayers()) {
+					if (main.getArenaManager().isInGame(player)) {
+						p.hidePlayer(player);
+						player.hidePlayer(p);
+					}
+					else {
+						p.showPlayer(player);
+						player.showPlayer(p);
+					}
+				}
 		}
 	}
 	

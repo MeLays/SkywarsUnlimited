@@ -11,7 +11,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import de.melays.bwunlimited.challenges.GroupManager;
 import de.melays.bwunlimited.commands.MainCommand;
+import de.melays.bwunlimited.commands.groups.GroupCommand;
 import de.melays.bwunlimited.game.ItemManager;
 import de.melays.bwunlimited.game.arenas.ArenaManager;
 import de.melays.bwunlimited.game.arenas.settings.SettingsManager;
@@ -19,14 +21,17 @@ import de.melays.bwunlimited.game.lobby.LobbyManager;
 import de.melays.bwunlimited.game.lobby.TemplateSignManager;
 import de.melays.bwunlimited.listeners.BlockBreakEventListener;
 import de.melays.bwunlimited.listeners.BlockPlaceEventListener;
+import de.melays.bwunlimited.listeners.CraftItemEventListener;
 import de.melays.bwunlimited.listeners.CreatureSpawnEventListener;
 import de.melays.bwunlimited.listeners.EntityDamageByEntityEventListener;
 import de.melays.bwunlimited.listeners.EntityDamageEventListener;
+import de.melays.bwunlimited.listeners.FoodLevelChangeEventListener;
 import de.melays.bwunlimited.listeners.InventoryClickEventListener;
 import de.melays.bwunlimited.listeners.PlayerDropItemEventListener;
 import de.melays.bwunlimited.listeners.PlayerInteractEventListener;
 import de.melays.bwunlimited.listeners.PlayerJoinEventListener;
 import de.melays.bwunlimited.listeners.PlayerMoveEventListener;
+import de.melays.bwunlimited.listeners.PlayerPickupItemEventListener;
 import de.melays.bwunlimited.listeners.PlayerQuitEventListener;
 import de.melays.bwunlimited.listeners.SignChangeEventListener;
 import de.melays.bwunlimited.log.Logger;
@@ -95,6 +100,12 @@ public class Main extends JavaPlugin{
 		return templateSignManager;
 	}
 	
+	GroupManager groupManager;
+	
+	public GroupManager getGroupManager() {
+		return groupManager;
+	}
+	
 	//Tools
 	MarkerTool markerTool; 
 	public MarkerTool getMarkerTool() {
@@ -150,11 +161,14 @@ public class Main extends JavaPlugin{
 		this.lobbyManager = new LobbyManager(this);
 		this.arenaManager = new ArenaManager(this);
 		this.templateSignManager = new TemplateSignManager(this);
+		this.groupManager = new GroupManager(this);
 		this.messageFetcher = new MessageFetcher(this);
 		prefix = this.getMessageFetcher().getMessage("prefix", false) + " ";
 		
 		//Set Command Executers
 		getCommand("bw").setExecutor(new MainCommand(this));
+		if (getConfig().getBoolean("group_command"))
+			getCommand("group").setExecutor(new GroupCommand(this));
 		
 		//Initialize Tools
 		this.markerTool = new MarkerTool(this);
@@ -166,13 +180,15 @@ public class Main extends JavaPlugin{
 		Bukkit.getPluginManager().registerEvents(new BlockPlaceEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new InventoryClickEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new PlayerDropItemEventListener(this), this);
+		Bukkit.getPluginManager().registerEvents(new PlayerPickupItemEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new PlayerInteractEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new EntityDamageByEntityEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new EntityDamageEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new PlayerQuitEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new PlayerMoveEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new SignChangeEventListener(this), this);
-
+		Bukkit.getPluginManager().registerEvents(new FoodLevelChangeEventListener(this), this);
+		Bukkit.getPluginManager().registerEvents(new CraftItemEventListener(this), this);
 
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			this.getLobbyManager().toLobby(p);

@@ -3,6 +3,8 @@ package de.melays.bwunlimited.game;
 import java.util.ArrayList;
 
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.util.Vector;
 
 public class PlayerTools {
 	
@@ -20,6 +22,9 @@ public class PlayerTools {
 		p.setFoodLevel(40);
 		p.setLevel(0);
 		p.setExp(0);
+		p.setVelocity(new Vector());
+	    for (PotionEffect effect : p.getActivePotionEffects())
+	        p.removePotionEffect(effect.getType());
 	}
 	
 	public static void setLevel (ArrayList<Player> players , int lvl) {

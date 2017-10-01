@@ -1,9 +1,12 @@
 package de.melays.bwunlimited.listeners;
 
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.util.Vector;
 
 import de.melays.bwunlimited.Main;
 import de.melays.bwunlimited.game.arenas.Arena;
@@ -53,10 +56,41 @@ public class EntityDamageByEntityEventListener implements Listener{
 						arena.deathManager.playerDeath(p);
 					}
 				}
+				
+				
+				//Spectator collision
+			    Entity entityDamager = e.getDamager();
+			    Entity entityDamaged = e.getEntity();
+			   
+			    if(entityDamager instanceof Arrow) {
+			        if(entityDamaged instanceof Player && ((Arrow) entityDamager).getShooter() instanceof Player) {
+			            Arrow arrow = (Arrow) entityDamager;
+			 
+			            Vector velocity = arrow.getVelocity();
+			 
+			            Player shooter = (Player) arrow.getShooter();
+			            Player damaged = (Player) entityDamaged;
+			 
+			            if(arena.specs.contains(p)) {
+			                damaged.teleport(entityDamaged.getLocation().add(0, 5, 0));
+			                damaged.setFlying(true);
+			               
+			                Arrow newArrow = shooter.launchProjectile(Arrow.class);
+			                newArrow.setShooter(shooter);
+			                newArrow.setVelocity(velocity);
+			                newArrow.setBounce(false);
+			               
+			                e.setCancelled(true);
+			                arrow.remove();
+			            }
+			        }
+			    }
+				
 			}
 			else if (!main.canOperateInLobby(p)) {
 				e.setCancelled(true);
 			}
+			
 		}
 		else if (e.getEntity() instanceof Player) {
 			Player p = (Player) e.getEntity();

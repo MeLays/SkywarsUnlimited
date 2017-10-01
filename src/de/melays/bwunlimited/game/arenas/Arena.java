@@ -7,6 +7,8 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import de.melays.bwunlimited.Main;
 import de.melays.bwunlimited.colortab.ColorTabAPI;
@@ -215,6 +217,11 @@ public class Arena {
 		PlayerTools.resetPlayer(p);
 		main.getLobbyManager().toLobby(p);
 		updateTab();
+		for (Player member : main.getGroupManager().getGroup(p).getMembers()) {
+			if (this.getAll().contains(member) && state == ArenaState.LOBBY) {
+				this.leave(member);
+			}
+		}
 	}
 
 	public void leave(Player p) {
@@ -315,6 +322,13 @@ public class Arena {
 		for (Player p : specs) {
 			for (Player player : getAll()) {
 				p.showPlayer(player);
+				player.hidePlayer(p);
+			}
+		}
+		for (Player p : specs) {
+			for (Player player : specs) {
+				p.showPlayer(player);
+				player.hidePlayer(p);
 			}
 		}
 	}
@@ -384,6 +398,12 @@ public class Arena {
 	public void endGame(ArenaTeam winner) {
 		state = ArenaState.ENDING;
 		scoreBoard.remove();
+		for (Player p : getAll()) {
+			for (Player player : getAll()) {
+				p.showPlayer(player);
+				player.showPlayer(p);
+			}
+		}
 		Bukkit.getScheduler().cancelTask(this.scheduler);
 		for (Player p : getAll()) {
 			PlayerTools.resetPlayer(p);
@@ -431,6 +451,7 @@ public class Arena {
 			s.stop();
 		}
 		main.getArenaManager().checkOut(id);
+		main.getLobbyManager().updateVisibility();
 	}
 
 	public void respawnPlayer(Player p) {
@@ -441,10 +462,37 @@ public class Arena {
 				p.teleport(loc);
 				p.setGameMode(GameMode.SURVIVAL);
 				PlayerTools.resetPlayer(p);
+				Bukkit.getScheduler().scheduleSyncDelayedTask(main, new Runnable() {
+					@Override
+					public void run() {
+						p.setVelocity(new Vector(0,0,0));
+						p.setHealth(p.getMaxHealth());
+					}
+				}, 1);
+				spawnProtection(p);
 			} catch (UnknownTeamException e) {
 
 			}
 		}
+	}
+	
+	public void spawnProtection (Player p) {
+		for (Player player : getAll()) {
+			p.hidePlayer(player);
+			player.hidePlayer(p);
+		}
+		new BukkitRunnable() {
+
+			@Override
+			public void run() {
+				if (state == ArenaState.INGAME)
+					for (Player player : getAll()) {
+						p.showPlayer(player);
+						player.showPlayer(p);
+					}
+			}
+			
+		}.runTaskLater(main, settings.spawn_protection * 20);
 	}
 
 	public void BedDestroyed(ArenaTeam team, Player p) {

@@ -1,3 +1,16 @@
+lobby:
+  challenger:
+    material: GOLD_SWORD
+    byte: 0
+    displayname: "&eChallenger"
+    lore:
+      - "&eHit someone to challenge someone"
+  gamelist:
+    material: WATCH
+    byte: 0
+    displayname: "&eRunning games"
+    lore:
+      - "&eSee all running games"
 gamelobby:
   teamselector:
     material: BOOK

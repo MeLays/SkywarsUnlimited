@@ -30,17 +30,23 @@ public class TemplateSignManager {
 	HashMap<Integer , TemplateSign> signs = new HashMap<Integer , TemplateSign>();
 	
 	public void loadSigns() {
+		for (TemplateSign sign : signs.values()) {
+			sign.cancle();
+		}
 		signs = new HashMap<Integer , TemplateSign>();
 		Set<String> keys = getFile().getKeys(false);
+		int loaded = 0;
 		for (String s : keys) {
 			try {
 				signs.put(Integer.parseInt(s), new TemplateSign(main , Integer.parseInt(s) , ClusterTools.getLiteLocation(getFile(), s) , main.getClusterManager().getCluster(getFile().getString(s+".cluster")).name
 						,Settings.getFromSection(getFile().getConfigurationSection(s+".settings"))));
+				loaded += 1;
 			}catch (Exception ex) {
 				ex.printStackTrace();
 				Logger.log(main.console_prefix + "Could not load the template-sign '" + s + "'!");
 			}
 		}
+		Logger.log(main.console_prefix + "Successfully loaded '" + loaded + "' template-signs!");
 	}
 	
 	public HashMap<Integer , Location> getSigns(){
@@ -60,6 +66,7 @@ public class TemplateSignManager {
 			if (r.get(i).equals(loc)) {
 				getFile().set(i+"", null);
 				this.saveFile();
+				loadSigns();
 				return true;
 			}
 		}

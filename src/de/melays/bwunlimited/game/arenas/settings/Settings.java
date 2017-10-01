@@ -20,6 +20,7 @@ public class Settings {
 	public int min_lobby_countdown = 10;
 	public int game_end = 36000;
 	public int ending_countdown = 10;
+	public int spawn_protection = 1;
 	
 	Arena arena;
 	
@@ -34,6 +35,7 @@ public class Settings {
 		min_lobby_countdown = config.getInt("min_lobby_countdown");
 		game_end = config.getInt("game_end");
 		ending_countdown = config.getInt("ending_countdown");
+		spawn_protection = config.getInt("spawn_protection");
 	}
 	
 	public void setArena(Arena arena) {
@@ -65,6 +67,7 @@ public class Settings {
 		r.min_lobby_countdown = config.getInt("min_lobby_countdown");
 		r.game_end = config.getInt("game_end");
 		r.ending_countdown = config.getInt("ending_countdown");
+		r.spawn_protection = config.getInt("spawn_protection");
 		return r;
 	}
 	
@@ -78,6 +81,7 @@ public class Settings {
 		config.set(path + "." + "min_lobby_countdown", min_lobby_countdown);
 		config.set(path + "." + "game_end", game_end);
 		config.set(path + "." + "ending_countdown", ending_countdown);
+		config.set(path + "." + "spawn_protection", spawn_protection);
 	}
 	
 }

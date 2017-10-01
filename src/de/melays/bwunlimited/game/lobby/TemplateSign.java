@@ -6,6 +6,7 @@ import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 
 import de.melays.bwunlimited.Main;
+import de.melays.bwunlimited.challenges.Group;
 import de.melays.bwunlimited.game.arenas.Arena;
 import de.melays.bwunlimited.game.arenas.settings.Settings;
 import de.melays.bwunlimited.game.arenas.state.ArenaState;
@@ -22,6 +23,8 @@ public class TemplateSign {
 	String cluster;
 	Settings settings;
 	
+	int updatetask;
+	
 	public TemplateSign (Main main , Integer id , Location loc , String cluster , Settings settings) {
 		this.main = main;
 		this.loc = loc;
@@ -30,7 +33,7 @@ public class TemplateSign {
 		this.cluster = cluster;
 		newArena();
 		update();
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(main, new Runnable() {
+		updatetask = Bukkit.getScheduler().scheduleSyncRepeatingTask(main, new Runnable() {
 
 			@Override
 			public void run() {
@@ -42,6 +45,10 @@ public class TemplateSign {
 		}, 10, 10);
 	}
 	
+	public void cancle() {
+		Bukkit.getScheduler().cancelTask(updatetask);
+	}
+	
 	public void newArena() {
 		try {
 			arena = main.getArenaManager().getArena(main.getArenaManager().startGame(main.getClusterManager().getCluster(cluster), settings));
@@ -51,8 +58,29 @@ public class TemplateSign {
 	}
 	
 	public void interact(Player p) {
+		if (arena == null) {
+			return;
+		}
+		Group group = main.getGroupManager().getGroup(p);
+		if (main.getGroupManager().getGroup(p).getLeader() != p) {
+			p.sendMessage(main.getMessageFetcher().getMessage("group.not_leader", true));
+			return;
+		}
 		if (arena.state == ArenaState.LOBBY) {
-			arena.addPlayer(p);
+			if (group.getMembers().size() >= 1) {
+				if (arena.getAll().size() + group.getPlayers().size() <= arena.settings.max_players) {
+					for (Player member : group.getPlayers()) {
+						arena.addPlayer(member);
+					}
+				}
+				else {
+					p.sendMessage(main.getMessageFetcher().getMessage("group.missing_space", true));
+					return;
+				}
+			}
+			else {
+				arena.addPlayer(p);
+			}
 		}
 		else {
 			newArena();
@@ -61,19 +89,47 @@ public class TemplateSign {
 	}
 	
 	public void update() {
-		if (arena.state != ArenaState.LOBBY) {
-			newArena();
+		if (arena != null) {
+			if (arena.state != ArenaState.LOBBY) {
+				newArena();
+			}
 		}
 		if (loc.getBlock().getState() instanceof Sign) {
 			Sign sign = (Sign) loc.getBlock().getState();
 			if (arena == null) {
 				sign.setLine(0, "");
-				sign.setLine(1, "");
-				sign.setLine(2, "");
+				sign.setLine(1, "Cluster");
+				sign.setLine(2, "not ready");
 				sign.setLine(3, "");
 			}
 			else {
-				if (arena.getAll().size() >= arena.settings.max_players) {
+				if (arena.getAll().size() == 0) {
+					sign.setLine(0, main.c(main.getSettingsManager().getFile().getString("sign.template.empty.1")
+							.replaceAll("%cluster%", arena.cluster.name)
+							.replaceAll("%min%", arena.settings.min_players+"")
+							.replaceAll("%id%", arena.id+"")
+							.replaceAll("%current%", arena.getAllPlayers().size()+"")
+							.replaceAll("%max%", arena.settings.max_players+"")));
+					sign.setLine(1, main.c(main.getSettingsManager().getFile().getString("sign.template.empty.2")
+							.replaceAll("%cluster%", arena.cluster.name)
+							.replaceAll("%min%", arena.settings.min_players+"")
+							.replaceAll("%id%", arena.id+"")
+							.replaceAll("%current%", arena.getAllPlayers().size()+"")
+							.replaceAll("%max%", arena.settings.max_players+"")));
+					sign.setLine(2, main.c(main.getSettingsManager().getFile().getString("sign.template.empty.3")
+							.replaceAll("%cluster%", arena.cluster.name)
+							.replaceAll("%min%", arena.settings.min_players+"")
+							.replaceAll("%id%", arena.id+"")
+							.replaceAll("%current%", arena.getAllPlayers().size()+"")
+							.replaceAll("%max%", arena.settings.max_players+"")));
+					sign.setLine(3, main.c(main.getSettingsManager().getFile().getString("sign.template.empty.4")
+							.replaceAll("%cluster%", arena.cluster.name)
+							.replaceAll("%min%", arena.settings.min_players+"")
+							.replaceAll("%id%", arena.id+"")
+							.replaceAll("%current%", arena.getAllPlayers().size()+"")
+							.replaceAll("%max%", arena.settings.max_players+"")));
+				}
+				else if (arena.getAll().size() >= arena.settings.max_players) {
 					sign.setLine(0, main.c(main.getSettingsManager().getFile().getString("sign.template.full.1")
 							.replaceAll("%cluster%", arena.cluster.name)
 							.replaceAll("%min%", arena.settings.min_players+"")

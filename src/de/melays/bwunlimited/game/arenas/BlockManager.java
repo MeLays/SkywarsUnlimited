@@ -9,6 +9,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import de.melays.bwunlimited.map_manager.ClusterTools;
+import de.melays.bwunlimited.teams.error.UnknownTeamException;
 
 public class BlockManager {
 	
@@ -23,6 +24,9 @@ public class BlockManager {
 	public boolean placeBlock (Location loc) {
 		Location max = arena.relative.clone().add(arena.cluster.x_size , arena.cluster.y_size , arena.cluster.z_size);
 		if (!ClusterTools.isInAreaIgnoreHeight(loc, arena.relative, max)) {
+			return false;
+		}
+		if (!isPlaceable(loc)) {
 			return false;
 		}
 		if (!ClusterTools.isInAreaIgnoreHeight(loc, arena.relative.clone().add(3, 3, 3), max.clone().add(-3, -3, -3))) {
@@ -60,6 +64,20 @@ public class BlockManager {
 		}
 		if (!placed_blocks.contains(loc)) {
 			return false;
+		}
+		return true;
+	}
+	
+	public boolean isPlaceable(Location loc) {
+		for (ArenaTeam team : arena.teamManager.getTeams()) {
+			try {
+				Location spawn = arena.cluster.getClusterMeta().getTeamSpawn(team.team.name).toLocation(arena.relative).getBlock().getLocation();
+				if (loc.equals(spawn)) return false;
+				spawn = spawn.add(0, 1, 0).getBlock().getLocation();
+				if (loc.equals(spawn)) return false;
+			} catch (UnknownTeamException e) {
+
+			}
 		}
 		return true;
 	}

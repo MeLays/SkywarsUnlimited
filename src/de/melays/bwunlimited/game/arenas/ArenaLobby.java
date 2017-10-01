@@ -109,12 +109,16 @@ public class ArenaLobby {
 					return;
 				}
 				else if (countdown == 0) {
-					if (arena.clusterHandler.isGenerating()) {
-						state = ArenaLobbyState.GENERATING;
-						setGlobalLevel(arena.clusterHandler.getPercent());
-					}
-					else {
-						stopLobby();
+					try {
+						if (arena.clusterHandler.isGenerating()) {
+							state = ArenaLobbyState.GENERATING;
+							setGlobalLevel(arena.clusterHandler.getPercent());
+						}
+						else {
+							stopLobby();
+						}
+					} catch (Exception e) {
+						
 					}
 				}
 				else if (state == ArenaLobbyState.NORMAL) {

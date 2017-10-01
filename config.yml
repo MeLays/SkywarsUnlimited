@@ -1,6 +1,7 @@
 gameworld: bw_gameworld
 presetworld: presets
 creature_spawn: false
+group_command: true
 generator:
    splitted:
       panels: 5
@@ -12,6 +13,13 @@ gameplacement:
 game:
    leaveitem_slot: 8
    teamselector_slot: 0
+lobby:
+   challenger:
+      enabled: true
+      slot: 0
+   gamelist:
+      enabled: true
+      slot: 1
 defaultsettings:
    fixed_teams: false
    allow_join: true
@@ -22,5 +30,6 @@ defaultsettings:
    min_lobby_countdown: 10
    game_end: 36000
    ending_countdown: 10   
+   spawn_protection: 1
 death_y_offset: 20
 death_timeout: 80

@@ -1,5 +1,6 @@
 package de.melays.bwunlimited.game.arenas;
 
+import java.util.Date;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
@@ -7,9 +8,9 @@ import org.bukkit.entity.Player;
 
 public class DeathManager {
 	
-	HashMap<Player , Integer> schedulers = new HashMap<Player , Integer>();
-	HashMap<Player , Player> killers = new HashMap<Player , Player>();
-	
+	public HashMap<Player , Integer> schedulers = new HashMap<Player , Integer>();
+	public HashMap<Player , Player> killers = new HashMap<Player , Player>();
+	public HashMap<Player , Date> lastdeath = new HashMap<Player , Date>();
 	Arena arena;
 	
 	public DeathManager (Arena arena) {
@@ -66,6 +67,7 @@ public class DeathManager {
 			arena.sendMessage(msg);
 		}
 		resetKiller(p);
+		lastdeath.put(p, new Date());
 		ArenaTeam team = arena.teamManager.findPlayer(p);
 		if (team.bed)
 			arena.respawnPlayer(p);

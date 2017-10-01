@@ -19,6 +19,7 @@ public class PlayerQuitEventListener implements Listener{
 	@EventHandler
 	public void onPlayerQuit(PlayerQuitEvent e) {
 		Player p = e.getPlayer();
+		main.getGroupManager().getGroup(e.getPlayer()).leave(p);
 		if (main.getArenaManager().isInGame(p)) {
 			Arena arena = main.getArenaManager().searchPlayer(p);
 			arena.leave(p);
