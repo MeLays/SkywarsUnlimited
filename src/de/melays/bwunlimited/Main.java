@@ -12,14 +12,17 @@ import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import de.melays.bwunlimited.challenges.GroupManager;
+import de.melays.bwunlimited.colortab.ColorTabAPI;
 import de.melays.bwunlimited.commands.MainCommand;
 import de.melays.bwunlimited.commands.groups.GroupCommand;
+import de.melays.bwunlimited.commands.start.StartCommand;
 import de.melays.bwunlimited.game.ItemManager;
 import de.melays.bwunlimited.game.arenas.ArenaManager;
 import de.melays.bwunlimited.game.arenas.settings.SettingsManager;
 import de.melays.bwunlimited.game.lobby.ArenaSelector;
 import de.melays.bwunlimited.game.lobby.LobbyManager;
 import de.melays.bwunlimited.game.lobby.TemplateSignManager;
+import de.melays.bwunlimited.listeners.AsyncPlayerChatEventListener;
 import de.melays.bwunlimited.listeners.BlockBreakEventListener;
 import de.melays.bwunlimited.listeners.BlockPlaceEventListener;
 import de.melays.bwunlimited.listeners.CraftItemEventListener;
@@ -37,6 +40,7 @@ import de.melays.bwunlimited.listeners.PlayerQuitEventListener;
 import de.melays.bwunlimited.listeners.SignChangeEventListener;
 import de.melays.bwunlimited.log.Logger;
 import de.melays.bwunlimited.map_manager.ClusterManager;
+import de.melays.bwunlimited.messages.ChatHook;
 import de.melays.bwunlimited.messages.MessageFetcher;
 import de.melays.bwunlimited.multiworld.EmptyRoomGenerator;
 import de.melays.bwunlimited.shop_old.BWShop;
@@ -113,6 +117,16 @@ public class Main extends JavaPlugin{
 		return arenaSelector;
 	}
 	
+	ChatHook chatHook;
+	public ChatHook getChatHook() {
+		return chatHook;
+	}
+	
+	TabUpdater tabUpdater;
+	public TabUpdater getTabUpdater() {
+		return tabUpdater;
+	}
+	
 	//Tools
 	MarkerTool markerTool; 
 	public MarkerTool getMarkerTool() {
@@ -170,11 +184,14 @@ public class Main extends JavaPlugin{
 		this.templateSignManager = new TemplateSignManager(this);
 		this.groupManager = new GroupManager(this);
 		this.arenaSelector = new ArenaSelector(this);
+		this.chatHook = new ChatHook(this);
+		this.tabUpdater = new TabUpdater(this);
 		this.messageFetcher = new MessageFetcher(this);
 		prefix = this.getMessageFetcher().getMessage("prefix", false) + " ";
 		
 		//Set Command Executers
 		getCommand("bw").setExecutor(new MainCommand(this));
+		getCommand("start").setExecutor(new StartCommand(this));
 		if (getConfig().getBoolean("group_command"))
 			getCommand("group").setExecutor(new GroupCommand(this));
 		
@@ -195,6 +212,7 @@ public class Main extends JavaPlugin{
 		Bukkit.getPluginManager().registerEvents(new PlayerQuitEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new PlayerMoveEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new SignChangeEventListener(this), this);
+		Bukkit.getPluginManager().registerEvents(new AsyncPlayerChatEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new FoodLevelChangeEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new CraftItemEventListener(this), this);
 
@@ -215,6 +233,7 @@ public class Main extends JavaPlugin{
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				p.showPlayer(player);
 			}
+			ColorTabAPI.clearTabStyle(p, Bukkit.getOnlinePlayers());
 		}
 		//Delete the gameworld to reset it
 		try {

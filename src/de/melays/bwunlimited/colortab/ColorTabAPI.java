@@ -17,6 +17,40 @@ public class ColorTabAPI {
 	
 	static Map< UUID, String > tabTeam = new HashMap<>();
 	
+	public static void setHeaderAndFooter( List< String > headerLines, List< String > footerLines, Collection< ? extends Player > receivers ) {
+		try{
+			if( headerLines == null ) headerLines = new ArrayList<>();
+			if( footerLines == null ) footerLines = new ArrayList<>();
+			
+			try {
+				Constructor<?> constructor = getNMSClass( "PacketPlayOutPlayerListHeaderFooter" ).getConstructor();
+				Object packet = constructor.newInstance();
+							
+				Object headerComponent = getNMSClass( "IChatBaseComponent" ).getDeclaredClasses()[ 0 ].getMethod( "a", String.class ).invoke( null, "{\"text\":\"" + listToString( headerLines ) + "\"}" );
+				Object footerComponent = getNMSClass( "IChatBaseComponent" ).getDeclaredClasses()[ 0 ].getMethod( "a", String.class ).invoke( null, "{\"text\":\"" + listToString( footerLines )+ "\"}" );
+				 
+				setField( packet, "a", headerComponent );
+				setField( packet, "b", footerComponent );
+				
+				for( Player t : receivers ) sendPacket( t, packet );
+			} catch ( Exception e ) {
+				
+			}
+		}
+		catch ( Exception e ) {
+			
+		}
+	}
+	
+	private static String listToString( List< String > list ) {
+		String output = "";
+		for( String s : list ) {
+			output += s.replace( "&", "§" ) + "\n";
+		}
+		return output.length() > 0 ? output.substring( 0, output.length() -1 ) : output;
+	}
+	
+	
 	public static void setTabStyle( Player p, String prefix, String suffix, int priority, Collection< ? extends Player > receivers ) {
 		try{
 			if( prefix == null ) prefix = "";

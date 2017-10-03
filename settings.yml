@@ -41,9 +41,21 @@ game:
       - team-lines
       - "   "
   titles:
+    bed: "&cBed destroyed"
+    bed_sub: "&4Your teams bed has been destroyed!"
     win: "%color%%display%"
     win_sub: "&awon the game!"
+tab:
+  header:
+    - ""
+    - "&9BW&1\u221E &8- &7Server"
+    - ""
+  footer:
+    - ""
 lobby:
+  tab:
+    prefix: "&7%player_prefix%"
+    suffix: "%player_suffix%"
   inventory:
     choosemap:
       title: "&a%p%&7 Players &0(&a%page%&0/&c%max%&0)"

@@ -94,8 +94,8 @@ public class EntityDamageByEntityEventListener implements Listener{
 					Group g = main.getGroupManager().getGroup(p);
 					Group inviter = main.getGroupManager().getGroup(damager);
 					if (!inviter.hasChallenge(g)) {
-						if (main.getLobbyManager().isCooldowned(p)){
-							p.sendMessage(main.getMessageFetcher().getMessage("group.challenge.cooldown", true));
+						if (main.getLobbyManager().isCooldowned(damager)){
+							damager.sendMessage(main.getMessageFetcher().getMessage("group.challenge.cooldown", true));
 						}
 						else {
 							e.setCancelled(true);

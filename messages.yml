@@ -12,6 +12,13 @@ list:
   hover_body_color: "&e"
   footer: "&7&m--------------------"
 command_usage:  "%prefix% Use: %command%"
+chat:
+  lobby: "%player_prefix%%player%%player_suffix% &8» &7%msg%"
+  game:
+    lobby: "%player_prefix%%team_color%%player%%player_suffix% &8» &7%msg%"
+    global: "&7[@]&r %player_prefix%%team_color%%player% &8[%team_color%%team_display%&8] &8» &7%msg%"
+    team: "%player_prefix%%team_color%%player%%player_suffix% &8» &7%msg%"
+    spec: "&7[S] &o&8%player% &8» &7%msg%"
 team:
   enter: "%prefix% You entered the team %color%%team%&7!"
 game:
@@ -27,6 +34,11 @@ game:
   team_out: "%prefix% The team %color%%display% &7has been disqualified!"
   bed:
     destroy_chat: "%prefix% %color%%player% &8[%color%%display%&8] &7has destroyed the bed of %destroyed_color%%destroyed_display%&7!"
+start:
+  already_started: "%prefix% The arena has already started!"
+  not_ingame: "%prefix% You are not ingame!"
+  not_enought_players: "%prefix% 2 Players needed to start the game!"
+  started: "%prefix% The game has been started!"
 group:
   help:
    - "%prefix% &7Group-Commands:"

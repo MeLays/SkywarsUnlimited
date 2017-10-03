@@ -4,13 +4,17 @@ description: BedwarsUnlimited Plugin by MeLays
 author: MeLays
 website: http://melays.de/
 main: de.melays.bwunlimited.Main
-softdepend: [StatsAPI]
+softdepend: [StatsAPI,Vault]
 commands:
   bw:
     description: Manage the BedwarsUnlimited Plugin
     aliases: [bedwars , bwunlimited , bedwarsunlimited]
-    usage: /bw
+    usage: /bw help
   group:
     description: BedwarsUnlimited Groups
     aliases: [group,groups,party,p,g]
-    usage: /group
+    usage: /group help
+  start:
+    description: BedwarsUnlimited Start
+    aliases: []
+    usage: /start

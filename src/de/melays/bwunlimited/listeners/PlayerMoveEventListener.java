@@ -24,7 +24,7 @@ public class PlayerMoveEventListener implements Listener{
 			Arena arena = main.getArenaManager().searchPlayer(p);
 			
 			//Arena relevant Event stuff
-			if (arena.state == ArenaState.INGAME) {
+			if (arena.state == ArenaState.INGAME && !arena.specs.contains(p)) {
 				if (e.getTo().getY() < arena.relative.getY() - main.getConfig().getInt("death_y_offset")) {
 					arena.deathManager.playerDeath(p);
 				}

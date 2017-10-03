@@ -110,6 +110,7 @@ public class Group {
 		settings.lobby_leave = LeaveType.ABORT;
 		settings.allow_join = false;
 		settings.fixed_teams = true;
+		settings.min_lobby_countdown = this.groupManager.main.getConfig().getInt("challenger.lobby_time");
 		HashMap<String , ArrayList<Player>> teams = new HashMap<String , ArrayList<Player>>();
 		teams.put(c.cluster.getClusterMeta().getTeams().get(0).name, c.from.getPlayers());
 		teams.put(c.cluster.getClusterMeta().getTeams().get(1).name, getPlayers());

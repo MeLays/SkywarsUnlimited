@@ -48,7 +48,7 @@ public class PlayerInteractEventListener implements Listener{
 				}
 				else if (arena.state == ArenaState.INGAME) {
 					if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-						if (e.getClickedBlock().getType() == Material.BED_BLOCK) {
+						if (e.getClickedBlock().getType() == Material.BED_BLOCK && !p.isSneaking()) {
 							e.setCancelled(true);
 						}
 					}

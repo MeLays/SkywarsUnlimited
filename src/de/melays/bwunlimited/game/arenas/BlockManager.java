@@ -8,6 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
+import de.melays.bwunlimited.game.SoundDebugger;
 import de.melays.bwunlimited.map_manager.ClusterTools;
 import de.melays.bwunlimited.teams.error.UnknownTeamException;
 
@@ -37,6 +38,7 @@ public class BlockManager {
 		return true;
 	}
 	
+	@SuppressWarnings("deprecation")
 	public boolean removeBlock (Location loc , Player p) {
 		if (loc.getBlock().getType() == Material.BED_BLOCK) {
 			Block bed1 = loc.getBlock();
@@ -54,8 +56,11 @@ public class BlockManager {
 						ClusterTools.setBlockFast(bed2.getLocation(), Material.AIR, (byte) 0);
 						bed2.getState().update(true);
 					}
+					loc.getWorld().refreshChunk(bed1.getX() >> 4 , bed1.getY() >> 4);
+					loc.getWorld().refreshChunk(bed2.getX() >> 4 , bed2.getY() >> 4);
 					arena.BedDestroyed(team, p);
 					arena.scoreBoard.update();
+					SoundDebugger.playSound(bed1.getLocation().getWorld(), bed1.getLocation(), "ENDERDRAGON_GROWL" ,"ENTITY_ENDERDRAGON_GROWL");
 					return false;
 				}
 			} catch (Exception e) {

@@ -18,7 +18,7 @@ public class Settings {
 	public int min_players = 2;
 	public int max_players = 0;
 	
-	public int min_lobby_countdown = 10;
+	public int min_lobby_countdown = 45;
 	public int game_end = 36000;
 	public int ending_countdown = 10;
 	public int spawn_protection = 1;

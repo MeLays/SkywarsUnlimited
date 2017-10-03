@@ -21,6 +21,8 @@ lobby:
    gamelist:
       enabled: true
       slot: 1
+challenger:
+   lobby_time: 5
 defaultsettings:
    fixed_teams: false
    allow_join: true

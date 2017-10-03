@@ -77,6 +77,22 @@ public class LobbyManager {
 		}		
 		if (main.getConfig().getBoolean("lobby.gamelist.enabled"))
 			p.getInventory().setItem(main.getConfig().getInt("lobby.gamelist.slot"), main.getItemManager().getItem("lobby.gamelist"));
+		updateLobbyTab();
+	}
+	
+	public void updateLobbyTab() {
+		String prefix = main.getSettingsManager().getFile().getString("lobby.tab.prefix");
+		String suffix = main.getSettingsManager().getFile().getString("lobby.tab.suffix");
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			if (!main.getArenaManager().isInGame(p)) {
+				ColorTabAPI.clearTabStyle(p, Bukkit.getOnlinePlayers());
+				String t_prefix = prefix.replaceAll("%player_prefix%", main.getChatHook().getPrefix(p));
+				t_prefix = t_prefix.replaceAll("%player_suffix%", main.getChatHook().getSuffix(p));
+				String t_suffix = suffix.replaceAll("%player_prefix%", main.getChatHook().getPrefix(p));
+				t_suffix = t_suffix.replaceAll("%player_suffix%", main.getChatHook().getSuffix(p));
+				ColorTabAPI.setTabStyle(p, main.c(t_prefix), main.c(t_suffix), 1, Bukkit.getOnlinePlayers());
+			}
+		}
 	}
 	
 	public void updateVisibility() {

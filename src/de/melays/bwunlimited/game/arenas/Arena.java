@@ -14,6 +14,7 @@ import de.melays.bwunlimited.Main;
 import de.melays.bwunlimited.colortab.ColorTabAPI;
 import de.melays.bwunlimited.entitys.Merchant;
 import de.melays.bwunlimited.game.PlayerTools;
+import de.melays.bwunlimited.game.SoundDebugger;
 import de.melays.bwunlimited.game.arenas.settings.LeaveType;
 import de.melays.bwunlimited.game.arenas.settings.Settings;
 import de.melays.bwunlimited.game.arenas.settings.TeamPackage;
@@ -510,6 +511,10 @@ public class Arena {
 		msg = msg.replaceAll("%player%", p.getName());
 		msg = msg.replaceAll("%destroyed_color%", team.team.Color.toChatColor().toString());
 		msg = msg.replaceAll("%destroyed_display%", team.team.display);
+		for (Player member : team.players) {
+			SoundDebugger.playSound(member, "ENDERDRAGON_GROWL" ,"ENTITY_ENDERDRAGON_GROWL");
+		}
+		team.sendTitle(main.c(main.getSettingsManager().getFile().getString("game.titles.bed")), main.c(main.getSettingsManager().getFile().getString("game.titles.bed_sub")));
 		sendMessage(msg);
 	}
 
