@@ -69,7 +69,7 @@ public class ArenaCommand {
 				for (String s : player_string) {
 					players.add(Bukkit.getPlayer(s));
 				}
-				main.getArenaManager().startGame(cluster, new Settings(), players);
+				main.getArenaManager().startGame(cluster, new Settings(main), players);
 			} catch (Exception e) {
 				sender.sendMessage(main.prefix +  "An error occured trying to start the game!");
 				return;

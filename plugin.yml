@@ -1,5 +1,5 @@
 name: BedwarsUnlimited
-version: 1.0.0 INDEV
+version: 1.0.1 BETA
 description: BedwarsUnlimited Plugin by MeLays
 author: MeLays
 website: http://melays.de/
@@ -12,5 +12,5 @@ commands:
     usage: /bw
   group:
     description: BedwarsUnlimited Groups
-    aliases: [group,groups,party]
+    aliases: [group,groups,party,p,g]
     usage: /group

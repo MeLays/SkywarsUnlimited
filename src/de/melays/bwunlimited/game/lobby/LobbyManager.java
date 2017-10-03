@@ -13,6 +13,10 @@ import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import de.melays.bwunlimited.Main;
 import de.melays.bwunlimited.challenges.Group;
@@ -63,9 +67,14 @@ public class LobbyManager {
 		ColorTabAPI.clearTabStyle(p, Bukkit.getOnlinePlayers());
 		updateVisibility();
 		main.getArenaSelector().setupPlayer(p);
-		if (main.getConfig().getBoolean("lobby.challenger.enabled"))
-			p.getInventory().setItem(main.getConfig().getInt("lobby.challenger.slot"), main.getItemManager().getItem("lobby.challenger"));
-		
+		if (main.getConfig().getBoolean("lobby.challenger.enabled")) {
+			ItemStack stack = main.getItemManager().getItem("lobby.challenger");
+			ItemMeta meta = stack.getItemMeta();
+			meta.spigot().setUnbreakable(true);
+			meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+			stack.setItemMeta(meta);
+			p.getInventory().setItem(main.getConfig().getInt("lobby.challenger.slot"), stack);	
+		}		
 		if (main.getConfig().getBoolean("lobby.gamelist.enabled"))
 			p.getInventory().setItem(main.getConfig().getInt("lobby.gamelist.slot"), main.getItemManager().getItem("lobby.gamelist"));
 	}
@@ -130,6 +139,23 @@ public class LobbyManager {
 			return false;
 		}
 		return true;
+	}
+	
+	//Cooldown
+	public ArrayList<Player> challenge_cooldown = new ArrayList<Player>();
+	public void setChallengeCooldown (Player p , int seconds) {
+		challenge_cooldown.add(p);
+		new BukkitRunnable() {
+
+			@Override
+			public void run() {
+				challenge_cooldown.remove(p);
+			}
+			
+		}.runTaskLater(main, 20*seconds);
+	}
+	public boolean isCooldowned(Player p) {
+		return challenge_cooldown.contains(p);
 	}
 	
 	//Team File Managment

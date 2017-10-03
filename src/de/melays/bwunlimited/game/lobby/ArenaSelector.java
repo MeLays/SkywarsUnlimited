@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -24,7 +25,11 @@ public class ArenaSelector {
 		this.main = main;
 	}
 	
-	HashMap<Player , Cluster> selected = new HashMap<Player , Cluster>();
+	public HashMap<Player , Cluster> selected = new HashMap<Player , Cluster>();
+	
+	public HashMap<Player , String> inv = new HashMap<Player , String>();
+	public HashMap<Player , Integer> page = new HashMap<Player , Integer>();
+	public HashMap<Player , Integer> size = new HashMap<Player , Integer>();
 	
 	public void setupPlayer (Player p) {
 		if (!selected.containsKey(p)) {
@@ -40,13 +45,14 @@ public class ArenaSelector {
 		if (s.size() == 0) return;
 		ArrayList<Integer> keys = new ArrayList<Integer>(s.keySet());
 		Collections.sort(keys);
-		Collections.reverse(keys);
-		ArrayList<Cluster> possible = new ArrayList<Cluster>();
+		ArrayList<Cluster> possible = s.get(keys.get(0));
 		Collections.shuffle(possible);
 		selected.put(p, possible.get(0));
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void openArenaSelector(Player p , int page) {
+		setupPlayer(p);
 		Group g = main.getGroupManager().getGroup(p);
 		if (g.getLeader() != p) {
 			p.sendMessage(main.getMessageFetcher().getMessage("group.not_leader", true));
@@ -55,20 +61,24 @@ public class ArenaSelector {
 		LinkedHashMap<Integer, ArrayList<Cluster>> s = main.getLobbyManager().getSuitableArenas(g);
 		ArrayList<Cluster> current = null;
 		int counter = 1;
-		int page_id = 0;
+		int page_id = 0;		
 		ArrayList<Integer> keys = new ArrayList<Integer>(s.keySet());
 		Collections.sort(keys);
-		Collections.reverse(keys);
-		for (int i : keys) {
-			if (counter == page) {
-				page_id = i;
-				current = s.get(i);
-				continue;
+		outer:
+			for (int i : keys) {
+				if (counter == page) {
+					page_id = i;
+					current = s.get(i);
+					break outer;
+				}
+				counter += 1;
 			}
-		}
-		page = counter;
 		int lines = 9 + ((current.size() / 9) + 1) * 9;
 		Inventory inv = Bukkit.createInventory(null, lines, main.c(main.getSettingsManager().getFile().getString("lobby.inventory.choosemap.title").replaceAll("%page%", page + "").replaceAll("%max%", s.keySet().size() + "").replaceAll("%p%", page_id + "")));
+		
+		this.size.put(p, page_id);
+		this.page.put(p, page);
+		this.inv.put(p, main.c(main.getSettingsManager().getFile().getString("lobby.inventory.choosemap.title").replaceAll("%page%", page + "").replaceAll("%max%", s.keySet().size() + "").replaceAll("%p%", page_id + "")));
 		
 		inv.setItem(0, main.getItemManager().getItem("lobby.inventory.spacer"));
 		if (page != 1) {
@@ -85,26 +95,55 @@ public class ArenaSelector {
 		}
 		
 		for (Cluster c : current) {
-			
-			String displayname = main.c(main.getSettingsManager().getFile().getString("lobby.inventory.choosemap.map.title")).replaceAll("%display%", c.getDisplayName());
-			List<String> lore_t = main.getSettingsManager().getFile().getStringList("lobby.inventory.choosemap.map.lore");
-			ArrayList<String> lore = new ArrayList<String>();
-			for (String temp : lore_t) {
-				lore.add(main.c(temp));
-			}
-			ItemStack map = c.getDisplayItem();
-			ItemMeta meta = map.getItemMeta();
-			meta.setDisplayName(displayname);
-			meta.setLore(lore);
+			inv.addItem(getMapItem(c , p));
+		}
+		
+		if (this.selected.containsKey(p)) {
+			ItemStack stack = new ItemStack(this.selected.get(p).getDisplayItem().getType() , 1 , this.selected.get(p).getDisplayItem().getData().getData());
+			ItemMeta meta = stack.getItemMeta();
+			meta.setDisplayName(main.c(main.getItemManager().getItemFile().getString("lobby.inventory.selected.displayname").replaceAll("%display%", this.selected.get(p).getDisplayName())));
 			meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
 			meta.addItemFlags(ItemFlag.HIDE_DESTROYS);
 			meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 			meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
-			map.setItemMeta(meta);
-			inv.addItem(map);
+			stack.setItemMeta(meta);
+			inv.setItem(4, stack);
 		}
 		
 		p.openInventory(inv);
+	}
+	
+	public ItemStack getMapItem (Cluster c , Player p) {
+		String displayname;
+		List<String> lore_t;
+		
+		if (!this.selected.containsKey(p)) {
+			displayname = main.c(main.getSettingsManager().getFile().getString("lobby.inventory.choosemap.map.title")).replaceAll("%display%", c.getDisplayName());
+			lore_t = main.getSettingsManager().getFile().getStringList("lobby.inventory.choosemap.map.lore");
+		}
+		else if (c != this.selected.get(p)) {
+			displayname = main.c(main.getSettingsManager().getFile().getString("lobby.inventory.choosemap.map.title")).replaceAll("%display%", c.getDisplayName());
+			lore_t = main.getSettingsManager().getFile().getStringList("lobby.inventory.choosemap.map.lore");
+		}
+		else {
+			displayname = main.c(main.getSettingsManager().getFile().getString("lobby.inventory.choosemap.map.title_selected")).replaceAll("%display%", c.getDisplayName());
+			lore_t = main.getSettingsManager().getFile().getStringList("lobby.inventory.choosemap.map.lore_selected");
+		}
+		
+		ArrayList<String> lore = new ArrayList<String>();
+		for (String temp : lore_t) {
+			lore.add(main.c(temp));
+		}
+		ItemStack map = c.getDisplayItem();
+		ItemMeta meta = map.getItemMeta();
+		meta.setDisplayName(displayname);
+		meta.setLore(lore);
+		meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+		meta.addItemFlags(ItemFlag.HIDE_DESTROYS);
+		meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+		meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+		map.setItemMeta(meta);
+		return map;
 	}
 	
 	

@@ -102,9 +102,10 @@ public class Arena {
 			for (String s : teamPackage.getTeams()) {
 				for (Player p : teamPackage.getPlayers(s)) {
 					if (!main.getArenaManager().isInGame(p))
-						join(p, s);
+						join(p, s , true);
 				}
 			}
+			this.updateColors();
 			return true;
 		}
 		return false;
@@ -169,29 +170,34 @@ public class Arena {
 	}
 
 	private void join(Player p) {
+		join (p , false);
+	}
+	
+	private void join(Player p , boolean silent) {
 		if (this.state == ArenaState.LOBBY) {
 			players.add(p);
 			arenaLobby.updatePlayer(p);
+			if (!silent)this.sendMessage(
+					main.getMessageFetcher().getMessage("game.join", true).replaceAll("%player%", p.getName()));
 		}
 		updateTab();
 	}
 
-	private void join(Player p, String team) {
+	private void join(Player p, String team , boolean silent) {
 		if (this.state == ArenaState.LOBBY) {
-			join(p);
+			join(p , silent);
 			this.teamManager.getTeam(team).addPlayer(p);
-			this.sendMessage(
-					main.getMessageFetcher().getMessage("game.join", true).replaceAll("%player%", p.getName()));
 		}
 	}
 
 	public void leave (Player p , boolean silent) {
 		if (state == ArenaState.LOBBY) {
-			if (!silent) this.sendMessage(main.getMessageFetcher().getMessage("game.leave", true).replaceAll("%player%", p.getName()));
 			if (settings.lobby_leave == LeaveType.ABORT) {
+				if (!silent) this.sendMessage(main.getMessageFetcher().getMessage("game.abort", true).replaceAll("%player%", p.getName()));
 				stop();
 				return;
 			}
+			if (!silent) this.sendMessage(main.getMessageFetcher().getMessage("game.leave", true).replaceAll("%player%", p.getName()));
 		}
 		else if(state == ArenaState.INGAME && !specs.contains(p)){
 			ArenaTeam team = teamManager.findPlayer(p);

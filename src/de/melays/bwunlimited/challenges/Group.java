@@ -1,9 +1,16 @@
 package de.melays.bwunlimited.challenges;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.bukkit.entity.Player;
 
+import de.melays.bwunlimited.game.SoundDebugger;
+import de.melays.bwunlimited.game.arenas.settings.LeaveType;
+import de.melays.bwunlimited.game.arenas.settings.Settings;
+import de.melays.bwunlimited.game.arenas.settings.TeamPackage;
+import de.melays.bwunlimited.map_manager.error.ClusterAvailabilityException;
+import de.melays.bwunlimited.map_manager.error.UnknownClusterException;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 
@@ -46,6 +53,97 @@ public class Group {
 		}
 	}
 	
+	//Challenges
+	
+	ArrayList<Challenge> challenges = new ArrayList<Challenge>();
+	
+	public void challenge(Player hitter , Player hit , Challenge c) {
+		if (this.groupManager.getGroup(hitter).getLeader() != hitter) {
+			hitter.sendMessage(this.groupManager.main.getMessageFetcher().getMessage("group.not_leader", true).replaceAll("%player%", hit.getName()));
+			return;
+		}
+		Group inviter = this.groupManager.getGroup(hitter);
+		if (this.getPlayers().size() != inviter.getPlayers().size()) {
+			hitter.sendMessage(this.groupManager.main.getMessageFetcher().getMessage("group.not_same_size", true).replaceAll("%player%", hit.getName()));
+			return;
+		}
+		if (hit != leader) {
+			hitter.sendMessage(this.groupManager.main.getMessageFetcher().getMessage("group.this_not_leader", true).replaceAll("%player%", hit.getName()));
+			return;
+		}
+		this.groupManager.main.getArenaSelector().setupPlayer(inviter.getLeader());
+		removeChallenge(inviter);
+		challenges.add(c);
+		for (String s : this.groupManager.main.getMessageFetcher().getMessageFetcher().getStringList("group.challenge.challenged")) {
+			s = this.groupManager.main.c(s);
+			s = s.replaceAll("%prefix%", this.groupManager.main.getMessageFetcher().getMessage("prefix", false));
+			s = s.replaceAll("%challenger%", inviter.getLeader().getName());
+			s = s.replaceAll("%cluster%", c.cluster.getDisplayName());
+			this.sendMessage(s);
+		}
+		hitter.sendMessage(this.groupManager.main.getMessageFetcher().getMessage("group.challenge.sent", true).replaceAll("%player%", hit.getName()));
+		SoundDebugger.playSound(hitter, "LEVEL_UP", "ENTITY_PLAYER_LEVELUP");
+		SoundDebugger.playSound(this.leader, "LEVEL_UP", "ENTITY_PLAYER_LEVELUP");
+	}
+	
+	public void removeChallenge(Group g) {
+		for (Challenge c : this.challenges) {
+			if (c.from == g) {
+				this.challenges.remove(c);
+				return;
+			}
+		}
+	}
+	
+	public void removeAllChallenges() {
+		challenges = new ArrayList<Challenge>();
+	}
+	
+	public void acceptChallenge (Challenge c) {
+		Group inviter = c.from;
+		if (this.getPlayers().size() != inviter.getPlayers().size()) {
+			leader.sendMessage(this.groupManager.main.getMessageFetcher().getMessage("group.not_same_size", true).replaceAll("%player%", inviter.getLeader().getName()));
+			removeChallenge(inviter);
+			return;
+		}
+		Settings settings = new Settings(this.groupManager.main);
+		settings.lobby_leave = LeaveType.ABORT;
+		settings.allow_join = false;
+		settings.fixed_teams = true;
+		HashMap<String , ArrayList<Player>> teams = new HashMap<String , ArrayList<Player>>();
+		teams.put(c.cluster.getClusterMeta().getTeams().get(0).name, c.from.getPlayers());
+		teams.put(c.cluster.getClusterMeta().getTeams().get(1).name, getPlayers());
+		TeamPackage teampackage = new TeamPackage(teams);
+		try {
+			this.groupManager.main.getArenaManager().startGame(c.cluster, settings, teampackage);
+			removeAllChallenges();
+			inviter.removeAllChallenges();
+		} catch (ClusterAvailabilityException e) {
+
+		} catch (UnknownClusterException e) {
+
+		}
+	}
+	
+	public boolean hasChallenge (Group g) {
+		for (Challenge c : this.challenges) {
+			if (c.from == g) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public Challenge getChallenge(Group g) {
+		for (Challenge c : this.challenges) {
+			if (c.from == g) {
+				return c;
+			}
+		}
+		return null;
+	}
+	
+	//Command methods
 	public boolean invite (Player p) {
 		if (!invited.contains(p)) {
 			invited.add(p);
@@ -73,6 +171,7 @@ public class Group {
 			groupManager.getGroup(p).players.remove(p);
 			groupManager.players.remove(p);
 			players.add(p);
+			removeAllChallenges();
 			sendMessage(groupManager.main.getMessageFetcher().getMessage("group.join", true).replaceAll("%player%", p.getName()));
 			return true;
 		}
@@ -103,6 +202,7 @@ public class Group {
 		}
 		sendMessage(groupManager.main.getMessageFetcher().getMessage("group.leave", true).replaceAll("%player%", p.getName()));
 		players.remove(p);
+		removeAllChallenges();
 	}
 	
 	public void kick (Player p) {
@@ -113,6 +213,7 @@ public class Group {
 		if (players.contains(p)) {
 			sendMessage(groupManager.main.getMessageFetcher().getMessage("group.kick", true).replaceAll("%player%", p.getName()));
 			players.remove(p);
+			removeAllChallenges();
 		}
 		else {
 			leader.sendMessage(groupManager.main.getMessageFetcher().getMessage("group.not_in_group", true).replaceAll("%player%", p.getName()));
@@ -124,6 +225,7 @@ public class Group {
 			p.sendMessage(groupManager.main.getMessageFetcher().getMessage("group.not_in_group", true).replaceAll("%player%", p.getName()));
 		}
 		else {
+			removeAllChallenges();
 			players.add(leader);
 			players.remove(p);
 			this.groupManager.players.remove(leader);

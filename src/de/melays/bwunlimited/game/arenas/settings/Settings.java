@@ -3,6 +3,7 @@ package de.melays.bwunlimited.game.arenas.settings;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import de.melays.bwunlimited.Main;
 import de.melays.bwunlimited.game.arenas.Arena;
 import de.melays.bwunlimited.teams.Team;
 
@@ -24,8 +25,15 @@ public class Settings {
 	
 	Arena arena;
 	
+	Main main;
+	
+	public Settings(Main main) {
+		this.main = main;
+		loadDefaults();
+	}
+	
 	public void loadDefaults() {
-		ConfigurationSection config = arena.main.getConfig().getConfigurationSection("defaultsettings");
+		ConfigurationSection config = main.getConfig().getConfigurationSection("defaultsettings");
 		fixed_teams = config.getBoolean("fixed_teams");
 		allow_join = config.getBoolean("allow_join");
 		allow_spectate = config.getBoolean("allow_spectate");
@@ -40,7 +48,6 @@ public class Settings {
 	
 	public void setArena(Arena arena) {
 		this.arena = arena;
-		loadDefaults();
 		this.min_players = arena.cluster.teams.size();
 		this.max_players = 0;
 		for (Team t : arena.cluster.teams) {
@@ -56,8 +63,8 @@ public class Settings {
 		return min_players;
 	}
 	
-	public static Settings getFromSection(ConfigurationSection config) {
-		Settings r = new Settings();
+	public static Settings getFromSection(ConfigurationSection config , Main main) {
+		Settings r = new Settings(main);
 		r.fixed_teams = config.getBoolean("fixed_teams");
 		r.allow_join = config.getBoolean("allow_join");
 		r.allow_spectate = config.getBoolean("allow_spectate");

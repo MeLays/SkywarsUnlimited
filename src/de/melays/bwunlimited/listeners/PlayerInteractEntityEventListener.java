@@ -21,18 +21,6 @@ public class PlayerInteractEntityEventListener implements Listener{
 		if (main.getArenaManager().isInGame(p)) {
 			
 		}
-		else if (!main.canOperateInLobby(p)) {
-			e.setCancelled(true);
-			if (e.getRightClicked() instanceof Player) {
-				//Player at = (Player) e.getRightClicked();
-				if (p.getItemInHand() == null) {
-					return;
-				}
-				if (!main.getItemManager().isItem("lobby.challenger", p.getItemInHand())) {
-					return;
-				}
-			}
-		}
 	}
 	
 }

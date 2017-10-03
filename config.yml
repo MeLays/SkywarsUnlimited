@@ -17,6 +17,7 @@ lobby:
    challenger:
       enabled: true
       slot: 0
+      cooldown: 3
    gamelist:
       enabled: true
       slot: 1

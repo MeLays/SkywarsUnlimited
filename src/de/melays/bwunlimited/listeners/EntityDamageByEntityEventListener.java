@@ -9,6 +9,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.util.Vector;
 
 import de.melays.bwunlimited.Main;
+import de.melays.bwunlimited.challenges.Challenge;
+import de.melays.bwunlimited.challenges.Group;
 import de.melays.bwunlimited.game.arenas.Arena;
 import de.melays.bwunlimited.game.arenas.ArenaTeam;
 import de.melays.bwunlimited.game.arenas.state.ArenaState;
@@ -87,8 +89,25 @@ public class EntityDamageByEntityEventListener implements Listener{
 			    }
 				
 			}
-			else if (!main.canOperateInLobby(p)) {
-				e.setCancelled(true);
+			else if (!main.canOperateInLobby(p) && damager.getItemInHand() != null) {
+				if (main.getItemManager().isItem("lobby.challenger", damager.getItemInHand())) {
+					Group g = main.getGroupManager().getGroup(p);
+					Group inviter = main.getGroupManager().getGroup(damager);
+					if (!inviter.hasChallenge(g)) {
+						if (main.getLobbyManager().isCooldowned(p)){
+							p.sendMessage(main.getMessageFetcher().getMessage("group.challenge.cooldown", true));
+						}
+						else {
+							e.setCancelled(true);
+							main.getArenaSelector().setupPlayer(damager);
+							g.challenge(damager, p, new Challenge(main , main.getGroupManager().getGroup(damager) , main.getArenaSelector().selected.get(damager)));
+							main.getLobbyManager().setChallengeCooldown(damager, main.getConfig().getInt("lobby.challenger.cooldown"));
+						}
+					}
+					else if (g.getLeader() == p){
+						inviter.acceptChallenge(inviter.getChallenge(g));
+					}
+				}
 			}
 			
 		}

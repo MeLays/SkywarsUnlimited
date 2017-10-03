@@ -44,6 +44,12 @@ group:
   buttons:
     accept: "&a[Accept]"
     deny: "&c[Deny]"
+  challenge:
+    cooldown: "%prefix% &cPlease wait some time before challenging someone again!"
+    sent: "%prefix% &aThe challenge to %player% has been sent!"
+    challenged:
+      - "%prefix% &7You have been challenged by &a%challenger%&7!"
+      - "%prefix% &7He chose the map %cluster%!"
   invite: "%prefix% &7You have been invited to &a%player%'s &7group!"
   invite_sender: "%prefix% &7You invited &a%player%'s &7to your group!"
   join: "%prefix% &a%player% &7joined the group!"
@@ -54,8 +60,10 @@ group:
   not_invited: "%prefix% &cYou are not invited to this group!"
   not_online: "%prefix% &c%player% is not online!"
   not_leader: "%prefix% &cYou are not the leader of this group!"
+  this_not_leader: "%prefix% &c%player% is not the leader of his group!"
   not_in_group: "%prefix% &c%player% is not in your group!"
-  missing_space: "%prefix% &cThere is no space for your team!"
+  not_same_size: "%prefix% The group you tried to challange is not your teamsize!"
+  missing_space: "%prefix% &cThere is no space for your group!"
   cant_leave: "%prefix% You can't leave an empty group!"
   kick: "%prefix% &c%player% &7has been kicked from the group!"
   self_interact: "%prefix% &cYou can't interact with yourself!"

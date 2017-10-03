@@ -5,6 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import de.melays.bwunlimited.Main;
+import de.melays.bwunlimited.game.SoundDebugger;
 import de.melays.bwunlimited.game.arenas.Arena;
 import de.melays.bwunlimited.game.arenas.state.ArenaState;
 
@@ -62,6 +63,22 @@ public class InventoryClickEventListener implements Listener{
 		}
 		else if (!main.canOperateInLobby(p)) {
 			e.setCancelled(true);
+			if (e.getClickedInventory().getName().equals(main.getArenaSelector().inv.get(p))) {
+				if (e.getSlot() == 8 && main.getItemManager().isItem("lobby.inventory.next" , e.getCurrentItem())) {
+					main.getArenaSelector().openArenaSelector(p, main.getArenaSelector().page.get(p)+1);
+					SoundDebugger.playSound(p, "CLICK", "BLOCK_DISPENSER_DISPENSE");
+				}
+				else if (e.getSlot() == 0 && main.getItemManager().isItem("lobby.inventory.back" , e.getCurrentItem())) {
+					main.getArenaSelector().openArenaSelector(p, main.getArenaSelector().page.get(p)-1);
+					SoundDebugger.playSound(p, "CLICK", "BLOCK_DISPENSER_DISPENSE");
+				}
+				else if (e.getSlot() > 8) {
+					int size = main.getArenaSelector().size.get(p);
+					SoundDebugger.playSound(p, "CLICK", "BLOCK_DISPENSER_DISPENSE");
+					main.getArenaSelector().selected.put(p, main.getLobbyManager().getSuitableArenas(main.getGroupManager().getGroup(p)).get(size).get(e.getSlot()-9));
+					main.getArenaSelector().openArenaSelector(p, main.getArenaSelector().page.get(p));
+				}
+			}
 		}
 	}
 	

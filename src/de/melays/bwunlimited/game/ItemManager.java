@@ -94,7 +94,11 @@ public class ItemManager {
 		ItemStack stack = new ItemStack(material , 1 , data);
 		stack.getData().setData(data);
 		ItemMeta meta = stack.getItemMeta();
-		meta.setDisplayName(main.c(displayname));
+		try {
+			meta.setDisplayName(main.c(displayname));
+		} catch (Exception e) {
+
+		}
 		ArrayList<String> lore_colored = new ArrayList<String>();
 		for (String s : lore) {
 			lore_colored.add(main.c(s));

@@ -53,7 +53,7 @@ public class TemplateSign {
 		try {
 			arena = main.getArenaManager().getArena(main.getArenaManager().startGame(main.getClusterManager().getCluster(cluster), settings));
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 	}
 	

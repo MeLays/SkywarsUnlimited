@@ -26,7 +26,12 @@ lobby:
       material: STAINED_GLASS_PANE
       byte: 15
       displayname: " "
-      lore: []      
+      lore: []     
+    selected:      
+      material: PAPER
+      byte: 0
+      displayname: "&aSelected: &2%display%"
+      lore: []         
 gamelobby:
   teamselector:
     material: BOOK

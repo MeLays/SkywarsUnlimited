@@ -39,7 +39,7 @@ public class TemplateSignManager {
 		for (String s : keys) {
 			try {
 				signs.put(Integer.parseInt(s), new TemplateSign(main , Integer.parseInt(s) , ClusterTools.getLiteLocation(getFile(), s) , main.getClusterManager().getCluster(getFile().getString(s+".cluster")).name
-						,Settings.getFromSection(getFile().getConfigurationSection(s+".settings"))));
+						,Settings.getFromSection(getFile().getConfigurationSection(s+".settings") , main)));
 				loaded += 1;
 			}catch (Exception ex) {
 				ex.printStackTrace();
@@ -104,10 +104,10 @@ public class TemplateSignManager {
 		int id = highest + 1;
 		ClusterTools.saveLiteLocation(getFile(), id+"" , e.getBlock().getLocation());
 		getFile().set(id+".cluster", cluster);
-		new Settings().saveToConfig(getFile(), id+".settings");
+		new Settings(main).saveToConfig(getFile(), id+".settings");
 		this.saveFile();
 		signs.put(id, new TemplateSign(main , id , ClusterTools.getLiteLocation(getFile(), id+"") , main.getClusterManager().getCluster(getFile().getString(id+".cluster")).name
-				,Settings.getFromSection(getFile().getConfigurationSection(id+".settings"))));
+				,Settings.getFromSection(getFile().getConfigurationSection(id+".settings") , main)));
 		return id;
 	}
 	
