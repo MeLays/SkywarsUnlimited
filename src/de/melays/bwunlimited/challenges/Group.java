@@ -116,7 +116,7 @@ public class Group {
 		teams.put(c.cluster.getClusterMeta().getTeams().get(1).name, getPlayers());
 		TeamPackage teampackage = new TeamPackage(teams);
 		try {
-			this.groupManager.main.getArenaManager().startGame(c.cluster, settings, teampackage);
+			this.groupManager.main.getArenaManager().startGame(c.cluster, settings, "challenge", teampackage);
 			removeAllChallenges();
 			inviter.removeAllChallenges();
 		} catch (ClusterAvailabilityException e) {

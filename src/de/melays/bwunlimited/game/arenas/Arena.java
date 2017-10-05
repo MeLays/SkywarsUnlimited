@@ -7,6 +7,8 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -168,6 +170,7 @@ public class Arena {
 		p.setGameMode(GameMode.ADVENTURE);
 		p.setAllowFlight(true);
 		p.setFlying(true);
+		p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1000000, 1));
 	}
 
 	private void join(Player p) {
@@ -484,7 +487,7 @@ public class Arena {
 	}
 	
 	public void spawnProtection (Player p) {
-		for (Player player : getAll()) {
+		for (Player player : getAllPlayers()) {
 			p.hidePlayer(player);
 			player.hidePlayer(p);
 		}
@@ -493,7 +496,7 @@ public class Arena {
 			@Override
 			public void run() {
 				if (state == ArenaState.INGAME)
-					for (Player player : getAll()) {
+					for (Player player : getAllPlayers()) {
 						p.showPlayer(player);
 						player.showPlayer(p);
 					}

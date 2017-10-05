@@ -29,19 +29,19 @@ public class StartCommand implements CommandExecutor {
 		}
 		Arena arena = main.getArenaManager().searchPlayer(p);
 		if (arena == null) {
-			p.sendMessage(main.getMessageFetcher().getMessage("not_ingame", true));
+			p.sendMessage(main.getMessageFetcher().getMessage("start.not_ingame", true));
 			return true;
 		}
 		if (arena.state != ArenaState.LOBBY) {
-			p.sendMessage(main.getMessageFetcher().getMessage("already_started", true));
+			p.sendMessage(main.getMessageFetcher().getMessage("start.already_started", true));
 			return true;
 		}
 		if (arena.getAll().size() < 2) {
-			p.sendMessage(main.getMessageFetcher().getMessage("not_enought_players", true));
+			p.sendMessage(main.getMessageFetcher().getMessage("start.not_enought_players", true));
 			return true;
 		}
 		arena.arenaLobby.stopLobby();
-		p.sendMessage(main.getMessageFetcher().getMessage("started", true));
+		p.sendMessage(main.getMessageFetcher().getMessage("start.started", true));
 		return true;
 	}
 	

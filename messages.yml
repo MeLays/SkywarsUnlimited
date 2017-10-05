@@ -82,3 +82,4 @@ group:
   new_leader: "%prefix% The new leader of this group is &a%player%&7!"
   already_invited: "%prefix% &cYou already invited this player!"
   already_in_group: "%prefix% &cThis player is already in your group!"
+  no_suitable_maps: "%prefix% &cThere are no suitable maps fitting your teamsize!" 

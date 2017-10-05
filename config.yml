@@ -2,6 +2,11 @@ gameworld: bw_gameworld
 presetworld: presets
 creature_spawn: false
 group_command: true
+worlds:
+   allow_rain: false
+   default_time: 1000
+   presets_time: 1000
+   game_time: 1000
 generator:
    splitted:
       panels: 5
@@ -14,6 +19,7 @@ game:
    leaveitem_slot: 8
    teamselector_slot: 0
 lobby:
+   respawn_y: 40
    challenger:
       enabled: true
       slot: 0

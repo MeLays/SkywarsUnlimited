@@ -89,7 +89,7 @@ public class ClusterManager {
 			loadCluster(name);
 	}
 	
-	private void loadCluster(String name) {
+	void loadCluster(String name) {
 		cluster_map.put(name, new Cluster(main , name));
 	}
 	

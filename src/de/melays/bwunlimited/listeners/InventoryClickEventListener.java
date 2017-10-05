@@ -8,6 +8,7 @@ import de.melays.bwunlimited.Main;
 import de.melays.bwunlimited.game.SoundDebugger;
 import de.melays.bwunlimited.game.arenas.Arena;
 import de.melays.bwunlimited.game.arenas.state.ArenaState;
+import de.melays.bwunlimited.game.lobby.ArenaList;
 
 public class InventoryClickEventListener implements Listener{
 
@@ -77,6 +78,14 @@ public class InventoryClickEventListener implements Listener{
 					SoundDebugger.playSound(p, "CLICK", "BLOCK_DISPENSER_DISPENSE");
 					main.getArenaSelector().selected.put(p, main.getLobbyManager().getSuitableArenas(main.getGroupManager().getGroup(p)).get(size).get(e.getSlot()-9));
 					main.getArenaSelector().openArenaSelector(p, main.getArenaSelector().page.get(p));
+				}
+			}
+			else if (e.getClickedInventory().getName().equals(main.c(main.getSettingsManager().getFile().getString("lobby.inventory.running_games.title")))) {
+				if (main.getRunningGames().slots.containsKey(e.getSlot())) {
+					String category = main.getRunningGames().slots.get(e.getSlot());
+					if (!main.getRunningGames().player_list.containsKey(p)) main.getRunningGames().player_list.put(p, new ArenaList(main , p));
+					main.getRunningGames().player_list.get(p).openArenaList(category, 1);
+					SoundDebugger.playSound(p, "CLICK", "BLOCK_DISPENSER_DISPENSE");
 				}
 			}
 		}

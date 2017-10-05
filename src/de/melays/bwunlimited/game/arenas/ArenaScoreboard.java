@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-
 import de.melays.bwunlimited.scoreboard.ScoreBoardTools;
 
 public class ArenaScoreboard {

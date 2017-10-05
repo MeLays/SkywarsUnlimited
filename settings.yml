@@ -57,6 +57,31 @@ lobby:
     prefix: "&7%player_prefix%"
     suffix: "%player_suffix%"
   inventory:
+    arenalist:
+      title: "&8Arenas &0(&a%page%&0/&c%max%&0)"
+    running_games:
+      size: 27
+      title: "&8Categories"
+      show:
+        - challenge
+        - template_sign
+        - private
+      style:
+         challenge:
+            display: "&eChallenged Games"
+            item: GOLD_SWORD
+            lore: []
+            slot: 11
+         template_sign:
+            display: "&9Sign-Arenas"
+            item: SIGN:0
+            lore: []
+            slot: 13
+         private:
+            display: "&cPrivate-Arenas"
+            item: IRON_DOOR
+            lore: []
+            slot: 15
     choosemap:
       title: "&a%p%&7 Players &0(&a%page%&0/&c%max%&0)"
       map:

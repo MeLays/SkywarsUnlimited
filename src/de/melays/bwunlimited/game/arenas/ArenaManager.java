@@ -23,6 +23,7 @@ public class ArenaManager {
 	}
 	
 	HashMap<Integer , Arena> running = new HashMap<Integer , Arena>();
+	HashMap<Integer , String> category = new HashMap<Integer , String>();
 	
 	int last_id = 0;
 	int x = 0;
@@ -36,24 +37,37 @@ public class ArenaManager {
 		return last_id +1;
 	}
 	
-	public int startGame(Cluster cluster , Settings settings) throws ClusterAvailabilityException, UnknownClusterException {
-		return startGame(cluster , settings , null , null);
+	public ArrayList<Arena> getArenas (String category){
+		ArrayList<Arena> r= new ArrayList<Arena>();
+		for (int i : this.category.keySet()) {
+			Bukkit.broadcastMessage(this.category.get(i) + " " + category);
+			if (this.category.get(i).equals(category)) {
+				r.add(this.getArena(i));
+			}
+		}
+		Bukkit.broadcastMessage(r.size() + "");
+		return r;
 	}
 	
-	public int startGame(Cluster cluster , Settings settings , TeamPackage teampackage) throws ClusterAvailabilityException, UnknownClusterException {
-		return startGame(cluster , settings , teampackage , null);
+	public int startGame(Cluster cluster , Settings settings , String category) throws ClusterAvailabilityException, UnknownClusterException {
+		return startGame(cluster , settings , category , null , null);
 	}
 	
-	public int startGame(Cluster cluster , Settings settings , ArrayList<Player> players) throws ClusterAvailabilityException, UnknownClusterException {
-		return startGame(cluster , settings , null , players);
+	public int startGame(Cluster cluster , Settings settings , String category , TeamPackage teampackage) throws ClusterAvailabilityException, UnknownClusterException {
+		return startGame(cluster , settings , category, teampackage , null);
 	}
 	
-	private int startGame(Cluster cluster , Settings settings , TeamPackage teampackage , ArrayList<Player> players) throws ClusterAvailabilityException, UnknownClusterException {
+	public int startGame(Cluster cluster , Settings settings , String category , ArrayList<Player> players) throws ClusterAvailabilityException, UnknownClusterException {
+		return startGame(cluster , settings , category , null , players);
+	}
+	
+	private int startGame(Cluster cluster , Settings settings , String category, TeamPackage teampackage , ArrayList<Player> players) throws ClusterAvailabilityException, UnknownClusterException {
 		Location relative = getFreeLocation();
 		int id = getNewID();
 		Arena arena = new Arena(main, cluster , relative , settings , id);
 		if (players != null) arena.addPlayers(players);
 		if (teampackage != null) arena.addTeamPackage(teampackage);
+		this.category.put(id, category);
 		running.put(id, arena);
 		x = x + arena.cluster.x_size + main.getConfig().getInt("gameplacement.gap");
 		return id;

@@ -482,6 +482,8 @@ public class ClusterTools {
 		sign_data.setLine(3, "");
 		sign_data.update();
 		
+		manager.loadCluster(name);
+		
 		return true;
 	}
 }

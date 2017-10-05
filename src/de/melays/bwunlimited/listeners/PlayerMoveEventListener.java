@@ -32,7 +32,9 @@ public class PlayerMoveEventListener implements Listener{
 			
 		}
 		else if (!main.canOperateInLobby(p)) {
-			//TODO TELEPORT BACK
+			if (e.getTo().getY() < main.getConfig().getInt("lobby.respawn_y")) {
+				main.getLobbyManager().toLobby(p);
+			}
 		}
 	}
 	

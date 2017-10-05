@@ -21,6 +21,7 @@ import de.melays.bwunlimited.game.arenas.ArenaManager;
 import de.melays.bwunlimited.game.arenas.settings.SettingsManager;
 import de.melays.bwunlimited.game.lobby.ArenaSelector;
 import de.melays.bwunlimited.game.lobby.LobbyManager;
+import de.melays.bwunlimited.game.lobby.RunningGames;
 import de.melays.bwunlimited.game.lobby.TemplateSignManager;
 import de.melays.bwunlimited.listeners.AsyncPlayerChatEventListener;
 import de.melays.bwunlimited.listeners.BlockBreakEventListener;
@@ -38,6 +39,7 @@ import de.melays.bwunlimited.listeners.PlayerMoveEventListener;
 import de.melays.bwunlimited.listeners.PlayerPickupItemEventListener;
 import de.melays.bwunlimited.listeners.PlayerQuitEventListener;
 import de.melays.bwunlimited.listeners.SignChangeEventListener;
+import de.melays.bwunlimited.listeners.WeatherChangeEventListener;
 import de.melays.bwunlimited.log.Logger;
 import de.melays.bwunlimited.map_manager.ClusterManager;
 import de.melays.bwunlimited.messages.ChatHook;
@@ -127,6 +129,11 @@ public class Main extends JavaPlugin{
 		return tabUpdater;
 	}
 	
+	RunningGames runningGames;
+	public RunningGames getRunningGames() {
+		return runningGames;
+	}
+	
 	//Tools
 	MarkerTool markerTool; 
 	public MarkerTool getMarkerTool() {
@@ -186,6 +193,7 @@ public class Main extends JavaPlugin{
 		this.arenaSelector = new ArenaSelector(this);
 		this.chatHook = new ChatHook(this);
 		this.tabUpdater = new TabUpdater(this);
+		this.runningGames = new RunningGames(this);
 		this.messageFetcher = new MessageFetcher(this);
 		prefix = this.getMessageFetcher().getMessage("prefix", false) + " ";
 		
@@ -213,12 +221,15 @@ public class Main extends JavaPlugin{
 		Bukkit.getPluginManager().registerEvents(new PlayerMoveEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new SignChangeEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new AsyncPlayerChatEventListener(this), this);
+		Bukkit.getPluginManager().registerEvents(new WeatherChangeEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new FoodLevelChangeEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new CraftItemEventListener(this), this);
 
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			this.getLobbyManager().toLobby(p);
 		}
+		
+		updateTime();
 		
 		//OLD BW SHOP ONLY FOR TESTS!
 		new BWShop(this);
@@ -256,6 +267,20 @@ public class Main extends JavaPlugin{
 		Logger.log(console_prefix + "Reloading settings.yml");
 		this.getSettingsManager().reloadFile();
 		prefix = this.getMessageFetcher().getMessage("prefix", false) + " ";
+	}
+	
+	//Public void update Time
+	public void updateTime() {
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+
+			@Override
+			public void run() {
+				Bukkit.getWorlds().get(0).setTime(getConfig().getLong("worlds.default_time"));
+				Bukkit.getWorld(gameworld).setTime(getConfig().getLong("worlds.game_time"));
+				Bukkit.getWorld(presetworld).setTime(getConfig().getLong("worlds.presets_time"));
+			}
+			
+		}, 0, 20);
 	}
 	
 	//Get Instance
