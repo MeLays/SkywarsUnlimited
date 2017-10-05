@@ -59,6 +59,11 @@ lobby:
   inventory:
     arenalist:
       title: "&8Arenas &0(&a%page%&0/&c%max%&0)"
+      item:
+        title: "&7&o#%id% &8- &e%cluster%"
+        lore:
+          - "&7Players: &a%size%"
+          - "&7Spectating: &a%spec_size%"
     running_games:
       size: 27
       title: "&8Categories"

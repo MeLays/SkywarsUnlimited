@@ -31,7 +31,7 @@ public class BlockManager {
 			return false;
 		}
 		if (!ClusterTools.isInAreaIgnoreHeight(loc, arena.relative.clone().add(3, 3, 3), max.clone().add(-3, -3, -3))) {
-			loc.getWorld().playEffect(loc.clone().add(0, 1, 0), Effect.FLAME, 1);
+			loc.getWorld().playEffect(loc.clone().add(0, 1, 0), Effect.EXTINGUISH, 1);
 		}
 		if (!placed_blocks.contains(loc))
 			placed_blocks.add(loc);

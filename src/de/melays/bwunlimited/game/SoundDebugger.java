@@ -37,4 +37,16 @@ public class SoundDebugger {
 		
 	}
 	
+	public static Sound getSound(String s1 , String s2) {
+		s1 = s1.toUpperCase();
+		s2 = s2.toUpperCase();
+		if (Sound.valueOf(s1) != null){
+			return Sound.valueOf(s1);
+		}
+		else if (Sound.valueOf(s2) != null){
+			return Sound.valueOf(s2);
+		}
+		return null;
+	}
+	
 }

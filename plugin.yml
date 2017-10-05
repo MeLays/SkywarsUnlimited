@@ -14,6 +14,10 @@ commands:
     description: BedwarsUnlimited Groups
     aliases: [group,groups,party,p,g]
     usage: /group help
+  leave:
+    description: BedwarsUnlimited Leave
+    aliases: [l,hub,lobby]
+    usage: /leave
   start:
     description: BedwarsUnlimited Start
     aliases: []

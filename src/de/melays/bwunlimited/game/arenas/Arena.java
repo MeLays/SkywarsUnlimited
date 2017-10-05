@@ -167,6 +167,17 @@ public class Arena {
 	}
 
 	private void setupSpec(Player p) {
+		if (this.getAllPlayers().size() == 0) {
+			try {
+				p.teleport(this.cluster.getClusterMeta().getTeamSpawn(this.teamManager.getTeams().get(0).team.name).toLocation(relative));
+			} catch (UnknownTeamException e) {
+				this.leave(p);
+			}
+		}
+		else {
+			p.teleport(this.getAllPlayers().get(0).getLocation());
+		}
+		this.scoreBoard.create(p);
 		p.setGameMode(GameMode.ADVENTURE);
 		p.setAllowFlight(true);
 		p.setFlying(true);
@@ -224,6 +235,7 @@ public class Arena {
 				teamManager.checkWin();
 			}
 		}
+		p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 		PlayerTools.resetPlayer(p);
 		main.getLobbyManager().toLobby(p);
 		updateTab();

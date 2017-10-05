@@ -1,0 +1,33 @@
+ShopName: "&3BedWars Shop"
+DefaultShop: "Rewi"
+# You can use %prefix% as placeholder in every message.
+Prefix: "&8» &9BW&1\u221E &8-&7"
+Ignore_Currency_Display: true
+Effects:
+# Usage:
+# Example:
+#   Message: "%prefix% This is a message!"
+#   Sound: "WOOD_CLICK, BLOCK_WOOD_BUTTON_CLICK_ON, 1, 1" // 1.: Name of sound  2.: Volume  3.: Pitch
+# If you don't want a sound/message you can use "", "none" or "null"
+# The first one is this sound in 1.8-Versions , the upper one will be used in 1.9+ Versions
+  BuyItem:
+    Message: ""
+    Sound: "ITEM_PICKUP, ENTITY_ITEM_PICKUP, 1, 1"
+  ClickCategory:
+    Message: ""
+    Sound: "WOOD_CLICK, BLOCK_WOOD_BUTTON_CLICK_ON, 1, 1"
+  ClickPlaceholderItem:
+    Message: ""
+    Sound: ""
+  FullInventory:
+    Message: "%prefix% Your inventory is full!"
+    Sound: "DIG_WOOD, BLOCK_WOOD_BREAK, 1, 1"
+  SwitchCategory:
+    Message: ""
+    Sound: "CLICK, BLOCK_STONE_BUTTON_CLICK_ON, 1, 1"
+  SwitchShop: # Message can contain '%shop%' as placeholder for the shopname
+    Message: "%prefix% Your shop has been switched to %shop%!"
+    Sound: "CLICK, BLOCK_STONE_BUTTON_CLICK_ON, 1, 1"
+  TooLessMoney:
+    Message: "%prefix% You cannot buy this Item!"
+    Sound: "DIG_WOOD, BLOCK_WOOD_BREAK, 1, 1"

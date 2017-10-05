@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import de.melays.bwunlimited.Main;
 import de.melays.bwunlimited.game.arenas.settings.Settings;
 import de.melays.bwunlimited.game.arenas.settings.TeamPackage;
+import de.melays.bwunlimited.game.arenas.state.ArenaState;
 import de.melays.bwunlimited.map_manager.Cluster;
 import de.melays.bwunlimited.map_manager.error.ClusterAvailabilityException;
 import de.melays.bwunlimited.map_manager.error.UnknownClusterException;
@@ -32,7 +33,7 @@ public class ArenaManager {
 		return new Location(Bukkit.getWorld(main.gameworld) , x , main.getConfig().getInt("gameplacement.y-position") , main.getConfig().getInt("gameplacement.z-position"));
 	}
 	
-	public int getNewID() {
+	int getNewID() {
 		last_id = last_id + 1;
 		return last_id +1;
 	}
@@ -40,12 +41,10 @@ public class ArenaManager {
 	public ArrayList<Arena> getArenas (String category){
 		ArrayList<Arena> r= new ArrayList<Arena>();
 		for (int i : this.category.keySet()) {
-			Bukkit.broadcastMessage(this.category.get(i) + " " + category);
-			if (this.category.get(i).equals(category)) {
+			if (this.category.get(i).equals(category) && getArena(i).state == ArenaState.INGAME) {
 				r.add(this.getArena(i));
 			}
 		}
-		Bukkit.broadcastMessage(r.size() + "");
 		return r;
 	}
 	
@@ -86,6 +85,7 @@ public class ArenaManager {
 	}
 	
 	void checkOut (int id) {
+		category.remove(id);
 		running.remove(id);
 	}
 	
@@ -110,6 +110,7 @@ public class ArenaManager {
 	}
 
 	public Arena getArena(int id) {
+		if (!this.running.containsKey(id)) return null;
 		return this.running.get(id);
 	}
 }

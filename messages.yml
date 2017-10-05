@@ -1,5 +1,7 @@
 prefix: "&8» &9BW&1\u221E &8-&7"
 no_permission: "%prefix% You don't have the permission to use this command!"
+not_ingame: "%prefix% You are not ingame!"
+
 help:
   header: "%prefix% &7%command%-help: (&a%page%&7/&a%max_pages%&7)"
   command: "    &a%alias% &7- &e%short_descr%"

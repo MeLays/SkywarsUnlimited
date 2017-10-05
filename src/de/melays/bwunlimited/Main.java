@@ -15,6 +15,7 @@ import de.melays.bwunlimited.challenges.GroupManager;
 import de.melays.bwunlimited.colortab.ColorTabAPI;
 import de.melays.bwunlimited.commands.MainCommand;
 import de.melays.bwunlimited.commands.groups.GroupCommand;
+import de.melays.bwunlimited.commands.leave.LeaveCommand;
 import de.melays.bwunlimited.commands.start.StartCommand;
 import de.melays.bwunlimited.game.ItemManager;
 import de.melays.bwunlimited.game.arenas.ArenaManager;
@@ -32,7 +33,9 @@ import de.melays.bwunlimited.listeners.EntityDamageByEntityEventListener;
 import de.melays.bwunlimited.listeners.EntityDamageEventListener;
 import de.melays.bwunlimited.listeners.FoodLevelChangeEventListener;
 import de.melays.bwunlimited.listeners.InventoryClickEventListener;
+import de.melays.bwunlimited.listeners.InventoryDragEventListener;
 import de.melays.bwunlimited.listeners.PlayerDropItemEventListener;
+import de.melays.bwunlimited.listeners.PlayerInteractEntityEventListener;
 import de.melays.bwunlimited.listeners.PlayerInteractEventListener;
 import de.melays.bwunlimited.listeners.PlayerJoinEventListener;
 import de.melays.bwunlimited.listeners.PlayerMoveEventListener;
@@ -45,7 +48,7 @@ import de.melays.bwunlimited.map_manager.ClusterManager;
 import de.melays.bwunlimited.messages.ChatHook;
 import de.melays.bwunlimited.messages.MessageFetcher;
 import de.melays.bwunlimited.multiworld.EmptyRoomGenerator;
-import de.melays.bwunlimited.shop_old.BWShop;
+import de.melays.bwunlimited.shop.BedwarsShop;
 import de.melays.bwunlimited.teams.TeamManager;
 import de.melays.bwunlimited.tools.MarkerTool;
 
@@ -200,6 +203,8 @@ public class Main extends JavaPlugin{
 		//Set Command Executers
 		getCommand("bw").setExecutor(new MainCommand(this));
 		getCommand("start").setExecutor(new StartCommand(this));
+		if (getConfig().getBoolean("leave_command"))
+			getCommand("leave").setExecutor(new LeaveCommand(this));
 		if (getConfig().getBoolean("group_command"))
 			getCommand("group").setExecutor(new GroupCommand(this));
 		
@@ -212,9 +217,11 @@ public class Main extends JavaPlugin{
 		Bukkit.getPluginManager().registerEvents(new BlockBreakEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new BlockPlaceEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new InventoryClickEventListener(this), this);
+		Bukkit.getPluginManager().registerEvents(new InventoryDragEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new PlayerDropItemEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new PlayerPickupItemEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new PlayerInteractEventListener(this), this);
+		Bukkit.getPluginManager().registerEvents(new PlayerInteractEntityEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new EntityDamageByEntityEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new EntityDamageEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new PlayerQuitEventListener(this), this);
@@ -232,7 +239,9 @@ public class Main extends JavaPlugin{
 		updateTime();
 		
 		//OLD BW SHOP ONLY FOR TESTS!
-		new BWShop(this);
+		//new BWShop(this);
+		
+		BedwarsShop.load(this, false);
 	}
 	
 	public void onDisable() {

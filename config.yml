@@ -2,6 +2,7 @@ gameworld: bw_gameworld
 presetworld: presets
 creature_spawn: false
 group_command: true
+leave_command: true
 worlds:
    allow_rain: false
    default_time: 1000
@@ -18,6 +19,7 @@ gameplacement:
 game:
    leaveitem_slot: 8
    teamselector_slot: 0
+   spectator_out_fly: 50
 lobby:
    respawn_y: 40
    challenger:
