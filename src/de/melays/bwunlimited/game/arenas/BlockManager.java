@@ -1,12 +1,14 @@
 package de.melays.bwunlimited.game.arenas;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import de.melays.bwunlimited.game.SoundDebugger;
 import de.melays.bwunlimited.map_manager.ClusterTools;
@@ -21,8 +23,9 @@ public class BlockManager {
 	}
 	
 	ArrayList<Location> placed_blocks = new ArrayList<Location>();
+	HashMap<Location , ItemStack> item_stacks = new HashMap<Location , ItemStack>();
 	
-	public boolean placeBlock (Location loc) {
+	public boolean placeBlock (Location loc , ItemStack stack) {
 		Location max = arena.relative.clone().add(arena.cluster.x_size , arena.cluster.y_size , arena.cluster.z_size);
 		if (!ClusterTools.isInAreaIgnoreHeight(loc, arena.relative, max)) {
 			return false;
@@ -35,6 +38,7 @@ public class BlockManager {
 		}
 		if (!placed_blocks.contains(loc))
 			placed_blocks.add(loc);
+		item_stacks.put(loc, stack);
 		return true;
 	}
 	
@@ -71,6 +75,17 @@ public class BlockManager {
 			return false;
 		}
 		return true;
+	}
+	
+	public ItemStack getDrop(Location loc) {
+		ItemStack r = this.item_stacks.get(loc);
+		r.setAmount(1);
+		for (String s : arena.main.getConfig().getStringList("game.no_drop")) {
+			if (s.toUpperCase().equals(r.getType().toString())) {
+				return null;
+			}
+		}
+		return r;
 	}
 	
 	public boolean isPlaceable(Location loc) {

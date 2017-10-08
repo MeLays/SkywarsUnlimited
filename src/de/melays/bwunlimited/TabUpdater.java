@@ -19,6 +19,7 @@ public class TabUpdater {
 			public void run() {
 				for (Player p : Bukkit.getOnlinePlayers())
 					update(p);
+				main.getLobbyManager().updateLobbyTab();
 			}
 		},0, 20);
 	}

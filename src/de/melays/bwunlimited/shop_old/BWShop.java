@@ -13,12 +13,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -29,6 +27,7 @@ import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionType;
 
 import de.melays.bwunlimited.Main;
+import de.melays.bwunlimited.game.arenas.ArenaTeam;
 
 public class BWShop implements Listener{
 	
@@ -274,19 +273,7 @@ public class BWShop implements Listener{
 		s.setItemMeta(m);
 		
 		return s;
-}
-	
-	@EventHandler
-	public void Shop (PlayerInteractEvent e){
-		Player p = e.getPlayer();
-		if (e.getAction() == Action.RIGHT_CLICK_BLOCK){
-			if (e.getClickedBlock().getType() == Material.BEACON){
-				e.setCancelled(true);
-				Inventory BwShop = Bukkit.createInventory(null, 18, ChatColor.DARK_AQUA + "Bedwars Shop");
-				p.openInventory(BwShop);
-			}
-		}	
-	}		
+}		
 	
 	@EventHandler
 	public void onPlayerInteractEntityEvent(PlayerInteractEntityEvent event) {
@@ -342,91 +329,18 @@ public class BWShop implements Listener{
 			Inventory BwShop = e.getInventory();
 			ItemStack DmgBow = getMultiEnchantItem(Material.BOW, 1, (byte) 0, ChatColor.DARK_PURPLE + "Bogen I", ChatColor.GOLD + "3 Gold", true, Enchantment.ARROW_INFINITE, 1);
 			DmgBow.setDurability((short) 264);
-			ItemStack DmgBow2 = getMultiEnchantItem(Material.BOW, 1, (byte) 0, ChatColor.DARK_PURPLE + "Bogen II", ChatColor.GOLD + "7 Gold", true, Enchantment.ARROW_INFINITE, 1);
+			ItemStack DmgBow2 = addEnchantment(getMultiEnchantItem(Material.BOW, 1, (byte) 0, ChatColor.DARK_PURPLE + "Bogen II", ChatColor.GOLD + "7 Gold", true, Enchantment.ARROW_INFINITE, 1) , Enchantment.ARROW_DAMAGE, 1);
 			DmgBow2.setDurability((short) 264);
-			ItemStack DmgBow3 = getMultiEnchantItem(Material.BOW, 1, (byte) 0, ChatColor.DARK_PURPLE + "Bogen III", ChatColor.GOLD + "11 Gold", true, Enchantment.ARROW_INFINITE, 1);
+			ItemStack DmgBow3 = addEnchantment(getMultiEnchantItem(Material.BOW, 1, (byte) 0, ChatColor.DARK_PURPLE + "Bogen III", ChatColor.GOLD + "11 Gold", true, Enchantment.ARROW_INFINITE, 1) , Enchantment.ARROW_DAMAGE, 2);
 			DmgBow3.setDurability((short) 264);
-			int Team = 0;
-			if (p.getPlayerListName().equals(ChatColor.GOLD + p.getName())){
-				Team = 1;
-			}
-			else if (p.getPlayerListName().equals(ChatColor.LIGHT_PURPLE + p.getName())){
-				Team = 2;
-			}
-			else if (p.getPlayerListName().equals(ChatColor.AQUA + p.getName())){
-				Team = 3;
-			}
-			else if (p.getPlayerListName().equals(ChatColor.YELLOW + p.getName())){
-				Team = 4;
-			}
-			else if (p.getPlayerListName().equals(ChatColor.GREEN + p.getName())){
-				Team = 5;
-			}
-			else if (p.getPlayerListName().equals(ChatColor.DARK_GRAY + p.getName())){
-				Team = 7;
-			}
-			else if (p.getPlayerListName().equals(ChatColor.GRAY + p.getName())){
-				Team = 8;
-			}
-			else if (p.getPlayerListName().equals(ChatColor.DARK_AQUA + p.getName())){
-				Team = 9;
-			}
-			else if (p.getPlayerListName().equals(ChatColor.DARK_PURPLE + p.getName())){
-				Team = 10;
-			}
-			else if (p.getPlayerListName().equals(ChatColor.BLUE + p.getName())){
-				Team = 11;
-			}
-			else if (p.getPlayerListName().equals(ChatColor.DARK_GREEN + p.getName())){
-				Team = 13;
-			}
-			else if (p.getPlayerListName().equals(ChatColor.RED + p.getName())){
-				Team = 14;
-			}
-			else if (p.getPlayerListName().equals(ChatColor.BLACK + p.getName())){
-				Team = 15;
-			}
-			Color ArmorColor = Color.WHITE;
+			
+			ArenaTeam team = plugin.getArenaManager().searchPlayer(p).teamManager.findPlayer(p);
+			
+			int Team = team.team.Color.toByte();
+			Color ArmorColor = team.team.Color.toColor();
+			
 			Color ArmorColorBlack = Color.BLACK;
-			if (Team == 1){
-				ArmorColor = Color.ORANGE;
-			}
-			if (Team == 2){
-				ArmorColor = Color.FUCHSIA;
-			}
-			if (Team == 3){
-				ArmorColor = Color.AQUA;
-			}
-			if (Team == 4){
-				ArmorColor = Color.YELLOW;
-			}
-			if (Team == 5){
-				ArmorColor = Color.LIME;
-			}
-			if (Team == 7){
-				ArmorColor = Color.GRAY;
-			}
-			if (Team == 8){
-				ArmorColor = Color.SILVER;
-			}
-			if (Team == 9){
-				ArmorColor = Color.TEAL;
-			}
-			if (Team == 10){
-				ArmorColor = Color.PURPLE;
-			}
-			if (Team == 11){
-				ArmorColor = Color.BLUE;
-			}
-			if (Team == 13){
-				ArmorColor = Color.GREEN;
-			}
-			if (Team == 14){
-				ArmorColor = Color.RED;
-			}
-			if (Team == 15){
-				ArmorColor = Color.BLACK;
-			}
+
 			
 			if (e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.AQUA + "Blöcke")){
 				BwShop.setItem(0, getCustomItem(Material.RED_SANDSTONE, 1, (byte) 0, ChatColor.AQUA + "Blöcke", "", true));
@@ -463,7 +377,7 @@ public class BWShop implements Listener{
 				BwShop.setItem(10, addEnchantment(getCustomArmor(Material.LEATHER_LEGGINGS, 1, (byte) 0, ArmorColor, ChatColor.BLUE + "Lederhose", ChatColor.RED + "1 Bronze", false), Enchantment.PROTECTION_ENVIRONMENTAL , 1));
 				BwShop.setItem(11, addEnchantment(getCustomArmor(Material.LEATHER_BOOTS, 1, (byte) 0, ArmorColor, ChatColor.BLUE + "Lederschuhe", ChatColor.RED + "1 Bronze", false), Enchantment.PROTECTION_ENVIRONMENTAL , 1));
 				BwShop.setItem(12, new ItemStack(Material.AIR));
-				BwShop.setItem(13, addEnchantment(getCustomItem(Material.CHAINMAIL_CHESTPLATE, 1, (byte) 0, ChatColor.DARK_BLUE + "Brustplatte", ChatColor.GRAY + "1 Eisen", false), Enchantment.DURABILITY , 1));
+				BwShop.setItem(13, getCustomItem(Material.CHAINMAIL_CHESTPLATE, 1, (byte) 0, ChatColor.DARK_BLUE + "Brustplatte", ChatColor.GRAY + "1 Eisen", false));
 				BwShop.setItem(14, addEnchantment(addEnchantment(getCustomItem(Material.CHAINMAIL_CHESTPLATE, 1, (byte) 0, ChatColor.DARK_BLUE + "Brustplatte I", ChatColor.GRAY + "3 Eisen", false), Enchantment.PROTECTION_ENVIRONMENTAL , 1), Enchantment.DURABILITY , 1));
 				BwShop.setItem(15, addEnchantment(addEnchantment(getCustomItem(Material.CHAINMAIL_CHESTPLATE, 1, (byte) 0, ChatColor.DARK_BLUE + "Brustplatte II", ChatColor.GRAY + "7 Eisen", false), Enchantment.PROTECTION_ENVIRONMENTAL , 2), Enchantment.DURABILITY , 1));
 				BwShop.setItem(16, addEnchantment(addEnchantment(addEnchantment(getCustomItem(Material.CHAINMAIL_CHESTPLATE, 1, (byte) 0, ChatColor.DARK_BLUE + "Brustplatte III", ChatColor.GRAY + "11 Eisen", false), Enchantment.PROTECTION_ENVIRONMENTAL , 2), Enchantment.DURABILITY , 1), Enchantment.THORNS , 1));

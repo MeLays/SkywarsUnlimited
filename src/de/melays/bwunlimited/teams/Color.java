@@ -226,4 +226,78 @@ public class Color {
 		}
 		return ChatColor.WHITE;
 	}
+	
+	public org.bukkit.Color toColor(){
+		if (color.equalsIgnoreCase("white")){
+			
+			return org.bukkit.Color.WHITE;
+			
+		}
+		else if (color.equalsIgnoreCase("orange")){
+			
+			return org.bukkit.Color.ORANGE;
+			
+		}
+		else if (color.equalsIgnoreCase("lightblue")){
+			
+			return org.bukkit.Color.fromBGR(51, 102, 255);
+			
+		}
+		else if (color.equalsIgnoreCase("yellow")){
+			
+			return org.bukkit.Color.YELLOW;
+			
+		}
+		else if (color.equalsIgnoreCase("lime")){
+			
+			return org.bukkit.Color.LIME;
+			
+		}
+		else if (color.equalsIgnoreCase("pink")){
+			
+			return org.bukkit.Color.fromBGR(255, 102, 255);
+			
+		}
+		else if (color.equalsIgnoreCase("gray")){
+			
+			return org.bukkit.Color.fromBGR(48, 48, 48);
+			
+		}
+		else if (color.equalsIgnoreCase("lightgray")){
+			
+			return org.bukkit.Color.fromBGR(173, 173, 173);
+			
+		}
+		else if (color.equalsIgnoreCase("cyan")){
+			
+			return org.bukkit.Color.AQUA;
+			
+		}
+		else if (color.equalsIgnoreCase("purple")){
+			
+			return org.bukkit.Color.PURPLE;
+			
+		}
+		else if (color.equalsIgnoreCase("blue")){
+			
+			return org.bukkit.Color.fromBGR(0, 51, 153);
+			
+		}
+		else if (color.equalsIgnoreCase("green")){
+			
+			return org.bukkit.Color.GREEN;
+			
+		}
+		else if (color.equalsIgnoreCase("red")){
+			
+			return org.bukkit.Color.RED;
+			
+		}
+		else if (color.equalsIgnoreCase("black")){
+			
+			return org.bukkit.Color.BLACK;
+			
+		}
+		return org.bukkit.Color.WHITE;
+	}
 }

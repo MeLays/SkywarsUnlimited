@@ -9,9 +9,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import de.melays.bwunlimited.game.PlayerTools;
 import de.melays.bwunlimited.game.arenas.state.ArenaLobbyState;
+import de.melays.bwunlimited.game.arenas.state.ArenaState;
 
 public class ArenaLobby {
 	
@@ -29,7 +31,15 @@ public class ArenaLobby {
 		p.setGameMode(GameMode.ADVENTURE);
 		if (!arena.settings.fixed_teams)
 			p.getInventory().setItem(arena.main.getConfig().getInt("game.teamselector_slot"), arena.main.getItemManager().getItem("gamelobby.teamselector"));
-		p.getInventory().setItem(arena.main.getConfig().getInt("game.leaveitem_slot"), arena.main.getItemManager().getItem("gamelobby.leaveitem"));
+		new BukkitRunnable() {
+
+			@Override
+			public void run() {
+				if (arena.state == ArenaState.LOBBY && arena.getAll().contains(p))
+					p.getInventory().setItem(arena.main.getConfig().getInt("game.leaveitem_slot"), arena.main.getItemManager().getItem("gamelobby.leaveitem"));
+			}
+			
+		}.runTaskLater(arena.main, 10);
 	}
 
 	@SuppressWarnings("deprecation")

@@ -1,3 +1,10 @@
+stats: YAML
+mysql:
+   host: 127.0.0.1
+   port: 3306
+   user: bedwarsunlimited
+   database: bedwarsunlimited
+   password: password
 gameworld: bw_gameworld
 presetworld: presets
 creature_spawn: false
@@ -20,6 +27,10 @@ game:
    leaveitem_slot: 8
    teamselector_slot: 0
    spectator_out_fly: 50
+   no_drop:
+     - WEB
+     - GLOWSTONE
+     - STAINED_GLASS
 lobby:
    respawn_y: 40
    challenger:

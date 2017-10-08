@@ -37,12 +37,7 @@ public class InventoryListener implements Listener {
 	public void onInventoryDrag(InventoryDragEvent event) {
 		Inventory inv = event.getInventory();
 		if (event.getWhoClicked() instanceof Player && inv != null && inv.getName().equals(BedwarsShop.getShopName())) {
-			for (int slot : event.getNewItems().keySet()) {
-				if (slot < inv.getSize()) {
-					event.setCancelled(true);
-					return;
-				}
-			}
+			event.setCancelled(true);
 		}
 	}
 	
@@ -83,6 +78,7 @@ public class InventoryListener implements Listener {
 	public void onInventoryClick(InventoryClickEvent event) {
 		Inventory inv = event.getClickedInventory();
 		ItemStack clicked = event.getCurrentItem();
+
 		if (!(event.getWhoClicked() instanceof Player) || inv == null || clicked == null || clicked.getType() == Material.AIR) {
 			return;
 		}

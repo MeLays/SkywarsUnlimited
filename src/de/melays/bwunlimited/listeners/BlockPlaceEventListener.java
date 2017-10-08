@@ -28,7 +28,7 @@ public class BlockPlaceEventListener implements Listener{
 				e.setCancelled(true);
 			}
 			else if (arena.state == ArenaState.INGAME) {
-				if (!arena.blockManager.placeBlock(e.getBlock().getLocation())) {
+				if (!arena.blockManager.placeBlock(e.getBlock().getLocation() , e.getItemInHand())) {
 					e.setCancelled(true);
 				}
 			}

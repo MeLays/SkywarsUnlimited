@@ -137,6 +137,12 @@ public class Arena {
 		}
 		return false;
 	}
+	
+	public void forceSpectate (Player p) {
+		if (state == ArenaState.INGAME && !main.getArenaManager().isInGame(p)) {
+			addSpec(p);
+		}
+	}
 
 	private void addSpec(Player p) {
 		specs.add(p);
@@ -464,6 +470,8 @@ public class Arena {
 		for (Player p : getAll()) {
 			ColorTabAPI.clearTabStyle(p, Bukkit.getOnlinePlayers());
 			p.setLevel(0);
+		}
+		for (Player p : getAll()) {
 			main.getLobbyManager().toLobby(p);
 		}
 		this.teamManager.teams = new ArrayList<ArenaTeam>();

@@ -22,3 +22,7 @@ commands:
     description: BedwarsUnlimited Start
     aliases: []
     usage: /start
+  spectate:
+    description: BedwarsUnlimited Spectate
+    aliases: []
+    usage: /spectate

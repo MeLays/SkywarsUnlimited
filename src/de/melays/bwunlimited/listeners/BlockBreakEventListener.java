@@ -1,5 +1,7 @@
 package de.melays.bwunlimited.listeners;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -30,6 +32,12 @@ public class BlockBreakEventListener implements Listener{
 			else if (arena.state == ArenaState.INGAME) {
 				if (!arena.blockManager.removeBlock(e.getBlock().getLocation(), p)) {
 					e.setCancelled(true);
+				}
+				else {
+					e.getBlock().setType(Material.AIR);
+					double x = e.getBlock().getLocation().getX();
+					double z = e.getBlock().getLocation().getZ();
+					e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation().add(x > 0 ? 0.5 : -0.5, 0.0, z > 0 ? 0.5 : -0.5), arena.blockManager.getDrop(e.getBlock().getLocation()));
 				}
 			}
 			

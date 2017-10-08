@@ -16,6 +16,7 @@ import de.melays.bwunlimited.colortab.ColorTabAPI;
 import de.melays.bwunlimited.commands.MainCommand;
 import de.melays.bwunlimited.commands.groups.GroupCommand;
 import de.melays.bwunlimited.commands.leave.LeaveCommand;
+import de.melays.bwunlimited.commands.spectate.SpectateCommand;
 import de.melays.bwunlimited.commands.start.StartCommand;
 import de.melays.bwunlimited.game.ItemManager;
 import de.melays.bwunlimited.game.arenas.ArenaManager;
@@ -49,6 +50,8 @@ import de.melays.bwunlimited.messages.ChatHook;
 import de.melays.bwunlimited.messages.MessageFetcher;
 import de.melays.bwunlimited.multiworld.EmptyRoomGenerator;
 import de.melays.bwunlimited.shop.BedwarsShop;
+import de.melays.bwunlimited.shop_old.BWShop;
+import de.melays.bwunlimited.stats.StatsManager;
 import de.melays.bwunlimited.teams.TeamManager;
 import de.melays.bwunlimited.tools.MarkerTool;
 
@@ -137,14 +140,18 @@ public class Main extends JavaPlugin{
 		return runningGames;
 	}
 	
+	StatsManager statsManager;
+	public StatsManager getStatsManager() {
+		return statsManager;
+	}
+	
 	//Tools
 	MarkerTool markerTool; 
 	public MarkerTool getMarkerTool() {
 		return markerTool;
 	}
 	
-	public void onEnable() {
-		
+	public void onEnable() {		
 		try {
 			if (Class.forName("org.spigotmc.SpigotConfig") == null) {
 				Logger.log(console_prefix + "It seems like you are not using spigot. To run this plugin you need spigot!");
@@ -164,6 +171,11 @@ public class Main extends JavaPlugin{
 		//Creating the Gameworld
 		try {
 			Logger.log(console_prefix + "Creating the gameworld '" + gameworld + "' ...");
+			Bukkit.createWorld(new WorldCreator(gameworld).generator(new EmptyRoomGenerator(false)));
+			World delete = Bukkit.getWorld(gameworld);
+			Bukkit.unloadWorld(delete, false);
+			File deleteFolder = delete.getWorldFolder();
+			deleteWorld(deleteFolder);
 			Bukkit.createWorld(new WorldCreator(gameworld).generator(new EmptyRoomGenerator(false)));
 			Logger.log(console_prefix + "Successfully created the gameworld '" + gameworld + "'.");
 		} catch (Exception e) {
@@ -197,12 +209,14 @@ public class Main extends JavaPlugin{
 		this.chatHook = new ChatHook(this);
 		this.tabUpdater = new TabUpdater(this);
 		this.runningGames = new RunningGames(this);
+		this.statsManager = new StatsManager(this);
 		this.messageFetcher = new MessageFetcher(this);
 		prefix = this.getMessageFetcher().getMessage("prefix", false) + " ";
 		
 		//Set Command Executers
 		getCommand("bw").setExecutor(new MainCommand(this));
 		getCommand("start").setExecutor(new StartCommand(this));
+		getCommand("spectate").setExecutor(new SpectateCommand(this));
 		if (getConfig().getBoolean("leave_command"))
 			getCommand("leave").setExecutor(new LeaveCommand(this));
 		if (getConfig().getBoolean("group_command"))
@@ -239,7 +253,7 @@ public class Main extends JavaPlugin{
 		updateTime();
 		
 		//OLD BW SHOP ONLY FOR TESTS!
-		//new BWShop(this);
+		new BWShop(this);
 		
 		BedwarsShop.load(this, false);
 	}
