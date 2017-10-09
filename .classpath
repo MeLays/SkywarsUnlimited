@@ -5,5 +5,6 @@
 	<classpathentry kind="lib" path="/#Files/spigot-1.8.8-R0.1-SNAPSHOT-latest.jar"/>
 	<classpathentry kind="lib" path="/#Files/Vault.jar"/>
 	<classpathentry kind="lib" path="/#Files/statsapi_1-6-0_release.jar"/>
+	<classpathentry kind="src" path="/SymptaFriendsSpigot"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
