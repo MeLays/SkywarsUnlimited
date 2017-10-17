@@ -10,6 +10,7 @@ presetworld: presets
 creature_spawn: false
 group_command: true
 leave_command: true
+tab_header_and_footer: true
 worlds:
    allow_rain: false
    default_time: 1000

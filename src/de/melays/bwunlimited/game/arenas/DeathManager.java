@@ -53,6 +53,9 @@ public class DeathManager {
 				msg = msg.replaceAll("%killer%", killers.get(p).getName());
 				msg = msg.replaceAll("%killer_display%", killer.team.display);
 				arena.sendMessage(msg);
+				if (!team.bed) {
+					arena.main.getStatsManager().addKill(arena, killers.get(p));
+				}
 			} else {
 				killers.remove(p);
 				playerDeath(p);

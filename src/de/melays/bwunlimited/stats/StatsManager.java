@@ -9,9 +9,11 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 import de.melays.bwunlimited.Main;
 import de.melays.bwunlimited.Utf8YamlConfiguration;
+import de.melays.bwunlimited.game.arenas.Arena;
 import de.melays.bwunlimited.internal_statsapi.InternalChannel;
 import de.melays.bwunlimited.internal_statsapi.InternalStatsAPI;
 import de.melays.bwunlimited.log.Logger;
@@ -73,6 +75,12 @@ public class StatsManager {
 		}
 	}
 	
+	public static boolean suitable(Player p , Arena a) {
+		if (!a.settings.stats) return false;
+		if (p.hasPermission("bwunlimited.nostats")) return false;
+		return true;
+	}
+	
 	public void setKey(UUID uuid , String key , int i) {
 		if (mode == StatsMode.MYSQL) {
 			ichannel.setKey(uuid, key, i);
@@ -127,6 +135,42 @@ public class StatsManager {
 				return getFile().getString(uuid.toString() + "." + key);
 		}
 		return null;
+	}
+	
+	public void addKill (Arena a , Player p) {
+		if (StatsManager.suitable(p, a)) {
+			this.addToKey(p.getUniqueId(), "kills", 1);
+		}
+	}
+	
+	public void addDeath (Arena a , Player p) {
+		if (StatsManager.suitable(p, a)) {
+			this.addToKey(p.getUniqueId(), "deaths", 1);
+		}
+	}
+	
+	public void addBed (Arena a , Player p) {
+		if (StatsManager.suitable(p, a)) {
+			this.addToKey(p.getUniqueId(), "beds", 1);
+		}
+	}
+	
+	public void addGame (Arena a , Player p) {
+		if (StatsManager.suitable(p, a)) {
+			this.addToKey(p.getUniqueId(), "games", 1);
+		}
+	}
+	
+	public void addWon (Arena a , Player p) {
+		if (StatsManager.suitable(p, a)) {
+			this.addToKey(p.getUniqueId(), "won", 1);
+		}
+	}
+	
+	public void addLost (Arena a , Player p) {
+		if (StatsManager.suitable(p, a)) {
+			this.addToKey(p.getUniqueId(), "lost", 1);
+		}
 	}
 	
 	//Team File Managment

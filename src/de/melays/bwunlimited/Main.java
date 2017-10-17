@@ -151,6 +151,11 @@ public class Main extends JavaPlugin{
 		return friendJoinHook;
 	}
 	
+	BungeeServerFetcher bungeeServerFetcher;
+	public BungeeServerFetcher getBungeeServerFetcher() {
+		return bungeeServerFetcher;
+	}
+	
 	//Tools
 	MarkerTool markerTool; 
 	public MarkerTool getMarkerTool() {
@@ -216,6 +221,7 @@ public class Main extends JavaPlugin{
 		this.tabUpdater = new TabUpdater(this);
 		this.runningGames = new RunningGames(this);
 		this.statsManager = new StatsManager(this);
+		this.bungeeServerFetcher = new BungeeServerFetcher(this);
 		this.messageFetcher = new MessageFetcher(this);
 		prefix = this.getMessageFetcher().getMessage("prefix", false) + " ";
 		

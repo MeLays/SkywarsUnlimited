@@ -12,6 +12,7 @@ public class Settings {
 	public boolean fixed_teams = false;
 	public boolean allow_join = true;
 	public boolean allow_spectate = true;
+	public boolean stats = true;
 	
 	public LeaveType lobby_leave = LeaveType.NORMAL;
 	
@@ -37,6 +38,7 @@ public class Settings {
 		fixed_teams = config.getBoolean("fixed_teams");
 		allow_join = config.getBoolean("allow_join");
 		allow_spectate = config.getBoolean("allow_spectate");
+		stats = config.getBoolean("stats");
 		lobby_leave = LeaveType.valueOf(config.getString("lobby_leave").toUpperCase());
 		min_players = config.getInt("min_players");
 		max_players = config.getInt("max_players");
@@ -68,6 +70,7 @@ public class Settings {
 		r.fixed_teams = config.getBoolean("fixed_teams");
 		r.allow_join = config.getBoolean("allow_join");
 		r.allow_spectate = config.getBoolean("allow_spectate");
+		r.stats = config.getBoolean("stats");
 		r.lobby_leave = LeaveType.valueOf(config.getString("lobby_leave").toUpperCase());
 		r.min_players = config.getInt("min_players");
 		r.max_players = config.getInt("max_players");
@@ -82,6 +85,7 @@ public class Settings {
 		config.set(path + "." + "fixed_teams", fixed_teams);
 		config.set(path + "." + "allow_join", allow_join);
 		config.set(path + "." + "allow_spectate", allow_spectate);
+		config.set(path + "." + "stats", stats);
 		config.set(path + "." + "lobby_leave", lobby_leave.toString());
 		config.set(path + "." + "min_players", min_players);
 		config.set(path + "." + "max_players", max_players);

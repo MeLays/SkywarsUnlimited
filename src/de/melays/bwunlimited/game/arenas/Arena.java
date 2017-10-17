@@ -164,6 +164,8 @@ public class Arena {
 		PlayerTools.resetPlayer(p);
 		updateTab();
 		setupSpec(p);
+		main.getStatsManager().addDeath(this, p);
+		main.getStatsManager().addLost(this, p);
 		if (team != null) {
 			team.removePlayer(p);
 			if (state == ArenaState.INGAME) {
@@ -228,6 +230,8 @@ public class Arena {
 		}
 		else if(state == ArenaState.INGAME && !specs.contains(p)){
 			ArenaTeam team = teamManager.findPlayer(p);
+			main.getStatsManager().addDeath(this, p);
+			main.getStatsManager().addLost(this, p);
 			if (!silent) this.sendMessage(main.getMessageFetcher().getMessage("game.leave_ingame", true).replaceAll("%player%", p.getName())
 					.replaceAll("%color%", team.team.Color.toChatColor().toString())
 					.replaceAll("%display%", team.team.display));
@@ -413,6 +417,9 @@ public class Arena {
 			}
 
 		}, 10);
+		for (Player p : this.getAllPlayers()) {
+			main.getStatsManager().addGame(this, p);
+		}
 	}
 
 	public void autoTeam(Player p) {
@@ -457,6 +464,9 @@ public class Arena {
 			subtitle = subtitle.replaceAll("%color%", winner.team.Color.toChatColor().toString())
 					.replaceAll("%display%", winner.team.display);
 			sendTitle(title, subtitle);
+			for (Player p : winner.players) {
+				main.getStatsManager().addWon(this, p);
+			}
 		}
 		ending_counter = settings.ending_countdown;
 		ending_id = Bukkit.getScheduler().scheduleSyncRepeatingTask(main, new Runnable() {
