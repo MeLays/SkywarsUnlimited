@@ -24,6 +24,7 @@ public class PlayerQuitEventListener implements Listener{
 			Arena arena = main.getArenaManager().searchPlayer(p);
 			arena.leave(p);
 		}
+		e.setQuitMessage(null);
 	}
 	
 }

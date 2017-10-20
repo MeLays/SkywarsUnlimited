@@ -64,6 +64,7 @@ public class BlockManager {
 					loc.getWorld().refreshChunk(bed2.getX() >> 4 , bed2.getY() >> 4);
 					arena.BedDestroyed(team, p);
 					arena.main.getStatsManager().addBed(arena, p);
+					arena.main.getStatsManager().addPoints(arena, p, arena.main.getConfig().getInt("points.bed"));
 					arena.scoreBoard.update();
 					SoundDebugger.playSound(bed1.getLocation().getWorld(), bed1.getLocation(), "ENDERDRAGON_GROWL" ,"ENTITY_ENDERDRAGON_GROWL");
 					return false;

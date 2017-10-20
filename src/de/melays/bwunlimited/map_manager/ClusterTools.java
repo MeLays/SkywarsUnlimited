@@ -102,9 +102,9 @@ public class ClusterTools {
 	}
 	
 	public static void saveLocation (FileConfiguration config , String path , Location loc) {
-		config.set(path + ".x", loc.getBlockX());
-		config.set(path + ".y", loc.getBlockY());
-		config.set(path + ".z", loc.getBlockZ());
+		config.set(path + ".x", loc.getX());
+		config.set(path + ".y", loc.getY());
+		config.set(path + ".z", loc.getZ());
 		config.set(path + ".yaw", loc.getYaw());
 		config.set(path + ".pitch", loc.getPitch());
 		config.set(path + ".world", loc.getWorld().getName());

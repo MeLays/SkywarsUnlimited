@@ -166,6 +166,7 @@ public class Arena {
 		setupSpec(p);
 		main.getStatsManager().addDeath(this, p);
 		main.getStatsManager().addLost(this, p);
+		main.getStatsManager().addPoints(this, p, main.getConfig().getInt("points.lost"));
 		if (team != null) {
 			team.removePlayer(p);
 			if (state == ArenaState.INGAME) {
@@ -232,6 +233,7 @@ public class Arena {
 			ArenaTeam team = teamManager.findPlayer(p);
 			main.getStatsManager().addDeath(this, p);
 			main.getStatsManager().addLost(this, p);
+			main.getStatsManager().addPoints(this, p, main.getConfig().getInt("points.lost"));
 			if (!silent) this.sendMessage(main.getMessageFetcher().getMessage("game.leave_ingame", true).replaceAll("%player%", p.getName())
 					.replaceAll("%color%", team.team.Color.toChatColor().toString())
 					.replaceAll("%display%", team.team.display));
@@ -466,6 +468,7 @@ public class Arena {
 			sendTitle(title, subtitle);
 			for (Player p : winner.players) {
 				main.getStatsManager().addWon(this, p);
+				main.getStatsManager().addPoints(this, p, main.getConfig().getInt("points.won"));
 			}
 		}
 		ending_counter = settings.ending_countdown;

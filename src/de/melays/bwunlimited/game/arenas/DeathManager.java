@@ -6,10 +6,13 @@ import java.util.HashMap;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import net.md_5.bungee.api.ChatColor;
+
 public class DeathManager {
 	
 	public HashMap<Player , Integer> schedulers = new HashMap<Player , Integer>();
 	public HashMap<Player , Player> killers = new HashMap<Player , Player>();
+	public HashMap<Player , Double> killerslife = new HashMap<Player , Double>();
 	public HashMap<Player , Date> lastdeath = new HashMap<Player , Date>();
 	Arena arena;
 	
@@ -20,6 +23,7 @@ public class DeathManager {
 	public void saveHit(Player p , Player hitter) {
 		if (arena.main.getArenaManager().searchPlayer(p) == arena.main.getArenaManager().searchPlayer(hitter)) {
 			killers.put(p, hitter);
+			killerslife.put(p, hitter.getHealth() / 2);
 			startScheduler(p);
 		}
 	}
@@ -34,6 +38,7 @@ public class DeathManager {
 			@Override
 			public void run() {
 				killers.remove(p);
+				killerslife.remove(p);
 			}
 			
 		}, arena.main.getConfig().getInt("death_timeout"));
@@ -52,9 +57,26 @@ public class DeathManager {
 				msg = msg.replaceAll("%killer_color%", killer.team.Color.toChatColor().toString());
 				msg = msg.replaceAll("%killer%", killers.get(p).getName());
 				msg = msg.replaceAll("%killer_display%", killer.team.display);
+				
+				double lifes = 0;
+				String l = "";
+				if (killerslife.containsKey(p))
+					lifes = killerslife.get(p);
+				if (lifes == 10) l = ChatColor.DARK_GREEN +""+ lifes;
+				if (lifes < 10 && lifes >= 7.5) l = ChatColor.GREEN +""+ lifes;
+				if (lifes < 7.5 && lifes >= 5) l = ChatColor.YELLOW +""+ lifes;
+				if (lifes < 5 && lifes >= 2.5) l = ChatColor.GOLD +""+ lifes;
+				if (lifes < 2.5 && lifes >= 0.5) l = ChatColor.RED +""+ lifes;
+				else {
+					l = ChatColor.DARK_RED +""+ lifes;
+				}
+				
+				msg = msg.replaceAll("%lifes%", l);
+				
 				arena.sendMessage(msg);
 				if (!team.bed) {
 					arena.main.getStatsManager().addKill(arena, killers.get(p));
+					arena.main.getStatsManager().addPoints(arena, p, arena.main.getConfig().getInt("points.kill"));
 				}
 			} else {
 				killers.remove(p);
@@ -81,6 +103,7 @@ public class DeathManager {
 	
 	public void resetKiller (Player p) {
 		killers.remove(p);
+		killerslife.remove(p);
 	}
 	
 }

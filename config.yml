@@ -54,5 +54,10 @@ defaultsettings:
    game_end: 36000
    ending_countdown: 10   
    spawn_protection: 1
+points:
+   lost: 10
+   won: 50
+   kill: 10
+   bed: 20
 death_y_offset: 20
 death_timeout: 80

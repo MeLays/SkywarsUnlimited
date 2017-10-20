@@ -21,6 +21,8 @@ public class PlayerJoinEventListener implements Listener{
 		main.getArenaManager().updateAll();
 		
 		main.getLobbyManager().toLobby(e.getPlayer());
+		
+		e.setJoinMessage(null);
 	}
 	
 }

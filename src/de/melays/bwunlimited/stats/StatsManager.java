@@ -82,14 +82,19 @@ public class StatsManager {
 	}
 	
 	public void setKey(UUID uuid , String key , int i) {
-		if (mode == StatsMode.MYSQL) {
-			ichannel.setKey(uuid, key, i);
-		}
-		else if (mode == StatsMode.STATSAPI) {
-			channel.setKey(uuid, key, i);
-		}
-		else if (mode == StatsMode.YAML) {
-			getFile().set(uuid.toString() + "." + key, i);
+		try {
+			if (mode == StatsMode.MYSQL) {
+				ichannel.setKey(uuid, key, i);
+			}
+			else if (mode == StatsMode.STATSAPI) {
+				channel.setKey(uuid, key, i);
+			}
+			else if (mode == StatsMode.YAML) {
+				getFile().set(uuid.toString() + "." + key, i);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
@@ -98,78 +103,87 @@ public class StatsManager {
 	}
 	
 	public void setStringKey(UUID uuid , String key , String str) {
-		if (mode == StatsMode.MYSQL) {
-			ichannel.setStringKey(uuid, key, str);
-		}
-		else if (mode == StatsMode.STATSAPI) {
-			channel.setStringKey(uuid, key, str);
-		}
-		else if (mode == StatsMode.YAML) {
-			getFile().set(uuid.toString() + "." + key, str);
+		try {
+			if (mode == StatsMode.MYSQL) {
+				ichannel.setStringKey(uuid, key, str);
+			}
+			else if (mode == StatsMode.STATSAPI) {
+				channel.setStringKey(uuid, key, str);
+			}
+			else if (mode == StatsMode.YAML) {
+				getFile().set(uuid.toString() + "." + key, str);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
 	public int getKey(UUID uuid , String key) {
-		if (mode == StatsMode.MYSQL) {
-			return ichannel.getKey(uuid, key);
-		}
-		else if (mode == StatsMode.STATSAPI) {
-			return channel.getKey(uuid, key);
-		}
-		else if (mode == StatsMode.YAML) {
-			if (getFile().contains(uuid.toString() + "." + key))
-				return getFile().getInt(uuid.toString() + "." + key);
+		try {
+			if (mode == StatsMode.MYSQL) {
+				return ichannel.getKey(uuid, key);
+			}
+			else if (mode == StatsMode.STATSAPI) {
+				return channel.getKey(uuid, key);
+			}
+			else if (mode == StatsMode.YAML) {
+				if (getFile().contains(uuid.toString() + "." + key))
+					return getFile().getInt(uuid.toString() + "." + key);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return -1;
 	}
 	
 	public String getStringKey(UUID uuid , String key) {
-		if (mode == StatsMode.MYSQL) {
-			return ichannel.getStringKey(uuid, key);
-		}
-		else if (mode == StatsMode.STATSAPI) {
-			return channel.getStringKey(uuid, key);
-		}
-		else if (mode == StatsMode.YAML) {
-			if (getFile().contains(uuid.toString() + "." + key))
-				return getFile().getString(uuid.toString() + "." + key);
+		try {
+			if (mode == StatsMode.MYSQL) {
+				return ichannel.getStringKey(uuid, key);
+			}
+			else if (mode == StatsMode.STATSAPI) {
+				return channel.getStringKey(uuid, key);
+			}
+			else if (mode == StatsMode.YAML) {
+				if (getFile().contains(uuid.toString() + "." + key))
+					return getFile().getString(uuid.toString() + "." + key);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return null;
 	}
 	
 	public void addKill (Arena a , Player p) {
-		if (StatsManager.suitable(p, a)) {
-			this.addToKey(p.getUniqueId(), "kills", 1);
-		}
+		this.addToKey(p.getUniqueId(), "kills", 1);
 	}
 	
 	public void addDeath (Arena a , Player p) {
-		if (StatsManager.suitable(p, a)) {
-			this.addToKey(p.getUniqueId(), "deaths", 1);
-		}
+		this.addToKey(p.getUniqueId(), "deaths", 1);
 	}
 	
 	public void addBed (Arena a , Player p) {
-		if (StatsManager.suitable(p, a)) {
-			this.addToKey(p.getUniqueId(), "beds", 1);
-		}
+		this.addToKey(p.getUniqueId(), "beds", 1);
 	}
 	
 	public void addGame (Arena a , Player p) {
-		if (StatsManager.suitable(p, a)) {
-			this.addToKey(p.getUniqueId(), "games", 1);
-		}
+		this.addToKey(p.getUniqueId(), "games", 1);
 	}
 	
 	public void addWon (Arena a , Player p) {
-		if (StatsManager.suitable(p, a)) {
-			this.addToKey(p.getUniqueId(), "won", 1);
-		}
+		this.addToKey(p.getUniqueId(), "won", 1);
 	}
 	
 	public void addLost (Arena a , Player p) {
+		this.addToKey(p.getUniqueId(), "lost", 1);
+	}
+	
+	public void addPoints (Arena a , Player p , int amount) {
 		if (StatsManager.suitable(p, a)) {
-			this.addToKey(p.getUniqueId(), "lost", 1);
+			this.addToKey(p.getUniqueId(), "points", amount);
 		}
 	}
 	
