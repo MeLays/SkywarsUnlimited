@@ -99,6 +99,15 @@ public class StatsManager {
 	}
 	
 	public void addToKey (UUID uuid , String key , int add) {
+		try {
+			if (mode == StatsMode.STATSAPI) {
+				channel.addToKey(uuid, key, add);
+				return;
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		setKey(uuid , key , getKey(uuid , key) + add);
 	}
 	

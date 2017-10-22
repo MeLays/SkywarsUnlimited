@@ -11,6 +11,19 @@ lobby:
     displayname: "&eRunning games"
     lore:
       - "&eSee all running games"
+  leave:
+    material: MAGMA_CREAM
+    byte: 0
+    displayname: "&cLeave"
+    lore:
+      - "&4Get back to the Lobby-Server"
+  group:
+    material: SKULL_ITEM
+    byte: 3
+    displayname: "&a%player%'s &7Group"
+    lore:
+      - "&7Rightclick a &aPlayer &7to send a request,"
+      - "&7Leftclick a &aPlayer &7to accept his request!"
   inventory:
     next:
       material: PAPER

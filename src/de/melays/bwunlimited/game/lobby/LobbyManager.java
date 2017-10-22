@@ -10,12 +10,14 @@ import java.util.LinkedHashMap;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import de.melays.bwunlimited.Main;
@@ -77,7 +79,26 @@ public class LobbyManager {
 		}		
 		if (main.getConfig().getBoolean("lobby.gamelist.enabled"))
 			p.getInventory().setItem(main.getConfig().getInt("lobby.gamelist.slot"), main.getItemManager().getItem("lobby.gamelist"));
+		if (main.getConfig().getBoolean("lobby.leave.enabled"))
+			p.getInventory().setItem(main.getConfig().getInt("lobby.leave.slot"), main.getItemManager().getItem("lobby.leave"));
+		if (main.getConfig().getBoolean("lobby.leave.enabled")) {
+			updateGroupItem(p);
+		}
 		updateLobbyTab();
+	}
+	
+	@SuppressWarnings("deprecation")
+	public void updateGroupItem(Player p) {
+		ItemStack stack = main.getItemManager().getItem("lobby.group");
+		ItemMeta dmeta = stack.getItemMeta();
+		dmeta.setDisplayName(dmeta.getDisplayName().replaceAll("%player%", main.getGroupManager().getGroup(p).getLeader().getName()));
+		stack.setItemMeta(dmeta);
+		if (stack.getType() == Material.SKULL_ITEM && stack.getData().getData() == (byte) 3) {
+			SkullMeta meta = (SkullMeta) stack.getItemMeta();
+			meta.setOwner(main.getGroupManager().getGroup(p).getLeader().getName());
+			stack.setItemMeta(meta);
+		}
+		p.getInventory().setItem(main.getConfig().getInt("lobby.group.slot"), stack);	
 	}
 	
 	public void updateLobbyTab() {

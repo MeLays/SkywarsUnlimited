@@ -457,6 +457,7 @@ public class Arena {
 			p.setGameMode(GameMode.ADVENTURE);
 			p.setFlying(false);
 			p.setAllowFlight(false);
+			p.getInventory().setItem(this.main.getConfig().getInt("game.leaveitem_slot"), this.main.getItemManager().getItem("gamelobby.leaveitem"));
 		}
 		if (winner != null) {
 			String title = main.c(main.getSettingsManager().getFile().getString("game.titles.win"));

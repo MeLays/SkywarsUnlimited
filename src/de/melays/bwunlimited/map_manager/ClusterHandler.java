@@ -36,8 +36,8 @@ public class ClusterHandler {
 	
 	public UUID generate(Location rel) {
 		if (cluster.generator == ClusterGeneratorType.SPLITTED) {
-			int every_ticks = main.getConfig().getInt("generator.splitted.per");
-			int panels = main.getConfig().getInt("generator.splitted.panels");
+			int every_ticks = main.getConfig().getInt("generator.splitted.every");
+			int panels = main.getConfig().getInt("generator.splitted.blocks");
 			return this.generateSplitted(rel, every_ticks, panels);
 		}
 		else {
@@ -58,7 +58,7 @@ public class ClusterHandler {
 	
 	int splitted_scheduler;
 	
-	public UUID generateSplitted(Location rel , int every_ticks , int panels) {
+	public UUID generateSplitted(Location rel , int every_ticks , int blocks) {
 		if (generating) return null;
 		generating = true;
 		UUID id = UUID.randomUUID();
@@ -68,7 +68,7 @@ public class ClusterHandler {
 			@Override
 			public void run() {
 				LinkedHashMap<RelativeLocation , AdvancedMaterial> partial_place = new LinkedHashMap<RelativeLocation , AdvancedMaterial>();
-				for (int i = 0 ; i < panels * (cluster.x_size * cluster.x_size) ; i++) {
+				for (int i = 0 ; i < blocks ; i++) {
 					if (locs.size() == 0) {
 						finishSplitted(id);
 						continue;

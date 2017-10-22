@@ -28,6 +28,7 @@ import de.melays.bwunlimited.game.lobby.RunningGames;
 import de.melays.bwunlimited.game.lobby.TemplateSignManager;
 import de.melays.bwunlimited.listeners.AsyncPlayerChatEventListener;
 import de.melays.bwunlimited.listeners.BlockBreakEventListener;
+import de.melays.bwunlimited.listeners.BlockPhysicsEventListener;
 import de.melays.bwunlimited.listeners.BlockPlaceEventListener;
 import de.melays.bwunlimited.listeners.CraftItemEventListener;
 import de.melays.bwunlimited.listeners.CreatureSpawnEventListener;
@@ -50,7 +51,6 @@ import de.melays.bwunlimited.map_manager.ClusterManager;
 import de.melays.bwunlimited.messages.ChatHook;
 import de.melays.bwunlimited.messages.MessageFetcher;
 import de.melays.bwunlimited.multiworld.EmptyRoomGenerator;
-import de.melays.bwunlimited.shop.BedwarsShop;
 import de.melays.bwunlimited.shop_old.BWShop;
 import de.melays.bwunlimited.stats.StatsManager;
 import de.melays.bwunlimited.teams.TeamManager;
@@ -246,6 +246,7 @@ public class Main extends JavaPlugin{
 		Bukkit.getPluginManager().registerEvents(new PlayerJoinEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new BlockBreakEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new BlockPlaceEventListener(this), this);
+		Bukkit.getPluginManager().registerEvents(new BlockPhysicsEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new InventoryClickEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new InventoryDragEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new PlayerDropItemEventListener(this), this);
@@ -274,7 +275,9 @@ public class Main extends JavaPlugin{
 		//OLD BW SHOP ONLY FOR TESTS!
 		new BWShop(this);
 		
-		BedwarsShop.load(this, false);
+		//BedwarsShop.load(this, false);
+		
+		this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 	}
 	
 	public void onDisable() {

@@ -40,8 +40,12 @@ public class StartCommand implements CommandExecutor {
 			p.sendMessage(main.getMessageFetcher().getMessage("start.not_enought_players", true));
 			return true;
 		}
-		arena.arenaLobby.stopLobby();
-		p.sendMessage(main.getMessageFetcher().getMessage("start.started", true));
+		if (arena.arenaLobby.startGame()) {
+			p.sendMessage(main.getMessageFetcher().getMessage("start.started", true));
+		}
+		else {
+			p.sendMessage(main.getMessageFetcher().getMessage("start.already_started", true));
+		}
 		return true;
 	}
 	

@@ -1,4 +1,4 @@
-stats: YAML
+stats: STATSAPI
 mysql:
    host: 127.0.0.1
    port: 3306
@@ -11,6 +11,17 @@ creature_spawn: false
 group_command: true
 leave_command: true
 tab_header_and_footer: true
+physics:
+   crop-trampeling: false
+   game:
+      water-update: false
+      other: true
+   presets:
+      water-update: true
+      other: true
+   world:
+      water-update: false
+      other: false
 worlds:
    allow_rain: false
    default_time: 1000
@@ -18,8 +29,8 @@ worlds:
    game_time: 1000
 generator:
    splitted:
-      panels: 5
-      per: 10
+      blocks: 500
+      every: 40
 gameplacement:
    gap: 500
    y-position: 70
@@ -41,6 +52,13 @@ lobby:
    gamelist:
       enabled: true
       slot: 1
+   leave:
+      enabled: true
+      slot: 8
+      server: Lobby-1
+   group:
+      enabled: true
+      slot: 7
 challenger:
    lobby_time: 5
 defaultsettings:

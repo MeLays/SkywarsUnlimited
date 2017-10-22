@@ -2,6 +2,7 @@ package de.melays.bwunlimited.listeners;
 
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,6 +12,7 @@ import org.bukkit.util.Vector;
 import de.melays.bwunlimited.Main;
 import de.melays.bwunlimited.challenges.Challenge;
 import de.melays.bwunlimited.challenges.Group;
+import de.melays.bwunlimited.game.SoundDebugger;
 import de.melays.bwunlimited.game.arenas.Arena;
 import de.melays.bwunlimited.game.arenas.ArenaTeam;
 import de.melays.bwunlimited.game.arenas.state.ArenaState;
@@ -25,6 +27,19 @@ public class EntityDamageByEntityEventListener implements Listener{
 	
 	@EventHandler
 	public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
+		
+		if (e.getEntity().getType() == EntityType.ITEM_FRAME){
+			if (e.getDamager() instanceof Player) {
+				Player p = (Player) e.getEntity();
+				if (!main.canOperateInLobby(p)) {
+					e.setCancelled(true);
+				}
+			}
+			else {
+	            e.setCancelled(true);
+			}
+        }
+		
 		if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
 			Player p = (Player) e.getEntity();
 			Player damager = (Player) e.getDamager();
@@ -106,6 +121,28 @@ public class EntityDamageByEntityEventListener implements Listener{
 					}
 					else if (g.getLeader() == p){
 						inviter.acceptChallenge(inviter.getChallenge(g));
+					}
+				}
+				else if (p.getInventory().getHeldItemSlot() == main.getConfig().getInt("lobby.group.slot")) {
+					Group group = main.getGroupManager().getGroup(damager);
+					if (damager != group.getLeader()) {
+						damager.sendMessage(main.getMessageFetcher().getMessage("group.not_leader", true));
+						SoundDebugger.playSound(damager, "DIG_WOOL", "BLOCK_CLOTH_HIT");
+						return;
+					}
+					if (group.getPlayers().contains(p)) {
+						damager.sendMessage(main.getMessageFetcher().getMessage("group.already_in_group", true).replaceAll("%player%", p.getName()));
+						SoundDebugger.playSound(damager, "DIG_WOOL", "BLOCK_CLOTH_HIT");
+						return;
+					}
+					if (group.invite(p)) {
+						damager.sendMessage(main.getMessageFetcher().getMessage("group.invite_sender", true).replaceAll("%player%", p.getName()));
+						SoundDebugger.playSound(damager, "CLICK", "BLOCK_LEVER_CLICK");
+						SoundDebugger.playSound(p, "CLICK", "BLOCK_LEVER_CLICK");
+					}
+					else {
+						damager.sendMessage(main.getMessageFetcher().getMessage("group.already_invited", true).replaceAll("%player%", p.getName()));
+						SoundDebugger.playSound(damager, "DIG_WOOL", "BLOCK_CLOTH_HIT");
 					}
 				}
 			}

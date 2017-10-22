@@ -26,6 +26,7 @@ chat:
 team:
   enter: "%prefix% You entered the team %color%%team%&7!"
 game:
+  percent: "%prefix% The arena is beeing prepared... &a%percent%%"
   abort: "%prefix% A player has left. Stopping the game..."
   players_missing: "%prefix% There are not enought players to start the game!"
   join: "%prefix% &a%player% &7joined the game"
@@ -43,6 +44,7 @@ start:
   not_ingame: "%prefix% You are not ingame!"
   not_enought_players: "%prefix% 2 Players needed to start the game!"
   started: "%prefix% The game has been started!"
+  started_generating: "%prefix% The game has been started, but the arena is not completely ready yet! Please wait ..."
 group:
   help:
    - "%prefix% &7Group-Commands:"

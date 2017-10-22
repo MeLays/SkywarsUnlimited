@@ -106,12 +106,16 @@ public class ArenaLobby {
 	int loop;
 	int countdown;
 	
+	boolean forcestart = false;
+	
+	int shift = 5;
+	
 	public void startLoop() {
 		countdown = arena.settings.min_lobby_countdown;
 		loop = Bukkit.getScheduler().scheduleSyncRepeatingTask(arena.main, new Runnable() {
 			@Override
 			public void run() {
-				if (arena.settings.min_players > arena.getAllPlayers().size()) {
+				if (arena.settings.min_players > arena.getAllPlayers().size() && !forcestart) {
 					if (countdown != arena.settings.min_lobby_countdown)
 						arena.sendMessage(arena.main.getMessageFetcher().getMessage("game.players_missing", true));
 					countdown = arena.settings.min_lobby_countdown;
@@ -124,9 +128,31 @@ public class ArenaLobby {
 						if (arena.clusterHandler.isGenerating()) {
 							state = ArenaLobbyState.GENERATING;
 							setGlobalLevel(arena.clusterHandler.getPercent());
+							if (shift % 5 == 0) {
+								arena.sendMessage(arena.main.getMessageFetcher().getMessage("game.percent", true).replaceAll("%percent%", arena.clusterHandler.getPercent() + ""));
+							}
+							shift += 1;
+							if (shift >= 5) shift = 0;
 						}
 						else {
-							stopLobby();
+							if (arena.settings.min_players > arena.getAllPlayers().size() && !forcestart) {
+								if (countdown != arena.settings.min_lobby_countdown)
+									arena.sendMessage(arena.main.getMessageFetcher().getMessage("game.players_missing", true));
+								countdown = arena.settings.min_lobby_countdown;
+								setGlobalLevel(0);
+								state = ArenaLobbyState.NORMAL;
+							}
+							else if (forcestart && !(arena.getAllPlayers().size() >= 2)) {
+								if (countdown != arena.settings.min_lobby_countdown)
+									arena.sendMessage(arena.main.getMessageFetcher().getMessage("game.players_missing", true));
+								countdown = arena.settings.min_lobby_countdown;
+								setGlobalLevel(0);
+								state = ArenaLobbyState.NORMAL;
+								forcestart = false;
+							}
+							else {
+								stopLobby();
+							}
 						}
 					} catch (Exception e) {
 						
@@ -165,6 +191,20 @@ public class ArenaLobby {
 		for (Player p : arena.getAll()) {
 			p.sendTitle(title, subtitle);
 		}
+	}
+	
+	public boolean startGame() {
+		if (!arena.clusterHandler.isGenerating()) {
+			stopLobby();
+			return true;
+		}
+		else if (countdown != 0){
+			countdown = 0;
+			arena.sendMessage(arena.main.getMessageFetcher().getMessage("start.started_generating", true));
+			forcestart = true;
+			return true;
+		}
+		return false;
 	}
 	
 	public void stopLobby () {

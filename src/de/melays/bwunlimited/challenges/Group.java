@@ -169,11 +169,18 @@ public class Group {
 	
 	public boolean accept(Player p) {
 		if (invited.contains(p)) {
+			invited.remove(p);
+			if (groupManager.getGroup(p).getPlayers().size() != 1) {
+				groupManager.getGroup(p).leave(p);
+			}
 			groupManager.getGroup(p).players.remove(p);
 			groupManager.players.remove(p);
 			players.add(p);
 			removeAllChallenges();
 			sendMessage(groupManager.main.getMessageFetcher().getMessage("group.join", true).replaceAll("%player%", p.getName()));
+			if (!groupManager.main.getArenaManager().isInGame(p)) {
+				this.groupManager.main.getLobbyManager().updateGroupItem(p);
+			}
 			return true;
 		}
 		p.sendMessage(groupManager.main.getMessageFetcher().getMessage("group.join_failed", true).replaceAll("%player%", p.getName()));
@@ -204,6 +211,9 @@ public class Group {
 		sendMessage(groupManager.main.getMessageFetcher().getMessage("group.leave", true).replaceAll("%player%", p.getName()));
 		players.remove(p);
 		removeAllChallenges();
+		if (!groupManager.main.getArenaManager().isInGame(p)) {
+			this.groupManager.main.getLobbyManager().updateGroupItem(p);
+		}
 	}
 	
 	public void kick (Player p) {
@@ -219,6 +229,9 @@ public class Group {
 		else {
 			leader.sendMessage(groupManager.main.getMessageFetcher().getMessage("group.not_in_group", true).replaceAll("%player%", p.getName()));
 		}
+		if (!groupManager.main.getArenaManager().isInGame(p)) {
+			this.groupManager.main.getLobbyManager().updateGroupItem(p);
+		}
 	}
 	
 	public void setLeader(Player p) {
@@ -233,6 +246,11 @@ public class Group {
 			leader = p;
 			this.groupManager.players.put(p, this);
 			sendMessage(groupManager.main.getMessageFetcher().getMessage("group.new_leader", true).replaceAll("%player%", p.getName()));
+		}
+		for (Player pp : this.getPlayers()) {
+			if (!groupManager.main.getArenaManager().isInGame(pp)) {
+				this.groupManager.main.getLobbyManager().updateGroupItem(pp);
+			}
 		}
 	}
 	

@@ -1,12 +1,16 @@
 package de.melays.bwunlimited.listeners;
 
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 
 import de.melays.bwunlimited.Main;
 import de.melays.bwunlimited.game.arenas.Arena;
@@ -53,6 +57,11 @@ public class PlayerInteractEventListener implements Listener{
 						}
 					}
 				}
+				if (arena.state == ArenaState.ENDING) {
+					if (main.getItemManager().isItem("gamelobby.leaveitem", e.getItem())) {
+						arena.leave(p);
+					}
+				}
 			} catch (Exception e1) {
 
 			}
@@ -80,9 +89,22 @@ public class PlayerInteractEventListener implements Listener{
 				else if (main.getItemManager().isItem("lobby.gamelist", e.getItem())) {
 					main.getRunningGames().openOverview(p);
 				}
+				else if (main.getItemManager().isItem("lobby.leave", e.getItem())) {
+					ByteArrayDataOutput out = ByteStreams.newDataOutput();
+					out.writeUTF("Connect");
+					out.writeUTF(main.getConfig().getString("lobby.leave.server"));
+					p.sendPluginMessage(main, "BungeeCord", out.toByteArray());
+				}
 			}
 		}
-		
+		if (e.getAction() == Action.PHYSICAL) {
+			if (e.hasBlock()) {
+		        Block soilBlock = e.getClickedBlock();
+	            if (soilBlock.getType() == Material.SOIL) {
+	                e.setCancelled(true);
+	            }
+			}
+        }
 	}
 	
 }

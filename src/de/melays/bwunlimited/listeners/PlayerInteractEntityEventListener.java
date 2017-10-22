@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 
 import de.melays.bwunlimited.Main;
+import de.melays.bwunlimited.challenges.Group;
 
 public class PlayerInteractEntityEventListener implements Listener{
 
@@ -25,6 +26,15 @@ public class PlayerInteractEntityEventListener implements Listener{
 			}
 			e.setCancelled(true);
 			//BedwarsShop.openShop(p);
+		}
+		else if (!main.canOperateInLobby(p)) {
+			if (!(e.getRightClicked() instanceof Player)) return;
+			Player clicked = (Player) e.getRightClicked();
+			if (p.getInventory().getHeldItemSlot() == main.getConfig().getInt("lobby.group.slot")) {
+				Group group = main.getGroupManager().getGroup(clicked);
+				group.accept(p);
+			}
+			e.setCancelled(true);
 		}
 	}
 	

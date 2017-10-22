@@ -102,7 +102,7 @@ public class GroupCommand implements CommandExecutor {
 				return true;
 			}
 			Group group = main.getGroupManager().getGroup(p);
-			group.setLeader(p);
+			group.setLeader(Bukkit.getServer().getPlayer(args[1]));
 		}
 		else if (args[0].equalsIgnoreCase("leave")) {
 			if (args.length != 1) {
