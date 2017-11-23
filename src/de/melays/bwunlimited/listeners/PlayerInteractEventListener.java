@@ -1,21 +1,31 @@
 package de.melays.bwunlimited.listeners;
 
+import org.bukkit.FireworkEffect;
+import org.bukkit.FireworkEffect.Type;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
+import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.FireworkMeta;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 
 import de.melays.bwunlimited.Main;
+import de.melays.bwunlimited.game.SoundDebugger;
 import de.melays.bwunlimited.game.arenas.Arena;
 import de.melays.bwunlimited.game.arenas.state.ArenaState;
 import de.melays.bwunlimited.game.lobby.TemplateSign;
+import de.melays.bwunlimited.map_manager.ClusterTools;
 
 public class PlayerInteractEventListener implements Listener{
 
@@ -25,6 +35,7 @@ public class PlayerInteractEventListener implements Listener{
 		this.main = main;
 	}
 	
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent e) {
 		Player p = e.getPlayer();
@@ -55,13 +66,75 @@ public class PlayerInteractEventListener implements Listener{
 						if (e.getClickedBlock().getType() == Material.BED_BLOCK && !p.isSneaking()) {
 							e.setCancelled(true);
 						}
+						if (e.getClickedBlock().getType() == Material.ENDER_CHEST && !p.isSneaking()) {
+							e.setCancelled(true);
+							if (arena.teamManager.findPlayer(p).chests.contains(e.getClickedBlock().getLocation())) {
+								arena.teamManager.findPlayer(p).openTeamInventory(p);
+								SoundDebugger.playSound(p, "CHEST_OPEN", "BLOCK_ENDERCHEST_OPEN");
+							}
+							else {
+								p.sendMessage(arena.main.getMessageFetcher().getMessage("game.teamchest_wrong_team", true));
+							}
+						}
 					}
 					if (e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK 
 							|| e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+						
 						Material teleporter = Material.getMaterial(arena.main.getConfig().getString("game.special_items.Teleporter.item"));
 						if (teleporter != null && e.getPlayer().getItemInHand() != null) {
 							if (e.getPlayer().getItemInHand().getType() == teleporter) {
+								e.setCancelled(true);
 								arena.teleporter.use(p, teleporter);
+							}
+						}
+						
+						Material rescue = Material.getMaterial(arena.main.getConfig().getString("game.special_items.RescuePlatform.item"));
+						if (rescue != null && e.getPlayer().getItemInHand() != null) {
+							if (e.getPlayer().getItemInHand().getType() == rescue) {
+								Location max = arena.relative.clone().add(arena.cluster.x_size , arena.cluster.y_size , arena.cluster.z_size);
+								if (ClusterTools.isInAreaIgnoreHeight(p.getLocation(), arena.relative, max)) {
+									if (p.getInventory().getItem(p.getInventory().getHeldItemSlot()).getAmount() > 1) {
+										ItemStack set = p.getInventory().getItem(p.getInventory().getHeldItemSlot()).clone();
+										set.setAmount(set.getAmount() - 1);
+										p.getInventory().setItem(p.getInventory().getHeldItemSlot(), set);
+									}
+									else {
+										ItemStack set = new ItemStack(Material.AIR);
+										p.getInventory().setItem(p.getInventory().getHeldItemSlot(), set);
+									}
+									
+									int r = main.getConfig().getInt("game.special_items.RescuePlatform.radius");
+									Location loc = e.getPlayer().getLocation().getBlock().getRelative(BlockFace.DOWN , 2).getLocation();
+									
+								    int cx = loc.getBlockX();
+								    int cy = loc.getBlockY();
+								    int cz = loc.getBlockZ();
+								    World w = loc.getWorld();
+								    int rSquared = r * r;
+								    for (int x = cx - r; x <= cx +r; x++) {
+								        for (int z = cz - r; z <= cz +r; z++) {
+								            if ((cx - x) * (cx - x) + (cz - z) * (cz - z) <= rSquared) {
+								            	Block b = w.getBlockAt(x, cy, z);
+								            	if (b.getType() == Material.AIR) {
+									                b.setType(Material.getMaterial(main.getConfig().getString("game.special_items.RescuePlatform.set").toUpperCase()));
+									                b.setData(arena.teamManager.findPlayer(p).team.Color.toByte());
+									                arena.blockManager.placed_blocks.add(b.getLocation());
+								            	}
+								            }
+								        }
+								    }
+					                Firework fw = (Firework) p.getWorld().spawn(p.getLocation(), Firework.class);
+					                FireworkMeta fm = fw.getFireworkMeta();
+					                fm.addEffect(FireworkEffect.builder()
+					                        .flicker(true)
+					                        .trail(true)
+					                        .with(Type.BALL)
+					                        .withColor(arena.teamManager.findPlayer(p).team.Color.toBukkitColor())
+					                        .withFade(arena.teamManager.findPlayer(p).team.Color.toBukkitColor())
+					                        .build());
+							        fm.setPower(1);
+							        fw.setFireworkMeta(fm);
+								}
 							}
 						}
 					}

@@ -78,9 +78,28 @@ public class Teleporter {
 				if (p.getLocation().getX() != last_location.get(p).getX() || p.getLocation().getY() != last_location.get(p).getY()) {
 					p.sendTitle(arena.main.c(arena.main.getSettingsManager().getFile().getString("game.titles.teleport.move")), arena.main.c(arena.main.getSettingsManager().getFile().getString("game.titles.teleport.move_sub")));					
 					running.put(id, false);
+					teleporting.remove(p);
 					return;
 				}
 				p.sendTitle(arena.main.c(arena.main.getSettingsManager().getFile().getString("game.titles.teleport.2")), arena.main.c(arena.main.getSettingsManager().getFile().getString("game.titles.teleport.2_sub")));
+				last_location.put(p, p.getLocation());
+				SoundDebugger.playSound(p, arena.main.getSettingsManager().getFile().getString("game.titles.teleport.sound.legacy"), arena.main.getSettingsManager().getFile().getString("game.titles.teleport.sound.new"));
+			}
+			
+		}.runTaskLater(arena.main, 20);
+		
+		new BukkitRunnable() {
+
+			@Override
+			public void run() {
+				if (!arena.getAll().contains(p) || !p.isOnline() || arena.state != ArenaState.INGAME || !running.get(id)) return;
+				if (p.getLocation().getX() != last_location.get(p).getX() || p.getLocation().getY() != last_location.get(p).getY()) {
+					p.sendTitle(arena.main.c(arena.main.getSettingsManager().getFile().getString("game.titles.teleport.move")), arena.main.c(arena.main.getSettingsManager().getFile().getString("game.titles.teleport.move_sub")));					
+					running.put(id, false);
+					teleporting.remove(p);
+					return;
+				}
+				p.sendTitle(arena.main.c(arena.main.getSettingsManager().getFile().getString("game.titles.teleport.1")), arena.main.c(arena.main.getSettingsManager().getFile().getString("game.titles.teleport.1_sub")));
 				last_location.put(p, p.getLocation());
 				SoundDebugger.playSound(p, arena.main.getSettingsManager().getFile().getString("game.titles.teleport.sound.legacy"), arena.main.getSettingsManager().getFile().getString("game.titles.teleport.sound.new"));
 			}
@@ -95,23 +114,7 @@ public class Teleporter {
 				if (p.getLocation().getX() != last_location.get(p).getX() || p.getLocation().getY() != last_location.get(p).getY()) {
 					p.sendTitle(arena.main.c(arena.main.getSettingsManager().getFile().getString("game.titles.teleport.move")), arena.main.c(arena.main.getSettingsManager().getFile().getString("game.titles.teleport.move_sub")));					
 					running.put(id, false);
-					return;
-				}
-				p.sendTitle(arena.main.c(arena.main.getSettingsManager().getFile().getString("game.titles.teleport.1")), arena.main.c(arena.main.getSettingsManager().getFile().getString("game.titles.teleport.1_sub")));
-				last_location.put(p, p.getLocation());
-				SoundDebugger.playSound(p, arena.main.getSettingsManager().getFile().getString("game.titles.teleport.sound.legacy"), arena.main.getSettingsManager().getFile().getString("game.titles.teleport.sound.new"));
-			}
-			
-		}.runTaskLater(arena.main, 60);
-		
-		new BukkitRunnable() {
-
-			@Override
-			public void run() {
-				if (!arena.getAll().contains(p) || !p.isOnline() || arena.state != ArenaState.INGAME || !running.get(id)) return;
-				if (p.getLocation().getX() != last_location.get(p).getX() || p.getLocation().getY() != last_location.get(p).getY()) {
-					p.sendTitle(arena.main.c(arena.main.getSettingsManager().getFile().getString("game.titles.teleport.move")), arena.main.c(arena.main.getSettingsManager().getFile().getString("game.titles.teleport.move_sub")));					
-					running.put(id, false);
+					teleporting.remove(p);
 					return;
 				}
 				p.sendTitle(arena.main.c(arena.main.getSettingsManager().getFile().getString("game.titles.teleport.go")), arena.main.c(arena.main.getSettingsManager().getFile().getString("game.titles.teleport.go_sub")));
@@ -129,7 +132,7 @@ public class Teleporter {
 				}
 			}
 			
-		}.runTaskLater(arena.main, 80);
+		}.runTaskLater(arena.main, 60);
 		
 		return true;
 	}

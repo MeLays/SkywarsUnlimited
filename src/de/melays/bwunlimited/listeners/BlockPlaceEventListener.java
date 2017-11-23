@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 
 import de.melays.bwunlimited.Main;
 import de.melays.bwunlimited.game.arenas.Arena;
+import de.melays.bwunlimited.game.arenas.ArenaTeam;
 import de.melays.bwunlimited.game.arenas.state.ArenaState;
 
 public class BlockPlaceEventListener implements Listener{
@@ -51,6 +52,14 @@ public class BlockPlaceEventListener implements Listener{
 							}
 							e.setCancelled(true);
 						}
+					}
+				}
+				
+				Material teamChest = Material.getMaterial(arena.main.getConfig().getString("game.special_items.TeamChest.block"));
+				if (teamChest != null && !e.isCancelled()) {
+					if (e.getItemInHand().getType() == teamChest) {
+						ArenaTeam team = arena.teamManager.findPlayer(p);
+						team.chests.add(e.getBlock().getLocation());
 					}
 				}
 				

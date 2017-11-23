@@ -37,6 +37,8 @@ game:
     start: "%prefix% The game starts in &9%countdown% &7seconds!"    
   death: "%prefix% %color%%player% &8[%color%%display%&8] &7has died."
   death_killed: "%prefix% %color%%player% &8[%color%%display%&8] &7has been killed by %killer_color%%killer% &8[%killer_color%%killer_display%&8] &8(%lifes% ❤&8)"
+  teamchest_destroyed: "%prefix% &cOne of your teamchests has been destroyed!"
+  teamchest_wrong_team: "%prefix% &cThis teamchest doesn't blong to your team!"
   team_out: "%prefix% The team %color%%display% &7has been disqualified!"
   bed:
     destroy_chat: "%prefix% %color%%player% &8[%color%%display%&8] &7has destroyed the bed of %destroyed_color%%destroyed_display%&7!"

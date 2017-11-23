@@ -73,6 +73,14 @@ public class BlockManager {
 				
 			}
 		}
+		else if (loc.getBlock().getType() == Material.ENDER_CHEST) {
+			for (ArenaTeam team : arena.teamManager.teams) {
+				if (team.chests.contains(loc.getBlock().getLocation())) {
+					team.sendMessage(arena.main.getMessageFetcher().getMessage("game.teamchest_destroyed", true));
+				}
+				team.chests.remove(loc.getBlock().getLocation());
+			}
+		}
 		if (!placed_blocks.contains(loc)) {
 			return false;
 		}

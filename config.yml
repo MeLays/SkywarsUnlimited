@@ -55,6 +55,11 @@ game:
          item: FIREWORK
       TeamChest:
          block: ENDER_CHEST
+      RescuePlatform:
+         item: NETHER_STAR
+         set: STAINED_GLASS
+         teamcolor: true
+         radius: 2
 lobby:
    respawn_y: 40
    challenger:

@@ -3,6 +3,7 @@ package de.melays.bwunlimited.game.arenas;
 import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
@@ -15,6 +16,7 @@ public class ArenaTeam {
 	public boolean out_of_game = false;
 	
 	public Inventory teamChest;
+	public ArrayList<Location> chests = new ArrayList<Location>();
 	
 	ArrayList<Player> players = new ArrayList<Player>();
 	

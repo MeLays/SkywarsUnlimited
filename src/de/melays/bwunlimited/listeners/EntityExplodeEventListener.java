@@ -5,17 +5,18 @@ import java.util.ArrayList;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityExplodeEvent;
 
 import de.melays.bwunlimited.Main;
 import de.melays.bwunlimited.game.arenas.Arena;
 import de.melays.bwunlimited.map_manager.ClusterTools;
 
-public class EntityExlodeEventListener {
+public class EntityExplodeEventListener implements Listener {
 	
 	Main main;
 	
-	public EntityExlodeEventListener (Main main) {
+	public EntityExplodeEventListener (Main main) {
 		this.main = main;
 	}
 	
@@ -36,7 +37,7 @@ public class EntityExlodeEventListener {
 		e.setCancelled(true);
 		
 		if (arena != null) {
-			
+			e.setCancelled(false);
 			for (Block b : new ArrayList<Block>(e.blockList())) {
 				
 				if (!arena.blockManager.placed_blocks.contains(b.getLocation()) && !arena.settings.tnt_detroy_map) {

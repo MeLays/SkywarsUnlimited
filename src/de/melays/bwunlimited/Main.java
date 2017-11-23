@@ -37,6 +37,7 @@ import de.melays.bwunlimited.listeners.CraftItemEventListener;
 import de.melays.bwunlimited.listeners.CreatureSpawnEventListener;
 import de.melays.bwunlimited.listeners.EntityDamageByEntityEventListener;
 import de.melays.bwunlimited.listeners.EntityDamageEventListener;
+import de.melays.bwunlimited.listeners.EntityExplodeEventListener;
 import de.melays.bwunlimited.listeners.FoodLevelChangeEventListener;
 import de.melays.bwunlimited.listeners.InventoryClickEventListener;
 import de.melays.bwunlimited.listeners.InventoryDragEventListener;
@@ -286,7 +287,8 @@ public class Main extends JavaPlugin{
 		Bukkit.getPluginManager().registerEvents(new WeatherChangeEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new FoodLevelChangeEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new CraftItemEventListener(this), this);
-
+		Bukkit.getPluginManager().registerEvents(new EntityExplodeEventListener(this), this);
+		
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			this.getLobbyManager().toLobby(p);
 			if (getFriendJoinHook() != null) {
