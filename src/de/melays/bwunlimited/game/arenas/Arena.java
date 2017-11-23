@@ -21,6 +21,7 @@ import de.melays.bwunlimited.game.arenas.settings.LeaveType;
 import de.melays.bwunlimited.game.arenas.settings.Settings;
 import de.melays.bwunlimited.game.arenas.settings.TeamPackage;
 import de.melays.bwunlimited.game.arenas.state.ArenaState;
+import de.melays.bwunlimited.game.items.Teleporter;
 import de.melays.bwunlimited.map_manager.Cluster;
 import de.melays.bwunlimited.map_manager.ClusterHandler;
 import de.melays.bwunlimited.map_manager.FineRelativeLocation;
@@ -46,6 +47,9 @@ public class Arena {
 	public DeathManager deathManager;
 	public ArenaScoreboard scoreBoard;
 	public BlockManager blockManager;
+	
+	//Items
+	public Teleporter teleporter;
 
 	// PlayerLists
 	public ArrayList<Player> players = new ArrayList<Player>();
@@ -71,6 +75,9 @@ public class Arena {
 		this.deathManager = new DeathManager(this);
 		this.scoreBoard = new ArenaScoreboard(this);
 		this.blockManager = new BlockManager(this);
+		
+		//Items
+		this.teleporter = new Teleporter(this);
 
 		// Starting the generation of the Cluster
 		clusterHandler = main.getClusterManager().getNewHandler(cluster.name);

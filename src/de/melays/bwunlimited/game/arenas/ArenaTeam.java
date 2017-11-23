@@ -2,7 +2,9 @@ package de.melays.bwunlimited.game.arenas;
 
 import java.util.ArrayList;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 
 import de.melays.bwunlimited.teams.Team;
 
@@ -12,6 +14,8 @@ public class ArenaTeam {
 	public boolean bed = true;
 	public boolean out_of_game = false;
 	
+	public Inventory teamChest;
+	
 	ArrayList<Player> players = new ArrayList<Player>();
 	
 	Arena arena;
@@ -19,6 +23,14 @@ public class ArenaTeam {
 	public ArenaTeam (Arena arena , Team team) {
 		this.team = team;
 		this.arena = arena;
+		teamChest = Bukkit.createInventory(null, arena.main.getSettingsManager().getFile().getInt("game.teamchest.size"), 
+				arena.main.c(arena.main.getSettingsManager().getFile().getString("game.teamchest.title")
+						.replaceAll("%teamcolor%", team.Color.toChatColor() + "")
+						.replaceAll("%teamname%", team.display)));
+	}
+	
+	public void openTeamInventory(Player p) {
+		p.openInventory(this.teamChest);
 	}
 	
 	public boolean addPlayer(Player p) {

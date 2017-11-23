@@ -40,11 +40,31 @@ game:
       - "&8&l» &9Teams:"
       - team-lines
       - "   "
+  teamchest:
+    size: 27
+    title: "%teamcolor%%teamname%&7's private Chest"
   titles:
     bed: "&cBed destroyed"
     bed_sub: "&4Your teams bed has been destroyed!"
     win: "%color%%display%"
     win_sub: "&awon the game!"
+    teleport:
+      sound:
+        legacy: CLICK
+        new: BLOCK_LEVER_CLICK 
+      sound_teleport:
+        legacy: ENDERMAN_TELEPORT
+        new: ENTITY_ENDERMEN_TELEPORT 
+      3: "&c&lTELEPORTER"
+      3_sub: "&1&l»&9»» &c➌ &9««&1&l«"
+      2: "&c&lTELEPORTER"
+      2_sub: "&9»&1&l»&9» &e➋ &9«&1&l«&9«"
+      1: "&c&lTELEPORTER"
+      1_sub: "&9»»&1&l»&r &2➊ &1&l«&9««"
+      go: "&c&lTELEPORTER"
+      go_sub: "&9»»&1&l»&r &aGO! &1&l«&9««"
+      move: "&4&lFAILED!"
+      move_sub: "&cYou moved!"
 tab:
   header:
     - ""

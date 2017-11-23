@@ -49,7 +49,12 @@ game:
      - GLOWSTONE
      - TNT
    special_items:
-      
+      TNT:
+         item: TNT
+      Teleporter:
+         item: FIREWORK
+      TeamChest:
+         block: ENDER_CHEST
 lobby:
    respawn_y: 40
    challenger:
@@ -72,6 +77,8 @@ defaultsettings:
    fixed_teams: false
    allow_join: true
    allow_spectate: true
+   tnt_auto_ignite: true
+   tnt_detroy_map: false
    lobby_leave: NORMAL
    min_players: 2
    max_players: 0

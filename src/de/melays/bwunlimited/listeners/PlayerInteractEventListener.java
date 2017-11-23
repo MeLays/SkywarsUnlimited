@@ -56,6 +56,15 @@ public class PlayerInteractEventListener implements Listener{
 							e.setCancelled(true);
 						}
 					}
+					if (e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK 
+							|| e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+						Material teleporter = Material.getMaterial(arena.main.getConfig().getString("game.special_items.Teleporter.item"));
+						if (teleporter != null && e.getPlayer().getItemInHand() != null) {
+							if (e.getPlayer().getItemInHand().getType() == teleporter) {
+								arena.teleporter.use(p, teleporter);
+							}
+						}
+					}
 				}
 				if (arena.state == ArenaState.ENDING) {
 					if (main.getItemManager().isItem("gamelobby.leaveitem", e.getItem())) {

@@ -13,6 +13,8 @@ public class Settings {
 	public boolean allow_join = true;
 	public boolean allow_spectate = true;
 	public boolean stats = true;
+	public boolean tnt_auto_ignite = true;
+	public boolean tnt_detroy_map = false;
 	
 	public LeaveType lobby_leave = LeaveType.NORMAL;
 	
@@ -39,6 +41,8 @@ public class Settings {
 		allow_join = config.getBoolean("allow_join");
 		allow_spectate = config.getBoolean("allow_spectate");
 		stats = config.getBoolean("stats");
+		tnt_auto_ignite = config.getBoolean("tnt_auto_ignite");
+		tnt_detroy_map = config.getBoolean("tnt_detroy_map");
 		lobby_leave = LeaveType.valueOf(config.getString("lobby_leave").toUpperCase());
 		min_players = config.getInt("min_players");
 		max_players = config.getInt("max_players");
@@ -71,6 +75,8 @@ public class Settings {
 		r.allow_join = config.getBoolean("allow_join");
 		r.allow_spectate = config.getBoolean("allow_spectate");
 		r.stats = config.getBoolean("stats");
+		r.tnt_auto_ignite = config.getBoolean("tnt_auto_ignite");
+		r.tnt_detroy_map = config.getBoolean("tnt_detroy_map");
 		r.lobby_leave = LeaveType.valueOf(config.getString("lobby_leave").toUpperCase());
 		r.min_players = config.getInt("min_players");
 		r.max_players = config.getInt("max_players");
@@ -86,6 +92,8 @@ public class Settings {
 		config.set(path + "." + "allow_join", allow_join);
 		config.set(path + "." + "allow_spectate", allow_spectate);
 		config.set(path + "." + "stats", stats);
+		config.set(path + "." + "tnt_auto_ignite", tnt_auto_ignite);
+		config.set(path + "." + "tnt_detroy_map", tnt_detroy_map);
 		config.set(path + "." + "lobby_leave", lobby_leave.toString());
 		config.set(path + "." + "min_players", min_players);
 		config.set(path + "." + "max_players", max_players);

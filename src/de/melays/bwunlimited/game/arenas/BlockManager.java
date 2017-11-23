@@ -22,7 +22,7 @@ public class BlockManager {
 		this.arena = arena;
 	}
 	
-	ArrayList<Location> placed_blocks = new ArrayList<Location>();
+	public ArrayList<Location> placed_blocks = new ArrayList<Location>();
 	HashMap<Location , ItemStack> item_stacks = new HashMap<Location , ItemStack>();
 	
 	public boolean placeBlock (Location loc , ItemStack stack) {
