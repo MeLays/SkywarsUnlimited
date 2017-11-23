@@ -106,9 +106,6 @@ public class ArenaCommand {
 			} catch (UnknownClusterException e) {
 
 			}
-			if (cluster.getClusterMeta() == null) {
-				cluster = null;
-			}
 			
 			if (cluster != null) {
 				int count = 0;
@@ -126,7 +123,7 @@ public class ArenaCommand {
 			if (search != null) {
 				Arena a = main.getArenaManager().searchPlayer(search);
 				if (a == null) {
-					sender.sendMessage(main.prefix + search.getName() + " is not ingame!");
+					sender.sendMessage(main.prefix + search.getName() + " is not ingame! Searching for the category " + args[2] + " ...");
 				}
 				else {
 					a.stop();

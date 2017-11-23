@@ -48,6 +48,11 @@ public class ArenaManager {
 		return r;
 	}
 	
+	public String getCategory(int id) {
+		if (!category.containsKey(id)) return null;
+		return category.get(id);
+	}
+	
 	public ArrayList<Arena> getArenas (){
 		ArrayList<Arena> r= new ArrayList<Arena>();
 		for (int i : this.category.keySet()) {

@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import de.melays.bwunlimited.bwshop.BedwarsShop;
 import de.melays.bwunlimited.challenges.GroupManager;
 import de.melays.bwunlimited.colortab.ColorTabAPI;
 import de.melays.bwunlimited.commands.MainCommand;
@@ -56,7 +57,6 @@ import de.melays.bwunlimited.messages.MessageFetcher;
 import de.melays.bwunlimited.multiworld.EmptyRoomGenerator;
 import de.melays.bwunlimited.npc.LobbyNPCManager;
 import de.melays.bwunlimited.npc.NPCManager;
-import de.melays.bwunlimited.shop.BedwarsShop;
 import de.melays.bwunlimited.stats.StatsManager;
 import de.melays.bwunlimited.teams.TeamManager;
 import de.melays.bwunlimited.tools.MarkerTool;
@@ -171,6 +171,11 @@ public class Main extends JavaPlugin{
 		return lobbyNPCManager;
 	}
 	
+	BedwarsShop bedwarsShop;
+	public BedwarsShop getBedwarsShop() {
+		return bedwarsShop;
+	}
+	
 	//Tools
 	MarkerTool markerTool; 
 	public MarkerTool getMarkerTool() {
@@ -239,6 +244,7 @@ public class Main extends JavaPlugin{
 		this.bungeeServerFetcher = new BungeeServerFetcher(this);
 		this.npcManager = new NPCManager(this);
 		this.lobbyNPCManager = new LobbyNPCManager(this);
+		this.bedwarsShop = new BedwarsShop(this);
 		this.messageFetcher = new MessageFetcher(this);
 		prefix = this.getMessageFetcher().getMessage("prefix", false) + " ";
 		
@@ -292,8 +298,6 @@ public class Main extends JavaPlugin{
 		
 		//OLD BW SHOP ONLY FOR TESTS!
 		//new BWShop(this);
-		
-		BedwarsShop.load(this, false);
 		
 		this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 		

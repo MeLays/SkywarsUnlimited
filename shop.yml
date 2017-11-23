@@ -1,5 +1,19 @@
 title: "&bBedwars Shop"
 size: 18
+default: blocks
+sounds:
+   cant_afford:
+      legacy: DIG_WOOD
+      new: BLOCK_WOOD_HIT
+   inv_full:
+      legacy: DIG_WOOD
+      new: BLOCK_WOOD_HIT
+   buy:
+      legacy: ITEM_PICKUP
+      new: ENTITY_ITEM_PICKUP
+   gui_click:
+      legacy: CLICK
+      new: BLOCK_LEVER_CLICK   
 categories:
    blocks:
       displayitem:
@@ -97,7 +111,7 @@ categories:
          helmet:
             type: LEATHER_HELMET
             data: 0
-            amount: 2
+            amount: 1
             displayname: "&9Leather Helmet"
             lore:
               - "&c1 Bronze Ingot"
@@ -111,7 +125,7 @@ categories:
          leggins:
             type: LEATHER_LEGGINGS
             data: 0
-            amount: 2
+            amount: 1
             displayname: "&9Leather Leggins"
             lore:
               - "&c1 Bronze Ingot"
@@ -125,7 +139,7 @@ categories:
          boots:
             type: LEATHER_BOOTS
             data: 0
-            amount: 2
+            amount: 1
             displayname: "&9Leather Boots"
             lore:
               - "&c1 Bronze Ingot"
@@ -479,7 +493,7 @@ categories:
          placeholder_6: []
    chests:
       displayitem:
-         type: CAKE
+         type: CHEST
          data: 0
          amount: 1         
          displayname: "&bChests"
@@ -545,7 +559,9 @@ categories:
               - "&75 Iron Ingot"
             enchantments: []
             potion:
-               INSTANT_HEAL: 1
+               HEAL:
+                  level: 1
+                  time: 1
             itemflags: []
             hide_in_categories: []
             hide_in_clusters: []            
@@ -561,14 +577,16 @@ categories:
               - "&78 Iron Ingot"
             enchantments: []
             potion:
-               INSTANT_HEAL: 2
+               HEAL:
+                  level: 2
+                  time: 1
             itemflags: []
             hide_in_categories: []
             hide_in_clusters: []            
             price:
                IRON_INGOT: 8
          placeholder_4: []
-         strength_2:
+         strength:
             type: POTION
             data: 0
             amount: 1
@@ -577,7 +595,9 @@ categories:
               - "&68 Gold Ingot"
             enchantments: []
             potion:
-               STRENGTH: 2
+               INCREASE_DAMAGE: 
+                  level: 1
+                  time: 2400
             itemflags: []
             hide_in_categories: []
             hide_in_clusters: []            

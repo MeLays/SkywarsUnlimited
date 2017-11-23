@@ -3,6 +3,7 @@ package de.melays.bwunlimited.listeners;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 
@@ -22,6 +23,12 @@ public class InventoryClickEventListener implements Listener{
 	
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent e) {
+		
+		if (e.getClickedInventory().getName().equals(main.c(main.getBedwarsShop().getItemFile().getString("title"))) && e.getClickedInventory().getSize() == main.getBedwarsShop().getItemFile().getInt("size")) {
+			main.getBedwarsShop().shopClick((Player)e.getWhoClicked(), e.getSlot() , e.isShiftClick() , (e.getClick() == ClickType.NUMBER_KEY) , e.getHotbarButton());
+			e.setCancelled(true);
+		}
+		
 		Player p = (Player) e.getWhoClicked();
 		if (main.getArenaManager().isInGame(p)) {
 			Arena arena = main.getArenaManager().searchPlayer(p);
