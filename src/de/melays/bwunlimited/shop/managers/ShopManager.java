@@ -7,14 +7,17 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 
+import de.melays.bwunlimited.Main;
 import de.melays.bwunlimited.shop.BedwarsShop;
 import de.melays.bwunlimited.shop.utils.Shop;
 
@@ -29,6 +32,7 @@ public class ShopManager {
 	private static Map<UUID, String> shopUUIDs = new HashMap<>();
 	private static Map<ItemStack, String> shopOpeners = new HashMap<>();
 	private static String defaultShop;
+	private static Plugin main;
 	/**
 	 * Creates sections out of a configuration file to load shops.
 	 * @param plugin	The originally plugin (JavaPlugin).
@@ -40,6 +44,7 @@ public class ShopManager {
 			plugin.saveResource("shop"+File.separator+"Shops.yml", true);
 		}
 		FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+		main = plugin;
 		for (String key : config.getKeys(false)) {
 			shopNames.put(key, loadShop(config.getConfigurationSection(key)));
 		}
@@ -149,6 +154,14 @@ public class ShopManager {
 				category = map;
 			}
 			categories.put(opener, category);
+		}
+		for (int i = 0 ; i < inv.getSize() ; i++){	
+			if (inv.getItem(i) == null){
+				inv.setItem(i, ((Main)main).getItemManager().getItem("spacer"));
+			}
+			if (inv.getItem(i).getType().equals(Material.AIR)){
+				inv.setItem(i, ((Main)main).getItemManager().getItem("spacer"));
+			}
 		}
 		return new Shop(name, merchant, inv, categories);
 	}

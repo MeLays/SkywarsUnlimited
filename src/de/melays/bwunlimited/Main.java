@@ -56,7 +56,7 @@ import de.melays.bwunlimited.messages.MessageFetcher;
 import de.melays.bwunlimited.multiworld.EmptyRoomGenerator;
 import de.melays.bwunlimited.npc.LobbyNPCManager;
 import de.melays.bwunlimited.npc.NPCManager;
-import de.melays.bwunlimited.shop_old.BWShop;
+import de.melays.bwunlimited.shop.BedwarsShop;
 import de.melays.bwunlimited.stats.StatsManager;
 import de.melays.bwunlimited.teams.TeamManager;
 import de.melays.bwunlimited.tools.MarkerTool;
@@ -291,9 +291,9 @@ public class Main extends JavaPlugin{
 		updateTime();
 		
 		//OLD BW SHOP ONLY FOR TESTS!
-		new BWShop(this);
+		//new BWShop(this);
 		
-		//BedwarsShop.load(this, false);
+		BedwarsShop.load(this, false);
 		
 		this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 		

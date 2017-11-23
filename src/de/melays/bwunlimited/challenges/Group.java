@@ -147,6 +147,9 @@ public class Group {
 	
 	//Command methods
 	public boolean invite (Player p) {
+		if (this.getPlayers().size() >= groupManager.getMaxPlayers(this.getLeader())) {
+			return false;
+		}
 		if (!invited.contains(p)) {
 			invited.add(p);
 			p.sendMessage(groupManager.main.getMessageFetcher().getMessage("group.invite", true).replaceAll("%player%", leader.getName()));
@@ -170,6 +173,10 @@ public class Group {
 	
 	public boolean accept(Player p) {
 		if (invited.contains(p)) {
+			if (this.getPlayers().size() >= groupManager.getMaxPlayers(this.getLeader())) {
+				p.sendMessage(groupManager.main.getMessageFetcher().getMessage("group.full_join", true).replaceAll("%player%", p.getName()));
+				return false;
+			}
 			invited.remove(p);
 			if (groupManager.getGroup(p).getPlayers().size() != 1) {
 				groupManager.getGroup(p).leave(p);

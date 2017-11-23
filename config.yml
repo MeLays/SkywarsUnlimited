@@ -11,6 +11,11 @@ creature_spawn: false
 group_command: true
 leave_command: true
 tab_header_and_footer: true
+default_group_size: 2
+group_size_permission:
+  - "bw.group.4->4"
+  - "bw.group.8->8"
+  - "bw.group.*->*"
 physics:
    crop-trampeling: false
    game:
@@ -42,7 +47,9 @@ game:
    no_drop:
      - WEB
      - GLOWSTONE
-     - STAINED_GLASS
+     - TNT
+   special_items:
+      
 lobby:
    respawn_y: 40
    challenger:

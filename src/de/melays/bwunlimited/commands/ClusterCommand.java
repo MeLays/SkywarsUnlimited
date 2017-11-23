@@ -235,6 +235,10 @@ public class ClusterCommand {
 				sender.sendMessage(main.prefix +  "This cluster does not exist!");
 			}
 		}
+		
+		else {
+			sender.sendMessage(main.getMessageFetcher().getMessage("help.unknown", true).replaceAll("%help%", "/bw cluster help"));
+		}
 	}
 	
 }

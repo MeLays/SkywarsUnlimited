@@ -124,6 +124,10 @@ public class MainCommand implements CommandExecutor {
 			}
 		}
 		
+		else {
+			sender.sendMessage(main.getMessageFetcher().getMessage("help.unknown", true).replaceAll("%help%", "/bw help"));
+		}
+		
 		return true;
 	}
 	

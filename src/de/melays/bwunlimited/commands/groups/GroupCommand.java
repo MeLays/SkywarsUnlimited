@@ -65,7 +65,12 @@ public class GroupCommand implements CommandExecutor {
 				if (group.invite(Bukkit.getPlayer(args[1])))
 					p.sendMessage(main.getMessageFetcher().getMessage("group.invite_sender", true).replaceAll("%player%", args[1]));
 				else {
-					p.sendMessage(main.getMessageFetcher().getMessage("group.already_invited", true).replaceAll("%player%", args[1]));
+					if (group.getPlayers().size() >= main.getGroupManager().getMaxPlayers(group.getLeader())) {
+						p.sendMessage(main.getMessageFetcher().getMessage("group.full", true).replaceAll("%max%", main.getGroupManager().getMaxPlayers(group.getLeader()) + ""));
+					}
+					else {
+						p.sendMessage(main.getMessageFetcher().getMessage("group.already_invited", true).replaceAll("%player%", args[1]));
+					}
 				}
 			}
 			else {

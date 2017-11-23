@@ -224,6 +224,10 @@ public class LobbyCommand {
 			main.getLobbyManager().saveFile(); 
 			sender.sendMessage(main.prefix + "The cluster has been added!");
 		}
+		
+		else {
+			sender.sendMessage(main.getMessageFetcher().getMessage("help.unknown", true).replaceAll("%help%", "/bw lobby help"));
+		}
 	}
 	
 }

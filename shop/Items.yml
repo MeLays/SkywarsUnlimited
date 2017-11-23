@@ -1,5 +1,3 @@
-#  If you need help please read the instructions at http://www.Coordu.de/BedwarsShop
-#
 #Example:
 #  Name: "&cExampleItem"  // Optional
 #  Material: "WOOD"       // Essential.
@@ -20,19 +18,11 @@
 # Currency
 #
 Bronze:
-  Name: "&cBronze"
   Material: "CLAY_BRICK"
 Eisen:
-  Name: "&7Eisen"
   Material: "IRON_INGOT"
 Gold:
-  Name: "&6Gold"
   Material: "GOLD_INGOT"
-#
-# Placeholders
-#
-Air:
-  Material: "AIR"
 #
 # Openers
 #

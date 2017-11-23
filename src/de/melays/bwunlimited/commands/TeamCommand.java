@@ -104,6 +104,10 @@ public class TeamCommand {
 			}
 		}
 		
+		else {
+			sender.sendMessage(main.getMessageFetcher().getMessage("help.unknown", true).replaceAll("%help%", "/bw teams help"));
+		}
+		
 	}
 	
 }

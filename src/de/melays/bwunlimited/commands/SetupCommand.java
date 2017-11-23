@@ -506,6 +506,10 @@ public class SetupCommand {
 			sender.sendMessage(main.prefix + "If this shop existed it has been removed!");
 		}
 		
+		else {
+			sender.sendMessage(main.getMessageFetcher().getMessage("help.unknown", true).replaceAll("%help%", "/bw setup help"));
+		}
+		
 	}
 	
 }

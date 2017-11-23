@@ -1,0 +1,680 @@
+title: "&bBedwars Shop"
+size: 18
+categories:
+   blocks:
+      displayitem:
+         type: RED_SANDSTONE
+         data: 0
+         amount: 1         
+         displayname: "&bBlocks"
+         lore: []
+         enchantments: []
+         itemflags: []
+      hide_in_categories: []
+      hide_in_clusters: []
+      items:
+         placeholder_1: []
+         placeholder_2: []
+         sandstone:
+            type: RED_SANDSTONE
+            data: 0
+            amount: 2
+            displayname: "&eSandstone"
+            lore:
+              - "&c1 Bronze Ingot"
+            enchantments: []
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: []            
+            price:
+               CLAY_BRICK: 1
+         endstone:
+            type: ENDER_STONE
+            data: 0
+            amount: 1
+            displayname: "&eEndstone"
+            lore:
+              - "&c6 Bronze Ingot"
+            enchantments: []
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: [] 
+            price:
+               CLAY_BRICK: 6
+         ironblock:
+            type: IRON_BLOCK
+            data: 0
+            amount: 1
+            displayname: "&7Ironblock"
+            lore:
+              - "&73 Iron Ingot"
+            enchantments: []
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: [] 
+            price:
+               IRON_INGOT: 3
+         stainedglass:
+            type: STAINED_GLASS
+            data: 0
+            amount: 1
+            displayname: "&eGlass"
+            lore:
+              - "&c3 Bronze Ingot"
+            enchantments: []
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: [] 
+            price:
+               CLAY_BRICK: 3
+         glowstone:
+            type: GLOWSTONE
+            data: 0
+            amount: 4
+            displayname: "&eGlowstone"
+            lore:
+              - "&c14 Bronze Ingot"
+            enchantments: []
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: [] 
+            price:
+               CLAY_BRICK: 14
+         placeholder_3: []
+         placeholder_4: []
+   chestplates:
+      displayitem:
+         type: CHAINMAIL_CHESTPLATE
+         data: 0
+         amount: 1         
+         displayname: "&bArmor"
+         lore: []
+         enchantments: []
+         itemflags: []
+      hide_in_categories: []
+      hide_in_clusters: []
+      items:
+         helmet:
+            type: LEATHER_HELMET
+            data: 0
+            amount: 2
+            displayname: "&9Leather Helmet"
+            lore:
+              - "&c1 Bronze Ingot"
+            enchantments:
+               PROTECTION_ENVIRONMENTAL: 1
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: []            
+            price:
+               CLAY_BRICK: 1
+         leggins:
+            type: LEATHER_LEGGINGS
+            data: 0
+            amount: 2
+            displayname: "&9Leather Leggins"
+            lore:
+              - "&c1 Bronze Ingot"
+            enchantments:
+               PROTECTION_ENVIRONMENTAL: 1
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: []            
+            price:
+               CLAY_BRICK: 1
+         boots:
+            type: LEATHER_BOOTS
+            data: 0
+            amount: 2
+            displayname: "&9Leather Boots"
+            lore:
+              - "&c1 Bronze Ingot"
+            enchantments:
+               PROTECTION_ENVIRONMENTAL: 1
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: []            
+            price:
+               CLAY_BRICK: 1
+         placeholder_1: []
+         chestplate_1:
+            type: CHAINMAIL_CHESTPLATE
+            data: 0
+            amount: 1
+            displayname: "&1Chestplate"
+            lore:
+              - "&71 Iron Ingot"
+            enchantments: []
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: [] 
+            price:
+               IRON_INGOT: 1
+         chestplate_2:
+            type: CHAINMAIL_CHESTPLATE
+            data: 0
+            amount: 1
+            displayname: "&1Chestplate &6I"
+            lore:
+              - "&73 Iron Ingot"
+            enchantments:
+               PROTECTION_ENVIRONMENTAL: 1
+               DURABILITY: 1
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: [] 
+            price:
+               IRON_INGOT: 3
+         chestplate_3:
+            type: CHAINMAIL_CHESTPLATE
+            data: 0
+            amount: 1
+            displayname: "&1Chestplate &cII"
+            lore:
+              - "&77 Iron Ingot"
+            enchantments:
+               PROTECTION_ENVIRONMENTAL: 2
+               DURABILITY: 1
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: [] 
+            price:
+               IRON_INGOT: 7
+         chestplate_4:
+            type: CHAINMAIL_CHESTPLATE
+            data: 0
+            amount: 1
+            displayname: "&1Chestplate &4III"
+            lore:
+              - "&77 Iron Ingot"
+            enchantments:
+               PROTECTION_ENVIRONMENTAL: 2
+               DURABILITY: 1
+               THORNS: 1
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: [] 
+            price:
+               IRON_INGOT: 7
+         placeholder_2: []
+   tools:
+      displayitem:
+         type: IRON_PICKAXE
+         data: 0
+         amount: 1         
+         displayname: "&bTools"
+         lore: []
+         enchantments: []
+         itemflags: []
+      hide_in_categories: []
+      hide_in_clusters: []
+      items:
+         placeholder_1: []
+         placeholder_2: []
+         placeholder_3: []
+         wood_pickaxe:
+            type: WOOD_PICKAXE
+            data: 0
+            amount: 1
+            displayname: "&ePickaxe &6I"
+            lore:
+              - "&c7 Bronze Ingot"
+            enchantments: []
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: []            
+            price:
+               CLAY_BRICK: 7
+         stone_pickaxe:
+            type: STONE_PICKAXE
+            data: 0
+            amount: 1
+            displayname: "&ePickaxe &cII"
+            lore:
+              - "&72 Iron Ingot"
+            enchantments: []
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: []            
+            price:
+               IRON_INGOT: 2
+         iron_pickaxe:
+            type: IRON_PICKAXE
+            data: 0
+            amount: 1
+            displayname: "&ePickaxe &4III"
+            lore:
+              - "&61 Gold Ingot"
+            enchantments: []
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: []            
+            price:
+               GOLD_INGOT: 1
+         placeholder_4: []
+         placeholder_5: []
+         placeholder_6: []
+   swords:
+      displayitem:
+         type: WOOD_SWORD
+         data: 0
+         amount: 1         
+         displayname: "&bSwords"
+         lore: []
+         enchantments: []
+         itemflags: []
+      hide_in_categories: []
+      hide_in_clusters: []
+      items:
+         placeholder_1: []
+         placeholder_2: []
+         stick:
+            type: STICK
+            data: 0
+            amount: 1
+            displayname: "&cStick"
+            lore:
+              - "&c10 Bronze Ingot"
+            enchantments:
+               - KNOCKBACK: 1
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: []            
+            price:
+               CLAY_BRICK: 10
+         wood_sword:
+            type: WOOD_SWORD
+            data: 0
+            amount: 1
+            displayname: "&cWood Sword"
+            lore:
+              - "&71 Iron Ingot"
+            enchantments: []
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: []            
+            price:
+               IRON_INGOT: 1
+         wood_sword_2:
+            type: WOOD_SWORD
+            data: 0
+            amount: 1
+            displayname: "&cWood Sword &6I"
+            lore:
+              - "&74 Iron Ingot"
+            enchantments:
+               DAMAGE_ALL: 1
+               DURABILITY: 1
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: []            
+            price:
+               IRON_INGOT: 4
+         wood_sword_3:
+            type: WOOD_SWORD
+            data: 0
+            amount: 1
+            displayname: "&cWood Sword &cII"
+            lore:
+              - "&76 Iron Ingot"
+            enchantments:
+               DAMAGE_ALL: 2
+               DURABILITY: 1
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: []            
+            price:
+               IRON_INGOT: 6
+         iron_sword:
+            type: IRON_SWORD
+            data: 0
+            amount: 1
+            displayname: "&4Iron Sword"
+            lore:
+              - "&66 Gold Ingot"
+            enchantments:
+               DAMAGE_ALL: 2
+               KNOCKBACK: 1
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: []            
+            price:
+               GOLD_INGOT: 1
+         placeholder_3: []
+         placeholder_4: []
+   bows:
+      displayitem:
+         type: BOW
+         data: 0
+         amount: 1         
+         displayname: "&bBows"
+         lore: []
+         enchantments: []
+         itemflags: []
+      hide_in_categories: []
+      hide_in_clusters: []
+      items:
+         placeholder_1: []
+         placeholder_2: []
+         bow_1:
+            type: BOW
+            data: 0
+            amount: 1
+            displayname: "&5Bow &6I"
+            durability: 264
+            lore:
+              - "&63 Gold Ingot"
+            enchantments:
+               ARROW_INFINITE: 1
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: []            
+            price:
+               GOLD_INGOT: 3
+         bow_2:
+            type: BOW
+            data: 0
+            amount: 1
+            displayname: "&5Bow &cII"
+            durability: 264
+            lore:
+              - "&67 Gold Ingot"
+            enchantments:
+               ARROW_DAMAGE: 1
+               ARROW_INFINITE: 1
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: []            
+            price:
+               GOLD_INGOT: 7
+         bow_3:
+            type: BOW
+            data: 0
+            amount: 1
+            displayname: "&5Bow &4III"
+            durability: 264
+            lore:
+              - "&611 Gold Ingot"
+            enchantments:
+               ARROW_DAMAGE: 2
+               ARROW_INFINITE: 1
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: []            
+            price:
+               GOLD_INGOT: 11
+         placeholder_3: []
+         arrow:
+            type: ARROW
+            data: 0
+            amount: 1
+            displayname: "&bArrow"
+            durability: 264
+            lore:
+              - "&61 Gold Ingot"
+            enchantments: []
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: []            
+            price:
+               GOLD_INGOT: 1
+         placeholder_4: []
+         placeholder_5: []
+   food:
+      displayitem:
+         type: CAKE
+         data: 0
+         amount: 1         
+         displayname: "&bFood"
+         lore: []
+         enchantments: []
+         itemflags: []
+      hide_in_categories: []
+      hide_in_clusters: []
+      items:
+         placeholder_1: []
+         placeholder_2: []
+         apple:
+            type: APPLE
+            data: 0
+            amount: 1
+            displayname: "&2Apple"
+            lore:
+              - "&c2 Bronze Ingot"
+            enchantments: []
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: []            
+            price:
+               CLAY_BRICK: 2
+         beef:
+            type: COOKED_BEEF
+            data: 0
+            amount: 1
+            displayname: "&2Cooked Beef"
+            lore:
+              - "&c4 Bronze Ingot"
+            enchantments: []
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: []            
+            price:
+               CLAY_BRICK: 4
+         placeholder_3: []
+         placeholder_4: []
+         goldenapple:
+            type: GOLDEN_APPLE
+            data: 0
+            amount: 1
+            displayname: "&2Golden Apple"
+            lore:
+              - "&62 Gold Ingot"
+            enchantments: []
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: []            
+            price:
+               GOLD_INGOT: 2
+         placeholder_5: []
+         placeholder_6: []
+   chests:
+      displayitem:
+         type: CAKE
+         data: 0
+         amount: 1         
+         displayname: "&bChests"
+         lore: []
+         enchantments: []
+         itemflags: []
+      hide_in_categories: []
+      hide_in_clusters: []
+      items:
+         placeholder_1: []
+         placeholder_2: []
+         placeholder_3: []
+         chest:
+            type: CHEST
+            data: 0
+            amount: 1
+            displayname: "&aChest"
+            lore:
+              - "&72 Iron Ingot"
+            enchantments: []
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: []            
+            price:
+               IRON_INGOT: 2
+         placeholder_4: []
+         enderchest:
+            type: ENDER_CHEST
+            data: 0
+            amount: 1
+            displayname: "&aTeam Chest"
+            lore:
+              - "&62 Gold Ingot"
+            enchantments: []
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: []            
+            price:
+               GOLD_INGOT: 2
+         placeholder_5: []
+         placeholder_6: []
+         placeholder_7: []
+   potions:
+      displayitem:
+         type: POTION
+         data: 0
+         amount: 1         
+         displayname: "&bPotions"
+         lore: []
+         enchantments: []
+         itemflags: []
+      hide_in_categories: []
+      hide_in_clusters: []
+      items:
+         placeholder_1: []
+         placeholder_2: []
+         heal_1:
+            type: POTION
+            data: 0
+            amount: 1
+            displayname: "&3Heal &6I"
+            lore:
+              - "&75 Iron Ingot"
+            enchantments: []
+            potion:
+               INSTANT_HEAL: 1
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: []            
+            price:
+               IRON_INGOT: 5
+         placeholder_3: []
+         heal_2:
+            type: POTION
+            data: 0
+            amount: 1
+            displayname: "&3Heal &cII"
+            lore:
+              - "&78 Iron Ingot"
+            enchantments: []
+            potion:
+               INSTANT_HEAL: 2
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: []            
+            price:
+               IRON_INGOT: 8
+         placeholder_4: []
+         strength_2:
+            type: POTION
+            data: 0
+            amount: 1
+            displayname: "&3Strenght"
+            lore:
+              - "&68 Gold Ingot"
+            enchantments: []
+            potion:
+               STRENGTH: 2
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: []            
+            price:
+               GOLD_INGOT: 8
+         placeholder_5: []
+         placeholder_6: []
+   special:
+      displayitem:
+         type: EMERALD
+         data: 0
+         amount: 1         
+         displayname: "&bSpecial"
+         lore: []
+         enchantments: []
+         itemflags: []
+      hide_in_categories: []
+      hide_in_clusters: []
+      items:
+         ladder:
+            type: LADDER
+            data: 0
+            amount: 1
+            displayname: "&6Ladder"
+            lore:
+              - "&c2 Bronze Ingot"
+            enchantments: []
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: []            
+            price:
+               CLAY_BRICK: 2
+         teleporter:
+            type: FIREWORK
+            data: 0
+            amount: 1
+            displayname: "&6Teleporter"
+            lore:
+              - "&710 Iron Ingot"
+            enchantments: []
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: []            
+            price:
+               IRON_INGOT: 10
+         placeholder_1: []
+         tnt:
+            type: TNT
+            data: 0
+            amount: 1
+            displayname: "&6TNT"
+            lore:
+              - "&63 Gold Ingot"
+            enchantments: []
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: []            
+            price:
+               GOLD_INGOT: 3
+         placeholder_2: []
+         placeholder_3: []
+         rescue_platform:
+            type: NETHER_STAR
+            data: 0
+            amount: 1
+            displayname: "&6Rescue Platform"
+            lore:
+              - "&63 Gold Ingot"
+            enchantments: []
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: []            
+            price:
+               GOLD_INGOT: 3
+         ender_perl:
+            type: ENDER_PEARL
+            data: 0
+            amount: 1
+            displayname: "&6Enderperl"
+            lore:
+              - "&614 Gold Ingot"
+            enchantments: []
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: []            
+            price:
+               GOLD_INGOT: 14
+         cobweb:
+            type: WEB
+            data: 0
+            amount: 1
+            displayname: "&6Cobweb"
+            lore:
+              - "&c20 Bronze Ingot"
+            enchantments: []
+            itemflags: []
+            hide_in_categories: []
+            hide_in_clusters: []            
+            price:
+               CLAY_BRICK: 20

@@ -8,6 +8,7 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 
 import de.melays.bwunlimited.Main;
 import de.melays.bwunlimited.challenges.Group;
+import de.melays.bwunlimited.shop.BedwarsShop;
 
 public class PlayerInteractEntityEventListener implements Listener{
 
@@ -25,7 +26,7 @@ public class PlayerInteractEntityEventListener implements Listener{
 				return;
 			}
 			e.setCancelled(true);
-			//BedwarsShop.openShop(p);
+			BedwarsShop.openShop(p);
 		}
 		else if (!main.canOperateInLobby(p)) {
 			if (!(e.getRightClicked() instanceof Player)) return;

@@ -10,6 +10,7 @@ help:
   hover_top: "&8/%command% &7%alias%:"
   hover_body_color: "&e"
   footer: "&7&m--------------------"
+  unknown: "%prefix% &cUnknown Command! Get help using '%help%'"
 list:
   header: "%prefix% &7%list%: (&a%page%&7/&a%max_pages%&7)"
   command: "    %entry%"
@@ -89,3 +90,5 @@ group:
   already_invited: "%prefix% &cYou already invited this player!"
   already_in_group: "%prefix% &cThis player is already in your group!"
   no_suitable_maps: "%prefix% &cThere are no suitable maps fitting your teamsize!" 
+  full: "%prefix% Your group is full! Your maximal size is %max%!"
+  full_join: "%prefix% You can't join that group! It's full!"

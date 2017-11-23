@@ -48,6 +48,14 @@ public class ArenaManager {
 		return r;
 	}
 	
+	public ArrayList<Arena> getArenas (){
+		ArrayList<Arena> r= new ArrayList<Arena>();
+		for (int i : this.category.keySet()) {
+			r.add(this.getArena(i));
+		}
+		return r;
+	}
+	
 	public int startGame(Cluster cluster , Settings settings , String category) throws ClusterAvailabilityException, UnknownClusterException {
 		return startGame(cluster , settings , category , null , null);
 	}
