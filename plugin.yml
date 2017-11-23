@@ -4,7 +4,7 @@ description: BedwarsUnlimited Plugin by MeLays
 author: MeLays
 website: http://melays.de/
 main: de.melays.bwunlimited.Main
-softdepend: [StatsAPI,Vault,SymptaFriends]
+softdepend: [StatsAPI,Vault,SymptaFriends,Citizens]
 commands:
   bw:
     description: Manage the BedwarsUnlimited Plugin

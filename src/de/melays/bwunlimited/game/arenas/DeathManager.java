@@ -63,10 +63,10 @@ public class DeathManager {
 				if (killerslife.containsKey(p))
 					lifes = killerslife.get(p);
 				if (lifes == 10) l = ChatColor.DARK_GREEN +""+ lifes;
-				if (lifes < 10 && lifes >= 7.5) l = ChatColor.GREEN +""+ lifes;
-				if (lifes < 7.5 && lifes >= 5) l = ChatColor.YELLOW +""+ lifes;
-				if (lifes < 5 && lifes >= 2.5) l = ChatColor.GOLD +""+ lifes;
-				if (lifes < 2.5 && lifes >= 0.5) l = ChatColor.RED +""+ lifes;
+				if (lifes < 10 && lifes <= 7.5) l = ChatColor.GREEN +""+ lifes;
+				if (lifes < 7.5 && lifes <= 5) l = ChatColor.YELLOW +""+ lifes;
+				if (lifes < 5 && lifes <= 2.5) l = ChatColor.GOLD +""+ lifes;
+				if (lifes < 2.5 && lifes <= 0.5) l = ChatColor.RED +""+ lifes;
 				else {
 					l = ChatColor.DARK_RED +""+ lifes;
 				}

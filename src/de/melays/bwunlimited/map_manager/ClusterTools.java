@@ -284,7 +284,7 @@ public class ClusterTools {
 				Method a = chunk_class.getMethod("a", block_position_class, iblockdata_class);
 				
 				a.invoke(chunk, block_position_class.cast(bp) , iblockdata_class.cast(idb_object));
-				world.refreshChunk(x >> 4, z >> 4);
+				//world.refreshChunk(x >> 4, z >> 4);
 			}
 		} catch (InvocationTargetException e) {
 			e.getCause().printStackTrace();

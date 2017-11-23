@@ -66,7 +66,7 @@ public class BlockManager {
 					arena.main.getStatsManager().addBed(arena, p);
 					arena.main.getStatsManager().addPoints(arena, p, arena.main.getConfig().getInt("points.bed"));
 					arena.scoreBoard.update();
-					SoundDebugger.playSound(bed1.getLocation().getWorld(), bed1.getLocation(), "ENDERDRAGON_GROWL" ,"ENTITY_ENDERDRAGON_GROWL");
+					SoundDebugger.playSound(p , "LEVEL_UP" ,"ENTITY_PLAYER_LEVELUP");
 					return false;
 				}
 			} catch (Exception e) {

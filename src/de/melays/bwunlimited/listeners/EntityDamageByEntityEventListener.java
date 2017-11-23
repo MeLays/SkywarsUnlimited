@@ -123,7 +123,7 @@ public class EntityDamageByEntityEventListener implements Listener{
 						inviter.acceptChallenge(inviter.getChallenge(g));
 					}
 				}
-				else if (p.getInventory().getHeldItemSlot() == main.getConfig().getInt("lobby.group.slot")) {
+				else if (damager.getInventory().getHeldItemSlot() == main.getConfig().getInt("lobby.group.slot")) {
 					Group group = main.getGroupManager().getGroup(damager);
 					if (damager != group.getLeader()) {
 						damager.sendMessage(main.getMessageFetcher().getMessage("group.not_leader", true));
@@ -160,6 +160,12 @@ public class EntityDamageByEntityEventListener implements Listener{
 				}
 			}
 			else if (!main.canOperateInLobby(p)) {
+				e.setCancelled(true);
+			}
+		}
+		else if (e.getDamager() instanceof Player) {
+			Player p = (Player) e.getDamager();
+			if (!main.canOperateInLobby(p)) {
 				e.setCancelled(true);
 			}
 		}

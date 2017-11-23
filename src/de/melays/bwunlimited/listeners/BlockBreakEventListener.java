@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.inventory.ItemStack;
 
 import de.melays.bwunlimited.Main;
 import de.melays.bwunlimited.game.arenas.Arena;
@@ -33,10 +34,12 @@ public class BlockBreakEventListener implements Listener{
 					e.setCancelled(true);
 				}
 				else {
-					e.getBlock().setType(Material.AIR);
 					double x = e.getBlock().getLocation().getX();
 					double z = e.getBlock().getLocation().getZ();
-					e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation().add(x > 0 ? 0.5 : -0.5, 0.0, z > 0 ? 0.5 : -0.5), arena.blockManager.getDrop(e.getBlock().getLocation()));
+					ItemStack stack = e.getPlayer().getItemInHand();
+					if (e.getBlock().getDrops(stack).size() != 0)
+						e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation().add(x > 0 ? 0.5 : -0.5, 0.0, z > 0 ? 0.5 : -0.5), arena.blockManager.getDrop(e.getBlock().getLocation()));
+					e.getBlock().setType(Material.AIR);
 				}
 			}
 			

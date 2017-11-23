@@ -144,7 +144,6 @@ public class BWShop implements Listener{
 					  s.setAmount(amount);
 					  ItemMeta m = s.getItemMeta();
 					  if (m != null){
-						  m.setDisplayName(null);
 						  m.setLore(null);
 						  s.setItemMeta(m);
 					  }

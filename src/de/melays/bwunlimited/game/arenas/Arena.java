@@ -1,11 +1,12 @@
 package de.melays.bwunlimited.game.arenas;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -14,7 +15,6 @@ import org.bukkit.util.Vector;
 
 import de.melays.bwunlimited.Main;
 import de.melays.bwunlimited.colortab.ColorTabAPI;
-import de.melays.bwunlimited.entitys.Merchant;
 import de.melays.bwunlimited.game.PlayerTools;
 import de.melays.bwunlimited.game.SoundDebugger;
 import de.melays.bwunlimited.game.arenas.settings.LeaveType;
@@ -378,6 +378,8 @@ public class Arena {
 
 	// Gamestart methods
 
+	ArrayList<UUID> spawned_merchants = new ArrayList<UUID>();
+	
 	public void callLobbyEnd() {
 		state = ArenaState.INGAME;
 		for (ItemSpawner spawner : itemSpawners) {
@@ -408,10 +410,14 @@ public class Arena {
 				// Create Villagers
 				try {
 					for (FineRelativeLocation loc : cluster.getClusterMeta().getShops()) {
-						Merchant.spawn(loc.toLocation(relative),
-								main.c(main.getSettingsManager().getFile().getString("shop.display")),
-								EntityType.valueOf(
-										main.getSettingsManager().getFile().getString("shop.type").toUpperCase()));
+						HashMap<String , Integer> nbt_data = new HashMap<String , Integer>();
+						nbt_data.put("NoAI", 1);
+						nbt_data.put("NoGravity", 1);
+						nbt_data.put("Invulnerable", 1);
+						nbt_data.put("Silent", 1);
+						spawned_merchants.add(main.getNPCManager().spawnNPC(loc.toLocation(relative),
+								main.getSettingsManager().getFile().getString("shop.type"),
+								main.c(main.getSettingsManager().getFile().getString("shop.display")) , nbt_data));
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -502,6 +508,13 @@ public class Arena {
 		this.specs = new ArrayList<Player>();
 		for (ItemSpawner s : this.itemSpawners) {
 			s.stop();
+		}
+		for (UUID uuid : this.spawned_merchants) {
+			try {
+				main.getNPCManager().getEntity(uuid).remove();
+			} catch (Exception e) {
+
+			}
 		}
 		main.getArenaManager().checkOut(id);
 		main.getLobbyManager().updateVisibility();

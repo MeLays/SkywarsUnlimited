@@ -1,5 +1,6 @@
 package de.melays.bwunlimited.listeners;
 
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -41,6 +42,9 @@ public class EntityDamageEventListener implements Listener{
 			else if (!main.canOperateInLobby(p)) {
 				e.setCancelled(true);
 			}
+		}
+		else if(e.getEntity().getType().equals(EntityType.ENDER_CRYSTAL)){
+			e.setCancelled(true);
 		}
 		else {
 			

@@ -1,8 +1,10 @@
-package de.melays.bwunlimited.entitys;
+package de.melays.bwunlimited.npc;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -10,8 +12,12 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
-public class Merchant {
-	
+import de.melays.bwunlimited.Main;
+import de.melays.bwunlimited.log.Logger;
+import net.md_5.bungee.api.ChatColor;
+
+public class NPCManager {
+
 	public static Class<?> getNMSClass(String nmsClassString) throws ClassNotFoundException {
 	    String version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3] + ".";
 	    String name = "net.minecraft.server." + version + nmsClassString;
@@ -34,9 +40,49 @@ public class Merchant {
 	    return con;
 	}
 	
-	public static void spawn (Location loc , String display , EntityType type) {
+	Main main;
+	
+	public NPCManager(Main main) {
+		this.main = main;
+	}
+	
+	HashMap<UUID , Entity> entitys = new HashMap<UUID , Entity>();
+	
+	public Entity getEntity(UUID uuid) {
+		return entitys.get(uuid);
+	}
+	
+	public UUID spawnNPC (Location loc , String type , String displayname , HashMap<String , Integer> nbt_data) {
+		type = type.toUpperCase();
+		EntityType entity = EntityType.valueOf(type);
+		if (entity == null) {
+			entity = EntityType.VILLAGER;
+			Logger.log(main.console_prefix + ChatColor.RED + "Unknown EntityType '" + type + "'. Using a Villager instead...");
+		}
+		Entity e = spawn(loc , displayname , entity , nbt_data);
+		UUID id = UUID.randomUUID();
+		entitys.put(id, e);
+		return id;
+	}
+	
+	public void clearAll() {
+		for (Entity e : entitys.values()) {
+			if (e != null) {
+				if (!e.isDead()) {
+					try {
+						e.remove();
+					} catch (Exception e1) {
+
+					}
+				}
+			}
+		}
+	}
+	
+	private Entity spawn (Location loc , String display , EntityType type , HashMap<String , Integer> nbt_data) {
 		Entity e = loc.getWorld().spawnEntity(loc, type);
-		e.setCustomName(display);
+		if (display != null)
+			e.setCustomName(display);
 		
 		try {
 			Class<?> CraftEntity = getBukkitClass("entity.CraftEntity");
@@ -54,17 +100,16 @@ public class Merchant {
 					setInt = n;
 				}
 			}
-			setInt.invoke(nbt, "NoAI" , 1);
-			setInt.invoke(nbt, "NoGravity" , 1);
-			setInt.invoke(nbt, "Invulnerable" , 1);
-			setInt.invoke(nbt, "Silent" , 1);
+			for (String key : nbt_data.keySet()) {
+				setInt.invoke(nbt, key , nbt_data.get(key));
+			}
 			villager_entity.getClass().getMethod("f", NBTTagCompound).invoke(villager_entity, nbt);
-			
+			return e;
 		} catch (InvocationTargetException e1) {
 			e1.getCause().printStackTrace();
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
+		return e;
 	}
-	
 }

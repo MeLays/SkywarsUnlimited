@@ -3,6 +3,7 @@ package de.melays.bwunlimited.challenges;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import de.melays.bwunlimited.game.SoundDebugger;
@@ -181,6 +182,7 @@ public class Group {
 			if (!groupManager.main.getArenaManager().isInGame(p)) {
 				this.groupManager.main.getLobbyManager().updateGroupItem(p);
 			}
+			Bukkit.getPluginManager().callEvent(new GroupUpdateEvent (this));
 			return true;
 		}
 		p.sendMessage(groupManager.main.getMessageFetcher().getMessage("group.join_failed", true).replaceAll("%player%", p.getName()));
@@ -214,6 +216,7 @@ public class Group {
 		if (!groupManager.main.getArenaManager().isInGame(p)) {
 			this.groupManager.main.getLobbyManager().updateGroupItem(p);
 		}
+		Bukkit.getPluginManager().callEvent(new GroupUpdateEvent (this));
 	}
 	
 	public void kick (Player p) {
@@ -225,6 +228,7 @@ public class Group {
 			sendMessage(groupManager.main.getMessageFetcher().getMessage("group.kick", true).replaceAll("%player%", p.getName()));
 			players.remove(p);
 			removeAllChallenges();
+			Bukkit.getPluginManager().callEvent(new GroupUpdateEvent (this));
 		}
 		else {
 			leader.sendMessage(groupManager.main.getMessageFetcher().getMessage("group.not_in_group", true).replaceAll("%player%", p.getName()));
@@ -237,6 +241,7 @@ public class Group {
 	public void setLeader(Player p) {
 		if (!players.contains(p)) {
 			p.sendMessage(groupManager.main.getMessageFetcher().getMessage("group.not_in_group", true).replaceAll("%player%", p.getName()));
+			return;
 		}
 		else {
 			removeAllChallenges();
@@ -252,6 +257,7 @@ public class Group {
 				this.groupManager.main.getLobbyManager().updateGroupItem(pp);
 			}
 		}
+		Bukkit.getPluginManager().callEvent(new GroupUpdateEvent (this));
 	}
 	
 }

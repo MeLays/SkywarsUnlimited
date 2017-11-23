@@ -1,5 +1,6 @@
 package de.melays.bwunlimited.commands.spectate;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -31,7 +32,7 @@ public class SpectateCommand implements CommandExecutor {
 			sender.sendMessage(main.getMessageFetcher().getMessage("command_usage", true).replaceAll("%command%", "/spectate <Player>/<ID>"));
 			return true;
 		}
-		Arena arena = main.getArenaManager().searchPlayer(p);
+		Arena arena = main.getArenaManager().searchPlayer(Bukkit.getPlayer(args[0]));
 		if (arena == null) {
 			try {
 				arena = main.getArenaManager().getArena(Integer.parseInt(args[0]));

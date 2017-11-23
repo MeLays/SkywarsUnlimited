@@ -7,6 +7,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -37,6 +39,7 @@ import de.melays.bwunlimited.listeners.EntityDamageEventListener;
 import de.melays.bwunlimited.listeners.FoodLevelChangeEventListener;
 import de.melays.bwunlimited.listeners.InventoryClickEventListener;
 import de.melays.bwunlimited.listeners.InventoryDragEventListener;
+import de.melays.bwunlimited.listeners.PlayerArmorStandManipulateEventListener;
 import de.melays.bwunlimited.listeners.PlayerDropItemEventListener;
 import de.melays.bwunlimited.listeners.PlayerInteractEntityEventListener;
 import de.melays.bwunlimited.listeners.PlayerInteractEventListener;
@@ -51,6 +54,8 @@ import de.melays.bwunlimited.map_manager.ClusterManager;
 import de.melays.bwunlimited.messages.ChatHook;
 import de.melays.bwunlimited.messages.MessageFetcher;
 import de.melays.bwunlimited.multiworld.EmptyRoomGenerator;
+import de.melays.bwunlimited.npc.LobbyNPCManager;
+import de.melays.bwunlimited.npc.NPCManager;
 import de.melays.bwunlimited.shop_old.BWShop;
 import de.melays.bwunlimited.stats.StatsManager;
 import de.melays.bwunlimited.teams.TeamManager;
@@ -156,6 +161,16 @@ public class Main extends JavaPlugin{
 		return bungeeServerFetcher;
 	}
 	
+	NPCManager npcManager;
+	public NPCManager getNPCManager() {
+		return npcManager;
+	}
+	
+	LobbyNPCManager lobbyNPCManager;
+	public LobbyNPCManager getLobbyNPCManager() {
+		return lobbyNPCManager;
+	}
+	
 	//Tools
 	MarkerTool markerTool; 
 	public MarkerTool getMarkerTool() {
@@ -222,6 +237,8 @@ public class Main extends JavaPlugin{
 		this.runningGames = new RunningGames(this);
 		this.statsManager = new StatsManager(this);
 		this.bungeeServerFetcher = new BungeeServerFetcher(this);
+		this.npcManager = new NPCManager(this);
+		this.lobbyNPCManager = new LobbyNPCManager(this);
 		this.messageFetcher = new MessageFetcher(this);
 		prefix = this.getMessageFetcher().getMessage("prefix", false) + " ";
 		
@@ -256,6 +273,7 @@ public class Main extends JavaPlugin{
 		Bukkit.getPluginManager().registerEvents(new EntityDamageByEntityEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new EntityDamageEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new PlayerQuitEventListener(this), this);
+		Bukkit.getPluginManager().registerEvents(new PlayerArmorStandManipulateEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new PlayerMoveEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new SignChangeEventListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new AsyncPlayerChatEventListener(this), this);
@@ -278,6 +296,11 @@ public class Main extends JavaPlugin{
 		//BedwarsShop.load(this, false);
 		
 		this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+		
+		for (Entity e : Bukkit.getWorlds().get(0).getEntities()) {
+			if (!(e.getType() == EntityType.PLAYER))
+				e.remove();
+		}
 	}
 	
 	public void onDisable() {
@@ -302,6 +325,7 @@ public class Main extends JavaPlugin{
 		} catch (Exception e) {
 			Logger.log(console_prefix + "Failed to delete the gameworld '" + gameworld + "'.");
 		}
+		this.getNPCManager().clearAll();
 	}
 	
 	public void reloadAll() {
