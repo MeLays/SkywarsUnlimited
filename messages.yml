@@ -48,6 +48,15 @@ start:
   not_enought_players: "%prefix% 2 Players needed to start the game!"
   started: "%prefix% The game has been started!"
   started_generating: "%prefix% The game has been started, but the arena is not completely ready yet! Please wait ..."
+settings:
+  on: "&aActivated"
+  off: "&cDeactivated"
+  list:
+   - "%prefix% &7Settings of user &a%player%&7:"
+   - "   &7Spectate: %spectate%"
+   - "   &7Cobweb decay: %cobweb%"
+   - "   &7Cobweb decay (bed): %cobweb_bed%"
+   - "   &7Stats: %stats%"
 group:
   help:
    - "%prefix% &7Group-Commands:"
@@ -71,6 +80,7 @@ group:
     challenged:
       - "%prefix% &7You have been challenged by &a%challenger%&7!"
       - "%prefix% &7He chose the map %cluster%!"
+      - "%prefix% &aClick to view %challenger%'s settings!"
   invite: "%prefix% &7You have been invited to &a%player%'s &7group!"
   invite_sender: "%prefix% &7You invited &a%player%'s &7to your group!"
   join: "%prefix% &a%player% &7joined the group!"

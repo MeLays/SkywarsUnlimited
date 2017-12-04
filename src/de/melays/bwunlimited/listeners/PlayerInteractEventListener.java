@@ -171,6 +171,9 @@ public class PlayerInteractEventListener implements Listener{
 				else if (main.getItemManager().isItem("lobby.gamelist", e.getItem())) {
 					main.getRunningGames().openOverview(p);
 				}
+				else if (main.getItemManager().isItem("lobby.settings", e.getItem())) {
+					main.getLobbyManager().settings.get(p).openGUI();
+				}
 				else if (main.getItemManager().isItem("lobby.leave", e.getItem())) {
 					ByteArrayDataOutput out = ByteStreams.newDataOutput();
 					out.writeUTF("Connect");

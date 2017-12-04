@@ -14,6 +14,9 @@ sounds:
    gui_click:
       legacy: CLICK
       new: BLOCK_LEVER_CLICK   
+   category:
+      legacy: CLICK
+      new: BLOCK_LEVER_CLICK   
 categories:
    blocks:
       displayitem:

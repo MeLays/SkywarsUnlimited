@@ -77,6 +77,8 @@ lobby:
     prefix: "&7%player_prefix%"
     suffix: "%player_suffix%"
   inventory:
+    settings:
+      title: "&8Settings"
     arenalist:
       title: "&8Arenas &0(&a%page%&0/&c%max%&0)"
       item:

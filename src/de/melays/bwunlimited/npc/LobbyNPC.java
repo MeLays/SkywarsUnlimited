@@ -12,8 +12,8 @@ public class LobbyNPC {
 	
 	Entity e;
 	
-	NPCType npc;
-	EntityType type;
+	public NPCType npc;
+	public EntityType type;
 	Location loc;
 	HashMap<String , Integer> nbt_data;
 	String displayname;

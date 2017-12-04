@@ -69,6 +69,9 @@ lobby:
    gamelist:
       enabled: true
       slot: 1
+   settings:
+      enabled: true
+      slot: 2
    leave:
       enabled: true
       slot: 8
@@ -82,11 +85,15 @@ defaultsettings:
    fixed_teams: false
    allow_join: true
    allow_spectate: true
+   stats: true
    tnt_auto_ignite: true
    tnt_detroy_map: false
+   cobweb_decay: true
+   cobweb_decay_bed: false
    lobby_leave: NORMAL
    min_players: 2
    max_players: 0
+   cobweb_decay_ticks: 140
    min_lobby_countdown: 10
    game_end: 36000
    ending_countdown: 10   

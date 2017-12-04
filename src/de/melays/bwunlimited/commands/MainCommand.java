@@ -41,6 +41,7 @@ public class MainCommand implements CommandExecutor {
 		helpSender.addAlias("reload", "Reload the configuration files", "Reloades all configuration files.\nThis can cause issues in running arenas!" , "/bw reload");
 		helpSender.addAlias("worldtp <game , presets , world>", "Teleport to a world", "You can teleport to those worlds:\n - 'GAME', here are the arenas generated to\n - 'PRESETS', here you can create presets\\n - 'WORLD', the specified default world" , "/bw worldtp <game , presets , world>");
 		helpSender.addAlias("colorlist", "List all colors", "Lists all available Colors to create teams" , "/bw colorlist");
+		helpSender.addAlias("showsettings", "Lists the settings of a player", "Lists all settings from this player" , "/bw showsettings <player>");
 
 		
 		if (args.length == 0) {
@@ -97,6 +98,27 @@ public class MainCommand implements CommandExecutor {
 			}
 			sender.sendMessage(main.prefix + "Available colors:");
 			sender.sendMessage(c);
+		}
+		
+		else if (args[0].equals("showsettings")) {
+			if (!(sender instanceof Player)) {
+				sender.sendMessage(main.prefix + "You cant run this command from the console!");
+				return true;
+			}
+			if (args.length == 1) {
+				sender.sendMessage(main.getMessageFetcher().getMessage("command_usage", true).replaceAll("%command%", "/bw showsettings <player>"));
+				return true;
+			}
+			Player p = Bukkit.getPlayer(args[1]);
+			if (p == null) {
+				sender.sendMessage(main.getMessageFetcher().getMessage("group.not_online", true));
+				return true;
+			}
+			if (!p.isOnline()) {
+				sender.sendMessage(main.getMessageFetcher().getMessage("group.not_online", true));
+				return true;
+			}
+			main.getLobbyManager().settings.get(p).sendAsString((Player) sender);
 		}
 		
 		else if (args[0].equals("worldtp")) {

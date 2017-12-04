@@ -108,120 +108,124 @@ public class BedwarsShop {
 	public void shopClick(Player p , int slot , boolean shift , boolean num , int number) {
 		if (slot < 9) {
 			if (categories.size()-1 < slot) return;
-			openShop(p , categories.get(slot).name);
-		}
-		else {
 			Arena a = main.getArenaManager().searchPlayer(p);
 			if (a == null) return;
-			ShopCategory cat = getCategory(current.get(p));
-			ShopItem i = cat.items[slot-9];
-			if (i != null && !i.isHidden(a)) {
-				if (getFreeSlots(p.getInventory() , i.getStack()) == 0) {
+			if (!this.getCategory(categories.get(slot).name).isHidden(a)) {
+				openShop(p , categories.get(slot).name);
+				playSound(p , "category");
+			}
+			return;
+		}
+		Arena a = main.getArenaManager().searchPlayer(p);
+		if (a == null) return;
+		ShopCategory cat = getCategory(current.get(p));
+		ShopItem i = cat.items[slot-9];
+		if (i != null && !i.isHidden(a)) {
+			if (getFreeSlots(p.getInventory() , i.getStack()) == 0) {
+				//INV FULL
+				playSound(p , "inv_full");
+				return;
+			}
+			
+			if (!shift && ! num) {
+				for (Material m : i.price.keySet()) {
+					if (!(getAmount(p.getInventory() , m) >= i.price.get(m))) {
+						//CANT AFFORD
+						playSound(p , "cant_afford");
+						return;
+					}
+				}
+				
+				if (getFreeSlots(p.getInventory() , i.getStack()) < i.getStack().getAmount()) {
 					//INV FULL
 					playSound(p , "inv_full");
 					return;
 				}
 				
-				if (!shift && ! num) {
-					for (Material m : i.price.keySet()) {
-						if (!(getAmount(p.getInventory() , m) >= i.price.get(m))) {
-							//CANT AFFORD
-							playSound(p , "cant_afford");
-							return;
-						}
-					}
-					
-					if (getFreeSlots(p.getInventory() , i.getStack()) < i.getStack().getAmount()) {
-						//INV FULL
-						playSound(p , "inv_full");
-						return;
-					}
-					
-					for (Material m : i.price.keySet()) {
-						removeInventoryItems(p.getInventory() , m , i.price.get(m));
-					}
-					
-					i.addToPlayer(p);
-					//BOUGHT
-					playSound(p , "buy");
-					
+				for (Material m : i.price.keySet()) {
+					removeInventoryItems(p.getInventory() , m , i.price.get(m));
 				}
-				else if (!shift && num) {
-					
-					for (Material m : i.price.keySet()) {
-						if (!(getAmount(p.getInventory() , m) >= i.price.get(m))) {
-							//CANT AFFORD
-							playSound(p , "cant_afford");
-							return;
-						}
-					}
-					
-					if (getFreeSlots(p.getInventory() , i.getStack()) < i.getStack().getAmount()) {
-						//INV FULL
-						playSound(p , "inv_full");
-						return;
-					}
-					
-					for (Material m : i.price.keySet()) {
-						removeInventoryItems(p.getInventory() , m , i.price.get(m));
-					}
-					
-					ItemStack giveback = null;
-					if (p.getInventory().getItem(number) != null) {
-						giveback = p.getInventory().getItem(number).clone();
-					}
-					
-					i.addToPlayer(p , number);
-					//BOUGHT
-					playSound(p , "buy");
-					if (giveback != null && giveback.isSimilar(i.getStack())) {
-						if (i.getStack().getAmount() + giveback.getAmount() <= i.getStack().getMaxStackSize()) {
-							p.getInventory().getItem(number).setAmount(p.getInventory().getItem(number).getAmount() + giveback.getAmount());
-						}
-						else {
-							int add = i.getStack().getAmount() + giveback.getAmount() - i.getStack().getMaxStackSize();
-							p.getInventory().getItem(number).setAmount(p.getInventory().getItem(number).getMaxStackSize());
-							ItemStack give = i.getStack();
-							give.setAmount(add);
-							p.getInventory().addItem(give);
-						}
-					}
-					else if (giveback != null)
-						p.getInventory().addItem(giveback);	
-				}
-				else if (shift && !num) {
-					int amount_buying = (i.getStack().getMaxStackSize() - (i.getStack().getMaxStackSize() % i.getStack().getAmount())) / i.getStack().getAmount();
-					for (Material m : i.price.keySet()) {
-						if (!(getAmount(p.getInventory() , m) >= i.price.get(m) * amount_buying)) {
-							amount_buying = (getAmount(p.getInventory() , m) / i.price.get(m));
-						}
-					}
-					if (amount_buying == 0) {
+				
+				i.addToPlayer(p);
+				//BOUGHT
+				playSound(p , "buy");
+				
+			}
+			else if (!shift && num) {
+				
+				for (Material m : i.price.keySet()) {
+					if (!(getAmount(p.getInventory() , m) >= i.price.get(m))) {
 						//CANT AFFORD
 						playSound(p , "cant_afford");
 						return;
 					}
-					
-					if (getFreeSlots(p.getInventory() , i.getStack()) < i.getStack().getAmount() * amount_buying) {
-						//INV FULL
-						playSound(p , "inv_full");
-						return;
-					}
-					
-					for (Material m : i.price.keySet()) {
-						removeInventoryItems(p.getInventory() , m , i.price.get(m) * amount_buying);
-					}
-					
-					for (int z = 0 ; z < amount_buying ; z++) {
-						i.addToPlayer(p);
-					}
-					//BOUGHT
-					playSound(p , "buy");
 				}
+				
+				if (getFreeSlots(p.getInventory() , i.getStack()) < i.getStack().getAmount()) {
+					//INV FULL
+					playSound(p , "inv_full");
+					return;
+				}
+				
+				for (Material m : i.price.keySet()) {
+					removeInventoryItems(p.getInventory() , m , i.price.get(m));
+				}
+				
+				ItemStack giveback = null;
+				if (p.getInventory().getItem(number) != null) {
+					giveback = p.getInventory().getItem(number).clone();
+				}
+				
+				i.addToPlayer(p , number);
+				//BOUGHT
+				playSound(p , "buy");
+				if (giveback != null && giveback.isSimilar(i.getStack())) {
+					if (i.getStack().getAmount() + giveback.getAmount() <= i.getStack().getMaxStackSize()) {
+						p.getInventory().getItem(number).setAmount(p.getInventory().getItem(number).getAmount() + giveback.getAmount());
+					}
+					else {
+						int add = i.getStack().getAmount() + giveback.getAmount() - i.getStack().getMaxStackSize();
+						p.getInventory().getItem(number).setAmount(p.getInventory().getItem(number).getMaxStackSize());
+						ItemStack give = i.getStack();
+						give.setAmount(add);
+						p.getInventory().addItem(give);
+					}
+				}
+				else if (giveback != null)
+					p.getInventory().addItem(giveback);	
 			}
-			else {
-				playSound(p , "gui_click");
+			else if (shift && !num) {
+				int amount_buying = (i.getStack().getMaxStackSize() - (i.getStack().getMaxStackSize() % i.getStack().getAmount())) / i.getStack().getAmount();
+				for (Material m : i.price.keySet()) {
+					if (!(getAmount(p.getInventory() , m) >= i.price.get(m) * amount_buying)) {
+						amount_buying = (getAmount(p.getInventory() , m) / i.price.get(m));
+					}
+				}
+				if (amount_buying == 0) {
+					//CANT AFFORD
+					playSound(p , "cant_afford");
+					return;
+				}
+				
+				if (getFreeSlots(p.getInventory() , i.getStack()) < i.getStack().getAmount() * amount_buying) {
+					//INV FULL
+					playSound(p , "inv_full");
+					return;
+				}
+				
+				for (Material m : i.price.keySet()) {
+					removeInventoryItems(p.getInventory() , m , i.price.get(m) * amount_buying);
+				}
+				
+				for (int z = 0 ; z < amount_buying ; z++) {
+					i.addToPlayer(p);
+				}
+				//BOUGHT
+				playSound(p , "buy");
 			}
+		}
+		else {
+			playSound(p , "gui_click");
 		}
 	}
 	
@@ -229,8 +233,15 @@ public class BedwarsShop {
 		Arena a = main.getArenaManager().searchPlayer(p);
 		if (a == null) return;
 		Inventory inv = Bukkit.createInventory(null, this.getItemFile().getInt("size"), main.c(this.getItemFile().getString("title")));
+		int slot = 0;
 		for (ShopCategory s : categories) {
-			inv.addItem(s.stack);
+			if(!s.isHidden(a)){
+				inv.addItem(s.stack);
+			}
+			else {
+				inv.setItem(slot , main.getItemManager().getItem("spacer"));
+			}
+			slot ++;
 		}
 		ShopCategory shop = getCategory(cat);
 		for (int i = 0 ; i < shop.items.length ; i ++) {
@@ -281,7 +292,7 @@ public class BedwarsShop {
 		}
 		try {
 			for (String s : data.getConfigurationSection("enchantments").getKeys(false)) {
-				r.addEnchantment(Enchantment.getByName(s.toUpperCase()), data.getInt("enchantments."+s));
+				r.addUnsafeEnchantment(Enchantment.getByName(s.toUpperCase()), data.getInt("enchantments."+s));
 			}
 		} catch (Exception e) {
 			

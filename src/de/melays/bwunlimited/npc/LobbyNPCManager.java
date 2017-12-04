@@ -12,6 +12,7 @@ import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -39,6 +40,15 @@ public class LobbyNPCManager {
 	}
 	
 	HashMap<Integer , LobbyNPC> npcs = new HashMap<Integer , LobbyNPC>();
+	
+	public LobbyNPC getLobbyNPC(Entity e) {
+		for (LobbyNPC npc : npcs.values()) {
+			if (npc.e == e) {
+				return npc;
+			}
+		}
+		return null;
+	}
 	
 	public void loadAll () {
 		try {

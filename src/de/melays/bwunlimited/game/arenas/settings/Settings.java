@@ -15,11 +15,14 @@ public class Settings {
 	public boolean stats = true;
 	public boolean tnt_auto_ignite = true;
 	public boolean tnt_detroy_map = false;
+	public boolean cobweb_decay = true;
+	public boolean cobweb_decay_bed = false;
 	
 	public LeaveType lobby_leave = LeaveType.NORMAL;
 	
 	public int min_players = 2;
 	public int max_players = 0;
+	public int cobweb_decay_ticks = 140;
 	
 	public int min_lobby_countdown = 45;
 	public int game_end = 36000;
@@ -43,9 +46,12 @@ public class Settings {
 		stats = config.getBoolean("stats");
 		tnt_auto_ignite = config.getBoolean("tnt_auto_ignite");
 		tnt_detroy_map = config.getBoolean("tnt_detroy_map");
+		cobweb_decay = config.getBoolean("cobweb_decay");
+		cobweb_decay_bed = config.getBoolean("cobweb_decay_bed");
 		lobby_leave = LeaveType.valueOf(config.getString("lobby_leave").toUpperCase());
 		min_players = config.getInt("min_players");
 		max_players = config.getInt("max_players");
+		cobweb_decay_ticks = config.getInt("cobweb_decay_ticks");
 		min_lobby_countdown = config.getInt("min_lobby_countdown");
 		game_end = config.getInt("game_end");
 		ending_countdown = config.getInt("ending_countdown");
@@ -77,9 +83,12 @@ public class Settings {
 		r.stats = config.getBoolean("stats");
 		r.tnt_auto_ignite = config.getBoolean("tnt_auto_ignite");
 		r.tnt_detroy_map = config.getBoolean("tnt_detroy_map");
+		r.cobweb_decay = config.getBoolean("cobweb_decay");
+		r.cobweb_decay_bed = config.getBoolean("cobweb_decay_bed");
 		r.lobby_leave = LeaveType.valueOf(config.getString("lobby_leave").toUpperCase());
 		r.min_players = config.getInt("min_players");
 		r.max_players = config.getInt("max_players");
+		r.cobweb_decay_ticks = config.getInt("cobweb_decay_ticks");
 		r.min_lobby_countdown = config.getInt("min_lobby_countdown");
 		r.game_end = config.getInt("game_end");
 		r.ending_countdown = config.getInt("ending_countdown");
@@ -94,9 +103,12 @@ public class Settings {
 		config.set(path + "." + "stats", stats);
 		config.set(path + "." + "tnt_auto_ignite", tnt_auto_ignite);
 		config.set(path + "." + "tnt_detroy_map", tnt_detroy_map);
+		config.set(path + "." + "cobweb_decay", cobweb_decay);
+		config.set(path + "." + "cobweb_decay_bed", cobweb_decay_bed);
 		config.set(path + "." + "lobby_leave", lobby_leave.toString());
 		config.set(path + "." + "min_players", min_players);
 		config.set(path + "." + "max_players", max_players);
+		config.set(path + "." + "cobweb_decay_ticks", cobweb_decay_ticks);
 		config.set(path + "." + "min_lobby_countdown", min_lobby_countdown);
 		config.set(path + "." + "game_end", game_end);
 		config.set(path + "." + "ending_countdown", ending_countdown);

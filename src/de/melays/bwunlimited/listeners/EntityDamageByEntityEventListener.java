@@ -115,7 +115,7 @@ public class EntityDamageByEntityEventListener implements Listener{
 						else {
 							e.setCancelled(true);
 							main.getArenaSelector().setupPlayer(damager);
-							g.challenge(damager, p, new Challenge(main , main.getGroupManager().getGroup(damager) , main.getArenaSelector().selected.get(damager)));
+							g.challenge(damager, p, new Challenge(main , main.getGroupManager().getGroup(damager) , main.getArenaSelector().selected.get(damager), main.getLobbyManager().settings.get(damager).settings));
 							main.getLobbyManager().setChallengeCooldown(damager, main.getConfig().getInt("lobby.challenger.cooldown"));
 						}
 					}

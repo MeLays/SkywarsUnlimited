@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import org.bukkit.Bukkit;
@@ -22,6 +23,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import de.melays.bwunlimited.Main;
 import de.melays.bwunlimited.challenges.Group;
+import de.melays.bwunlimited.challenges.SettingsGUI;
 import de.melays.bwunlimited.colortab.ColorTabAPI;
 import de.melays.bwunlimited.game.PlayerTools;
 import de.melays.bwunlimited.map_manager.Cluster;
@@ -32,6 +34,8 @@ import de.melays.bwunlimited.teams.Team;
 public class LobbyManager {
 	
 	Main main;
+	
+	public HashMap<Player, SettingsGUI> settings = new HashMap<Player, SettingsGUI>();
 	
 	public LobbyManager(Main main) {
 		this.main = main;
@@ -63,6 +67,7 @@ public class LobbyManager {
 	}
 	
 	public void toLobby (Player p) {
+		if (!this.settings.containsKey(p)) this.settings.put(p, new SettingsGUI(p));
 		p.teleport(getLobbyLocation());
 		PlayerTools.resetPlayer(p);
 		p.setGameMode(GameMode.SURVIVAL);
@@ -81,7 +86,9 @@ public class LobbyManager {
 			p.getInventory().setItem(main.getConfig().getInt("lobby.gamelist.slot"), main.getItemManager().getItem("lobby.gamelist"));
 		if (main.getConfig().getBoolean("lobby.leave.enabled"))
 			p.getInventory().setItem(main.getConfig().getInt("lobby.leave.slot"), main.getItemManager().getItem("lobby.leave"));
-		if (main.getConfig().getBoolean("lobby.leave.enabled")) {
+		if (main.getConfig().getBoolean("lobby.settings.enabled"))
+			p.getInventory().setItem(main.getConfig().getInt("lobby.settings.slot"), main.getItemManager().getItem("lobby.settings"));
+		if (main.getConfig().getBoolean("lobby.group.enabled")) {
 			updateGroupItem(p);
 		}
 		updateLobbyTab();

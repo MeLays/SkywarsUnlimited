@@ -3,12 +3,15 @@ package de.melays.bwunlimited.game.arenas;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import de.melays.bwunlimited.game.SoundDebugger;
 import de.melays.bwunlimited.map_manager.ClusterTools;
@@ -25,6 +28,19 @@ public class BlockManager {
 	public ArrayList<Location> placed_blocks = new ArrayList<Location>();
 	HashMap<Location , ItemStack> item_stacks = new HashMap<Location , ItemStack>();
 	
+	HashMap<Location , Integer> webs = new HashMap<Location , Integer>();
+	
+	public static boolean isAtBed (Location loc) {
+		Block b = loc.getBlock();
+		if (b.getRelative(BlockFace.UP).getType() == Material.BED_BLOCK) return true;
+		if (b.getRelative(BlockFace.DOWN).getType() == Material.BED_BLOCK) return true;
+		if (b.getRelative(BlockFace.SOUTH).getType() == Material.BED_BLOCK) return true;
+		if (b.getRelative(BlockFace.WEST).getType() == Material.BED_BLOCK) return true;
+		if (b.getRelative(BlockFace.NORTH).getType() == Material.BED_BLOCK) return true;
+		if (b.getRelative(BlockFace.EAST).getType() == Material.BED_BLOCK) return true;
+		return false;
+	}
+	
 	public boolean placeBlock (Location loc , ItemStack stack) {
 		Location max = arena.relative.clone().add(arena.cluster.x_size , arena.cluster.y_size , arena.cluster.z_size);
 		if (!ClusterTools.isInAreaIgnoreHeight(loc, arena.relative, max)) {
@@ -38,6 +54,23 @@ public class BlockManager {
 		}
 		if (!placed_blocks.contains(loc))
 			placed_blocks.add(loc);
+		if (stack.getType() == Material.WEB) {
+			if ((arena.settings.cobweb_decay && !isAtBed(loc)) || (arena.settings.cobweb_decay_bed && isAtBed(loc))) {
+				@SuppressWarnings("deprecation")
+				int id = Bukkit.getScheduler().runTaskLater(arena.main, new BukkitRunnable() {
+
+					@Override
+					public void run() {
+						if (webs.get(loc) == this.getTaskId()) {
+							loc.getBlock().setType(Material.AIR);
+							webs.remove(loc);
+						}
+					}
+					
+				}, arena.settings.cobweb_decay_ticks).getTaskId();
+				webs.put(loc, id);
+			}
+		}
 		item_stacks.put(loc, stack);
 		return true;
 	}
@@ -83,6 +116,9 @@ public class BlockManager {
 		}
 		if (!placed_blocks.contains(loc)) {
 			return false;
+		}
+		else if (loc.getBlock().getType() == Material.WEB) {
+			if (webs.containsKey(loc)) webs.remove(loc);
 		}
 		return true;
 	}

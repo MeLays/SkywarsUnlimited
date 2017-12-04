@@ -4,6 +4,41 @@ spacer:
   displayname: " "
   lore: []  
 lobby:
+  settings:
+    on:
+      material: EMERALD
+      byte: 0
+      displayname: "&aActivated"
+      lore: []
+    off:
+      material: REDSTONE
+      byte: 0
+      displayname: "&cDeactivated"
+      lore: []
+    specate:
+      material: EYE_OF_ENDER
+      byte: 0
+      displayname: "&bSpectate"
+      lore:
+        - "&7Choose if people are allowed to spectate your games!"
+    cobweb:
+      material: WEB
+      byte: 0
+      displayname: "&bCobweb Decay"
+      lore:
+        - "&7Choose if cobweb will be removed after some time!"
+    cobweb_bed:
+      material: BED
+      byte: 0
+      displayname: "&bCobweb Decay (Bed)"
+      lore:
+        - "&7Choose if cobweb at the bed will be removed after some time!"
+    stats:
+      material: BOOK_AND_QUILL
+      byte: 0
+      displayname: "&bStats"
+      lore:
+        - "&7Choose if your games will be shown in the stats!"
   challenger:
     material: GOLD_SWORD
     byte: 0
@@ -16,6 +51,12 @@ lobby:
     displayname: "&eRunning games"
     lore:
       - "&eSee all running games"
+  settings:
+    material: REDSTONE_COMPARATOR
+    byte: 0
+    displayname: "&aSettings"
+    lore:
+      - "&aChange your Challenger-Settings"
   leave:
     material: MAGMA_CREAM
     byte: 0

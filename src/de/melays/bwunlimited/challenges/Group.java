@@ -80,7 +80,11 @@ public class Group {
 			s = s.replaceAll("%prefix%", this.groupManager.main.getMessageFetcher().getMessage("prefix", false));
 			s = s.replaceAll("%challenger%", inviter.getLeader().getName());
 			s = s.replaceAll("%cluster%", c.cluster.getDisplayName());
-			this.sendMessage(s);
+			TextComponent text = new TextComponent(TextComponent.fromLegacyText(s));
+			text.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND , "/bw showsettings " + inviter.getLeader().getName()));
+			for (Player p : getPlayers()) {
+				p.spigot().sendMessage(text);
+			}
 		}
 		hitter.sendMessage(this.groupManager.main.getMessageFetcher().getMessage("group.challenge.sent", true).replaceAll("%player%", hit.getName()));
 		SoundDebugger.playSound(hitter, "LEVEL_UP", "ENTITY_PLAYER_LEVELUP");
@@ -107,7 +111,7 @@ public class Group {
 			removeChallenge(inviter);
 			return;
 		}
-		Settings settings = new Settings(this.groupManager.main);
+		Settings settings = c.settings;
 		settings.lobby_leave = LeaveType.ABORT;
 		settings.allow_join = false;
 		settings.fixed_teams = true;

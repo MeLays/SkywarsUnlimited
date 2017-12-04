@@ -1,5 +1,6 @@
 package de.melays.bwunlimited.listeners;
 
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -8,6 +9,8 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 
 import de.melays.bwunlimited.Main;
 import de.melays.bwunlimited.challenges.Group;
+import de.melays.bwunlimited.npc.LobbyNPC;
+import de.melays.bwunlimited.npc.NPCType;
 
 public class PlayerInteractEntityEventListener implements Listener{
 
@@ -29,10 +32,21 @@ public class PlayerInteractEntityEventListener implements Listener{
 		}
 		else if (!main.canOperateInLobby(p)) {
 			if (!(e.getRightClicked() instanceof Player)) return;
-			Player clicked = (Player) e.getRightClicked();
-			if (p.getInventory().getHeldItemSlot() == main.getConfig().getInt("lobby.group.slot")) {
-				Group group = main.getGroupManager().getGroup(clicked);
-				group.accept(p);
+			if (e.getRightClicked() instanceof Player) {
+				Player clicked = (Player) e.getRightClicked();
+				if (p.getInventory().getHeldItemSlot() == main.getConfig().getInt("lobby.group.slot")) {
+					Group group = main.getGroupManager().getGroup(clicked);
+					group.accept(p);
+				}
+			}
+			else {
+				Entity entity = e.getRightClicked();
+				LobbyNPC npc = main.getLobbyNPCManager().getLobbyNPC(entity);
+				if (npc != null) {
+					if (npc.npc == NPCType.SETTINGS) {
+						main.getLobbyManager().settings.get(p).openGUI();
+					}
+				}
 			}
 			e.setCancelled(true);
 		}

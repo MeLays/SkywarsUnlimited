@@ -101,6 +101,9 @@ public class InventoryClickEventListener implements Listener{
 					SoundDebugger.playSound(p, "CLICK", "BLOCK_DISPENSER_DISPENSE");
 				}
 			}
+			else if (e.getClickedInventory().getName().equals(main.c(main.getSettingsManager().getFile().getString("lobby.inventory.settings.title")))) {
+				main.getLobbyManager().settings.get(p).onClick(e.getSlot());
+			}
 			else if (e.getClickedInventory().getName().equals(main.getRunningGames().player_list.get(p).title)) {
 				if (main.getRunningGames().player_list.get(p).slots.containsKey(e.getSlot())) {
 					int arena_id = main.getRunningGames().player_list.get(p).slots.get(e.getSlot());

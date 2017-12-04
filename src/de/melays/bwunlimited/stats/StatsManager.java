@@ -77,6 +77,10 @@ public class StatsManager {
 	
 	public static boolean suitable(Player p , Arena a) {
 		if (!a.settings.stats) return false;
+		return true;
+	}
+	
+	public static boolean enabled(Player p) {
 		if (p.hasPermission("bwunlimited.nostats")) return false;
 		return true;
 	}
@@ -167,31 +171,43 @@ public class StatsManager {
 	}
 	
 	public void addKill (Arena a , Player p) {
-		this.addToKey(p.getUniqueId(), "kills", 1);
+		if (StatsManager.suitable(p, a)) {
+			this.addToKey(p.getUniqueId(), "kills", 1);
+		}
 	}
 	
 	public void addDeath (Arena a , Player p) {
+		if (StatsManager.suitable(p, a)) {
 		this.addToKey(p.getUniqueId(), "deaths", 1);
+		}
 	}
 	
 	public void addBed (Arena a , Player p) {
-		this.addToKey(p.getUniqueId(), "beds", 1);
+		if (StatsManager.suitable(p, a)) {
+			this.addToKey(p.getUniqueId(), "beds", 1);
+		}
 	}
 	
 	public void addGame (Arena a , Player p) {
-		this.addToKey(p.getUniqueId(), "games", 1);
+		if (StatsManager.suitable(p, a)) {
+			this.addToKey(p.getUniqueId(), "games", 1);
+		}
 	}
 	
 	public void addWon (Arena a , Player p) {
-		this.addToKey(p.getUniqueId(), "won", 1);
+		if (StatsManager.suitable(p, a)) {
+			this.addToKey(p.getUniqueId(), "won", 1);
+		}
 	}
 	
 	public void addLost (Arena a , Player p) {
-		this.addToKey(p.getUniqueId(), "lost", 1);
+		if (StatsManager.suitable(p, a)) {
+			this.addToKey(p.getUniqueId(), "lost", 1);
+		}
 	}
 	
 	public void addPoints (Arena a , Player p , int amount) {
-		if (StatsManager.suitable(p, a)) {
+		if (StatsManager.suitable(p, a) && StatsManager.enabled(p)) {
 			this.addToKey(p.getUniqueId(), "points", amount);
 		}
 	}
