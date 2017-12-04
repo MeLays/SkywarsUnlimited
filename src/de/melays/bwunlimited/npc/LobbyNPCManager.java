@@ -43,7 +43,7 @@ public class LobbyNPCManager {
 	
 	public LobbyNPC getLobbyNPC(Entity e) {
 		for (LobbyNPC npc : npcs.values()) {
-			if (npc.e == e) {
+			if (npc.e.getEntityId() == e.getEntityId()) {
 				return npc;
 			}
 		}

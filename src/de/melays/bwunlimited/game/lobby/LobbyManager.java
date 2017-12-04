@@ -67,7 +67,7 @@ public class LobbyManager {
 	}
 	
 	public void toLobby (Player p) {
-		if (!this.settings.containsKey(p)) this.settings.put(p, new SettingsGUI(p));
+		if (!this.settings.containsKey(p)) this.settings.put(p, new SettingsGUI(main, p));
 		p.teleport(getLobbyLocation());
 		PlayerTools.resetPlayer(p);
 		p.setGameMode(GameMode.SURVIVAL);

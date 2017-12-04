@@ -58,6 +58,7 @@ import de.melays.bwunlimited.messages.MessageFetcher;
 import de.melays.bwunlimited.multiworld.EmptyRoomGenerator;
 import de.melays.bwunlimited.npc.LobbyNPCManager;
 import de.melays.bwunlimited.npc.NPCManager;
+import de.melays.bwunlimited.queue.QueueManager;
 import de.melays.bwunlimited.stats.StatsManager;
 import de.melays.bwunlimited.teams.TeamManager;
 import de.melays.bwunlimited.tools.MarkerTool;
@@ -177,6 +178,11 @@ public class Main extends JavaPlugin{
 		return bedwarsShop;
 	}
 	
+	QueueManager queueManager;
+	public QueueManager getQueueManager() {
+		return queueManager;
+	}
+	
 	//Tools
 	MarkerTool markerTool; 
 	public MarkerTool getMarkerTool() {
@@ -246,6 +252,7 @@ public class Main extends JavaPlugin{
 		this.npcManager = new NPCManager(this);
 		this.lobbyNPCManager = new LobbyNPCManager(this);
 		this.bedwarsShop = new BedwarsShop(this);
+		this.queueManager = new QueueManager(this);
 		this.messageFetcher = new MessageFetcher(this);
 		prefix = this.getMessageFetcher().getMessage("prefix", false) + " ";
 		

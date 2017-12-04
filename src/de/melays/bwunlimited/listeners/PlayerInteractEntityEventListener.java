@@ -31,7 +31,6 @@ public class PlayerInteractEntityEventListener implements Listener{
 			e.setCancelled(true);
 		}
 		else if (!main.canOperateInLobby(p)) {
-			if (!(e.getRightClicked() instanceof Player)) return;
 			if (e.getRightClicked() instanceof Player) {
 				Player clicked = (Player) e.getRightClicked();
 				if (p.getInventory().getHeldItemSlot() == main.getConfig().getInt("lobby.group.slot")) {

@@ -5,17 +5,22 @@ spacer:
   lore: []  
 lobby:
   settings:
-    on:
+    material: REDSTONE_COMPARATOR
+    byte: 0
+    displayname: "&aSettings"
+    lore:
+      - "&aChange your Challenger-Settings"
+    activated:
       material: EMERALD
       byte: 0
       displayname: "&aActivated"
       lore: []
-    off:
+    deactivated:
       material: REDSTONE
       byte: 0
       displayname: "&cDeactivated"
       lore: []
-    specate:
+    spectate:
       material: EYE_OF_ENDER
       byte: 0
       displayname: "&bSpectate"
@@ -51,12 +56,6 @@ lobby:
     displayname: "&eRunning games"
     lore:
       - "&eSee all running games"
-  settings:
-    material: REDSTONE_COMPARATOR
-    byte: 0
-    displayname: "&aSettings"
-    lore:
-      - "&aChange your Challenger-Settings"
   leave:
     material: MAGMA_CREAM
     byte: 0

@@ -49,8 +49,8 @@ start:
   started: "%prefix% The game has been started!"
   started_generating: "%prefix% The game has been started, but the arena is not completely ready yet! Please wait ..."
 settings:
-  on: "&aActivated"
-  off: "&cDeactivated"
+  activated: "&aActivated"
+  deactivated: "&cDeactivated"
   list:
    - "%prefix% &7Settings of user &a%player%&7:"
    - "   &7Spectate: %spectate%"

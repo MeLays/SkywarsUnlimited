@@ -102,6 +102,7 @@ public class Group {
 	
 	public void removeAllChallenges() {
 		challenges = new ArrayList<Challenge>();
+		this.groupManager.main.getQueueManager().removeFromQueue(this);
 	}
 	
 	public void acceptChallenge (Challenge c) {

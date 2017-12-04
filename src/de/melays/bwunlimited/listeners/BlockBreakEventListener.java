@@ -37,8 +37,13 @@ public class BlockBreakEventListener implements Listener{
 					double x = e.getBlock().getLocation().getX();
 					double z = e.getBlock().getLocation().getZ();
 					ItemStack stack = e.getPlayer().getItemInHand();
-					if (e.getBlock().getDrops(stack).size() != 0)
-						e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation().add(x > 0 ? 0.5 : -0.5, 0.0, z > 0 ? 0.5 : -0.5), arena.blockManager.getDrop(e.getBlock().getLocation()));
+					if (e.getBlock().getDrops(stack).size() != 0 && !main.getConfig().getStringList("game.no_drop").contains(e.getBlock().getType().toString())) {
+						try {
+							e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation().add(x > 0 ? 0.5 : -0.5, 0.0, z > 0 ? 0.5 : -0.5), arena.blockManager.getDrop(e.getBlock().getLocation()));
+						} catch (Exception e1) {
+
+						}
+					}
 					e.getBlock().setType(Material.AIR);
 				}
 			}

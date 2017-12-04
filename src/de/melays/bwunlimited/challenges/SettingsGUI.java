@@ -14,12 +14,15 @@ public class SettingsGUI {
 	
 	Main main;
 	
-	public SettingsGUI (Player p){
+	public SettingsGUI (Main main ,Player p){
 		this.p = p;
+		this.main = main;
+		this.settings = new Settings(main);
 	}
 	
-	public SettingsGUI (Player p , Settings s){
+	public SettingsGUI (Main main , Player p , Settings s){
 		this.p = p;
+		this.main = main;
 		this.settings = s;
 	}
 	
@@ -28,30 +31,30 @@ public class SettingsGUI {
 		
 		//SPECTATE
 		inv.setItem(1, main.getItemManager().getItem("lobby.settings.spectate"));
-		inv.setItem(10, main.getItemManager().getItem("lobby.settings.off"));
-		if (settings.allow_spectate) inv.setItem(10, main.getItemManager().getItem("lobby.settings.on"));
+		inv.setItem(10, main.getItemManager().getItem("lobby.settings.deactivated"));
+		if (settings.allow_spectate) inv.setItem(10, main.getItemManager().getItem("lobby.settings.activated"));
 		
 		//COBWEB DECAY
 		inv.setItem(3, main.getItemManager().getItem("lobby.settings.cobweb"));
-		inv.setItem(12, main.getItemManager().getItem("lobby.settings.off"));
-		if (settings.cobweb_decay) inv.setItem(10, main.getItemManager().getItem("lobby.settings.on"));
+		inv.setItem(12, main.getItemManager().getItem("lobby.settings.deactivated"));
+		if (settings.cobweb_decay) inv.setItem(12, main.getItemManager().getItem("lobby.settings.activated"));
 		
 		//COBWEB DECAY BED
 		inv.setItem(5, main.getItemManager().getItem("lobby.settings.cobweb_bed"));
-		inv.setItem(14, main.getItemManager().getItem("lobby.settings.off"));
-		if (settings.cobweb_decay_bed) inv.setItem(10, main.getItemManager().getItem("lobby.settings.on"));
+		inv.setItem(14, main.getItemManager().getItem("lobby.settings.deactivated"));
+		if (settings.cobweb_decay_bed) inv.setItem(14, main.getItemManager().getItem("lobby.settings.activated"));
 		
 		//STATS
 		inv.setItem(7, main.getItemManager().getItem("lobby.settings.stats"));
-		inv.setItem(16, main.getItemManager().getItem("lobby.settings.off"));
-		if (settings.stats) inv.setItem(10, main.getItemManager().getItem("lobby.settings.on"));
+		inv.setItem(16, main.getItemManager().getItem("lobby.settings.deactivated"));
+		if (settings.stats) inv.setItem(16, main.getItemManager().getItem("lobby.settings.activated"));
 		
 		p.openInventory(inv);
 	}
 	
 	public void sendAsString(Player p) {
-		String on = main.getMessageFetcher().getMessage("settings.on", true);
-		String off = main.getMessageFetcher().getMessage("settings.off", true);
+		String on = main.getMessageFetcher().getMessage("settings.activated", true);
+		String off = main.getMessageFetcher().getMessage("settings.deactivated", true);
 		
 		String spectate = off;
 		if (settings.allow_spectate) spectate = on;
@@ -66,9 +69,11 @@ public class SettingsGUI {
 		if (settings.stats) stats = on;
 		
 		for (String s : main.getMessageFetcher().getMessageFetcher().getStringList("settings.list")) {
-			p.sendMessage(main.c(s.replaceAll("%spectate%", spectate)));
-			p.sendMessage(main.c(s.replaceAll("%cobweb%", cobweb)));
-			p.sendMessage(main.c(s.replaceAll("%cobweb_bed%", cobweb_bed)));
+			s = s.replaceAll("%spectate%", spectate);
+			s = s.replaceAll("%cobweb%", cobweb);
+			s = s.replaceAll("%cobweb_bed%", cobweb_bed);
+			s = s.replaceAll("%player%", this.p.getName());
+			s = s.replaceAll("%prefix%", main.getMessageFetcher().getMessage("prefix", false));
 			p.sendMessage(main.c(s.replaceAll("%stats%", stats)));
 		}
 	}

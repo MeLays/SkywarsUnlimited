@@ -3,7 +3,6 @@ package de.melays.bwunlimited.game.arenas;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -56,8 +55,7 @@ public class BlockManager {
 			placed_blocks.add(loc);
 		if (stack.getType() == Material.WEB) {
 			if ((arena.settings.cobweb_decay && !isAtBed(loc)) || (arena.settings.cobweb_decay_bed && isAtBed(loc))) {
-				@SuppressWarnings("deprecation")
-				int id = Bukkit.getScheduler().runTaskLater(arena.main, new BukkitRunnable() {
+				int id = new BukkitRunnable() {
 
 					@Override
 					public void run() {
@@ -67,7 +65,7 @@ public class BlockManager {
 						}
 					}
 					
-				}, arena.settings.cobweb_decay_ticks).getTaskId();
+				}.runTaskLater(arena.main, arena.settings.cobweb_decay_ticks).getTaskId();
 				webs.put(loc, id);
 			}
 		}

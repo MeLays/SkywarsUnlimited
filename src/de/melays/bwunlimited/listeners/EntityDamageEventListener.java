@@ -46,6 +46,9 @@ public class EntityDamageEventListener implements Listener{
 		else if(e.getEntity().getType().equals(EntityType.ENDER_CRYSTAL)){
 			e.setCancelled(true);
 		}
+		else if(main.getLobbyNPCManager().getLobbyNPC(e.getEntity()) != null){
+			e.setCancelled(true);
+		}
 		else {
 			
 		}
