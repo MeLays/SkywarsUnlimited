@@ -264,6 +264,25 @@ public class BedwarsShop {
 		current.put(p, cat);
 		p.openInventory(inv);
 	}
+	
+	public void openDummyShop(Player p) {
+		String cat = this.getItemFile().getString("default");
+		Inventory inv = Bukkit.createInventory(null, this.getItemFile().getInt("size"), main.c(this.getItemFile().getString("title")));
+		for (ShopCategory s : categories) {
+			inv.addItem(s.stack);
+		}
+		ShopCategory shop = getCategory(cat);
+		for (int i = 0 ; i < shop.items.length ; i ++) {
+			if (shop.items[i] == null) {
+				inv.setItem(9 + i , main.getItemManager().getItem("spacer"));
+			}
+			else{
+				inv.setItem(9 + i , shop.items[i].stack);
+			}
+		}
+		current.put(p, cat);
+		p.openInventory(inv);
+	}
 
 	public void openShop(Player p) {
 		openShop(p , this.getItemFile().getString("default"));
@@ -296,13 +315,6 @@ public class BedwarsShop {
 		} catch (Exception e) {
 			
 		}
-		try {
-			for (String s : data.getConfigurationSection("enchantments").getKeys(false)) {
-				r.addUnsafeEnchantment(Enchantment.getByName(s.toUpperCase()), data.getInt("enchantments."+s));
-			}
-		} catch (Exception e) {
-			
-		}
 		ItemMeta meta = r.getItemMeta();
 		try {
 			meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', data.getString("displayname")));
@@ -328,6 +340,13 @@ public class BedwarsShop {
 					pmeta.addCustomEffect(new PotionEffect(PotionEffectType.getByName(s.toUpperCase()) , data.getInt("potion."+s+".time") ,  data.getInt("potion."+s+".level")), true);
 				}
 				r.setItemMeta(pmeta);
+			}
+		} catch (Exception e) {
+
+		}
+		try {
+			for (String s : data.getConfigurationSection("enchantments").getKeys(false)) {
+				r.addUnsafeEnchantment(Enchantment.getByName(s.toUpperCase()), data.getInt("enchantments."+s));
 			}
 		} catch (Exception e) {
 

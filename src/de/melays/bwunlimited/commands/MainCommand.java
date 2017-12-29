@@ -48,6 +48,7 @@ public class MainCommand implements CommandExecutor {
 		helpSender.addAlias("worldtp <game , presets , world>", "Teleport to a world", "You can teleport to those worlds:\n - 'GAME', here are the arenas generated to\n - 'PRESETS', here you can create presets\\n - 'WORLD', the specified default world" , "/bw worldtp <game , presets , world>");
 		helpSender.addAlias("colorlist", "List all colors", "Lists all available Colors to create teams" , "/bw colorlist");
 		helpSender.addAlias("showsettings", "Lists the settings of a player", "Lists all settings from this player" , "/bw showsettings <player>");
+		helpSender.addAlias("shop", "Open the bedwars shop", "Opens the bdwars shop for testing" , "/bw shop");
 
 		
 		if (args.length == 0) {
@@ -150,6 +151,20 @@ public class MainCommand implements CommandExecutor {
 			else {
 				p.sendMessage(main.prefix + "Unknown world. Use 'game', 'presets' or 'world'");
 			}
+		}
+		
+		else if (args[0].equals("shop")) {
+			if (!(sender instanceof Player)) {
+				sender.sendMessage(main.prefix + "You cant run this command from the console!");
+				return true;
+			}
+			if (!main.getMessageFetcher().checkPermission(sender, "bwunlimited.setup"))return true;
+			if (args.length != 1) {
+				sender.sendMessage(main.getMessageFetcher().getMessage("command_usage", true).replaceAll("%command%", "/bw shop"));
+				return true;
+			}
+			Player p = (Player) sender;
+			main.getBedwarsShop().openDummyShop(p);
 		}
 		
 		else {

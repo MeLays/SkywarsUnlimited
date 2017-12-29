@@ -293,7 +293,7 @@ categories:
             lore:
               - "&c10 Bronze Ingot"
             enchantments:
-               - KNOCKBACK: 1
+               KNOCKBACK: 1
             itemflags: []
             hide_in_categories: []
             hide_in_clusters: []            
