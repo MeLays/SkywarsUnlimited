@@ -1,0 +1,96 @@
+woodsword:
+  material: WOOD_SWORD
+  byte: 0
+  displayname: "&cWooden Sword"
+  lore:
+    - "&7The weakest one..."
+  spawn:
+    probability: 8
+    from_percent: 0
+    to_percent: 35
+snowball:
+  material: SNOW_BALL
+  byte: 0
+  displayname: "&fSnowball"
+  spawn:
+    probability: 9
+    from_percent: 0
+    to_percent: 100
+    from: 3
+    to: 9
+waterbucket:
+  material: WATER_BUCKET
+  byte: 0
+  displayname: "&bWater Bucket"
+  spawn:
+    probability: 9
+    from_percent: 20
+    to_percent: 100
+golden_apple:
+  material: GOLDEN_APPLE
+  byte: 0
+  displayname: "&6Golden Apple"
+  spawn:
+    probability: 3
+    from_percent: 0
+    to_percent: 50
+golden_apple_2:
+  material: GOLDEN_APPLE
+  byte: 0
+  displayname: "&6Golden Apple"
+  spawn:
+    probability: 6
+    from_percent: 51
+    to_percent: 100
+steak:
+  material: COOKED_BEEF
+  byte: 0
+  displayname: "&cSteak"
+  spawn:
+    probability: 25
+    from_percent: 0
+    to_percent: 100
+    from: 3
+    to: 9
+stonesword:
+  material: STONE_SWORD
+  byte: 0
+  displayname: "&7Stone Sword"
+  spawn:
+    probability: 5
+    from_percent: 15
+    to_percent: 90
+ironsword:
+  material: IRON_SWORD
+  byte: 0
+  displayname: "&fIron Sword"
+  spawn:
+    probability: 4
+    from_percent: 65
+    to_percent: 100
+diamondsword:
+  material: DIAMOND_SWORD
+  byte: 0
+  displayname: "&bDiamond Sword"
+  spawn:
+    probability: 3
+    from_percent: 80
+    to_percent: 100
+log:
+  material: LOG
+  byte: 0
+  displayname: "&cLogs"
+  spawn:
+    probability: 21
+    from_percent: 0
+    to_percent: 100
+    from: 17
+    to: 48
+rescue_platform:
+  material: NETHER_STAR
+  byte: 0
+  displayname: "&aRescue Platform"
+  spawn:
+    probability: 4
+    from_percent: 45
+    to_percent: 100

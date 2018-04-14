@@ -1,4 +1,4 @@
-prefix: "&8» &9BW&1\u221E &8-&7"
+prefix: "&8» &6SW&e\u221E &8-&7"
 no_permission: "%prefix% You don't have the permission to use this command!"
 not_ingame: "%prefix% You are not ingame!"
 spectate:
@@ -34,7 +34,7 @@ game:
   leave: "%prefix% &c%player% &7left the game"
   leave_ingame: "%prefix% %color%%player% &8[%color%%display%&8] &7left the game"
   countdown:
-    start: "%prefix% The game starts in &9%countdown% &7seconds!"    
+    start: "%prefix% The game starts in &6%countdown% &7seconds!"    
   death: "%prefix% %color%%player% &8[%color%%display%&8] &7has died."
   death_killed: "%prefix% %color%%player% &8[%color%%display%&8] &7has been killed by %killer_color%%killer% &8[%killer_color%%killer_display%&8] &8(%lifes% ❤&8)"
   teamchest_destroyed: "%prefix% &cOne of your teamchests has been destroyed!"

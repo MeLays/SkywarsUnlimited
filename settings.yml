@@ -9,11 +9,11 @@ gamelobby:
       lore_empty: "  %color%-  &7&oNo players"
       playerlist: "  %color%-  %color%%player%"
   title:
-    title_3: "&1&l»&9»» &c➌ &9««&1&l«"
-    title_2: "&9»&1&l»&9» &e➋ &9«&1&l«&9«"
-    title_1: "&9»»&1&l»&r &2➊ &1&l«&9««"
-    title_0: "&9»»&1&l»&r &aGO! &1&l«&9««"
-    sub_title: "&9%cluster_display%"
+    title_3: "&e&l»&6»» &c➌ &6««&e&l«"
+    title_2: "&6»&e&l»&6» &e➋ &6«&e&l«&6«"
+    title_1: "&6»»&e&l»&r &2➊ &e&l«&6««"
+    title_0: "&6»»&e&l»&r &aGO! &e&l«&6««"
+    sub_title: "&6%cluster_display%"
 game:
   tab:
     format_prefix: "%color%"
@@ -23,7 +23,7 @@ game:
     spectator_format_prefix: "&8&o"
     spectator_format_suffix: ""
   scoreboard:
-    title: "&9Bedwars"
+    title: "&6Skywars"
     timer:
       divider: "&8:"
       minutes: "   &7%minutes%"
@@ -34,10 +34,10 @@ game:
     symbol_out: "   &8✘ &8| "
     content:
       - " "
-      - "&8&l» &9Time &9Remaining:"
+      - "&8&l» &6Time &6Remaining:"
       - time-line
       - "  "
-      - "&8&l» &9Teams:"
+      - "&8&l» &6Teams:"
       - team-lines
       - "   "
   teamchest:
@@ -56,19 +56,19 @@ game:
         legacy: ENDERMAN_TELEPORT
         new: ENTITY_ENDERMEN_TELEPORT 
       3: "&c&lTELEPORTER"
-      3_sub: "&1&l»&9»» &c➌ &9««&1&l«"
+      3_sub: "&e&l»&6»» &c➌ &6««&e&l«"
       2: "&c&lTELEPORTER"
-      2_sub: "&9»&1&l»&9» &e➋ &9«&1&l«&9«"
+      2_sub: "&6»&e&l»&6» &e➋ &6«&e&l«&6«"
       1: "&c&lTELEPORTER"
-      1_sub: "&9»»&1&l»&r &2➊ &1&l«&9««"
+      1_sub: "&6»»&e&l»&r &2➊ &e&l«&6««"
       go: "&c&lTELEPORTER"
-      go_sub: "&9»»&1&l»&r &aGO! &1&l«&9««"
+      go_sub: "&6»»&e&l»&r &aGO! &e&l«&6««"
       move: "&4&lFAILED!"
       move_sub: "&cYou moved!"
 tab:
   header:
     - ""
-    - "&9BW&1\u221E &8- &7Server"
+    - "&6SW&e\u221E &8- &7Server"
     - ""
   footer:
     - ""
@@ -94,21 +94,11 @@ lobby:
         - template_sign
         - private
       style:
-         challenge:
-            display: "&eChallenged Games"
-            item: GOLD_SWORD
-            lore: []
-            slot: 11
          template_sign:
-            display: "&9Sign-Arenas"
+            display: "&6Arenas"
             item: SIGN:0
             lore: []
             slot: 13
-         private:
-            display: "&cPrivate-Arenas"
-            item: IRON_DOOR
-            lore: []
-            slot: 15
     choosemap:
       title: "&a%p%&7 Players &0(&a%page%&0/&c%max%&0)"
       map:
@@ -124,17 +114,17 @@ shop:
 sign:
   template:
     empty:
-      1: "&8» &8&lBedwars &8«"
+      1: "&8» &8&lSkywars &8«"
       2: "&8%current%&7/&2%max%"
       3: "&8Empty"
       4: "&8%cluster%-%id%"
     default:
-      1: "&8» &9&lBedwars &8«"
+      1: "&8» &6&lSkywars &8«"
       2: "&a%current%&8/&2%max%"
-      3: "&9Lobby"
-      4: "&1%cluster%-%id%"
+      3: "&6Lobby"
+      4: "&e%cluster%-%id%"
     full:
-      1: "&8» &c&lBedwars &8«"
+      1: "&8» &c&lSkywars &8«"
       2: "&c%current%&8/&c%max%"
       3: "&cVoll"
-      4: "&1%cluster%-%id%"
+      4: "&e%cluster%-%id%"

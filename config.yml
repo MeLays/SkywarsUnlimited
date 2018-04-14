@@ -2,10 +2,10 @@ stats: STATSAPI
 mysql:
    host: 127.0.0.1
    port: 3306
-   user: bedwarsunlimited
-   database: bedwarsunlimited
+   user: skywarsunlimited
+   database: skywarsunlimited
    password: password
-gameworld: bw_gameworld
+gameworld: sw_gameworld
 presetworld: presets
 creature_spawn: false
 group_command: true
@@ -13,13 +13,13 @@ leave_command: true
 tab_header_and_footer: true
 default_group_size: 2
 group_size_permission:
-  - "bw.group.4->4"
-  - "bw.group.8->8"
-  - "bw.group.*->*"
+  - "sw.group.4->4"
+  - "sw.group.8->8"
+  - "sw.group.*->*"
 physics:
    crop-trampeling: false
    game:
-      water-update: false
+      water-update: true
       other: true
    presets:
       water-update: true
@@ -45,16 +45,10 @@ game:
    teamselector_slot: 0
    spectator_out_fly: 50
    no_drop:
-     - WEB
      - GLOWSTONE
-     - TNT
    special_items:
       TNT:
          item: TNT
-      Teleporter:
-         item: FIREWORK
-      TeamChest:
-         block: ENDER_CHEST
       RescuePlatform:
          item: NETHER_STAR
          set: STAINED_GLASS
@@ -62,16 +56,9 @@ game:
          radius: 2
 lobby:
    respawn_y: 40
-   challenger:
-      enabled: true
-      slot: 0
-      cooldown: 3
    gamelist:
       enabled: true
-      slot: 1
-   settings:
-      enabled: true
-      slot: 2
+      slot: 0
    leave:
       enabled: true
       slot: 8
@@ -86,22 +73,20 @@ defaultsettings:
    allow_join: true
    allow_spectate: true
    stats: true
-   tnt_auto_ignite: true
-   tnt_detroy_map: false
-   cobweb_decay: true
-   cobweb_decay_bed: false
+   tnt_auto_ignite: false
+   tnt_detroy_map: true
    lobby_leave: NORMAL
    min_players: 2
    max_players: 0
-   cobweb_decay_ticks: 140
    min_lobby_countdown: 10
    game_end: 36000
-   ending_countdown: 10   
-   spawn_protection: 1
+   ending_countdown: 10
 points:
    lost: 10
    won: 50
    kill: 10
    bed: 20
+loot:
+   empty_space_probability: 85
 death_y_offset: 20
 death_timeout: 80

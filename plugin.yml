@@ -1,28 +1,28 @@
-name: BedwarsUnlimited
+name: SkywarsUnlimited
 version: 1.0.1 BETA
-description: BedwarsUnlimited Plugin by MeLays
+description: SkywarsUnlimited Plugin by MeLays
 author: MeLays
 website: http://melays.de/
-main: de.melays.bwunlimited.Main
+main: de.melays.swunlimited.Main
 softdepend: [StatsAPI,Vault,SymptaFriends,Citizens]
 commands:
-  bw:
+  sw:
     description: Manage the BedwarsUnlimited Plugin
-    aliases: [bedwars , bwunlimited , bedwarsunlimited]
+    aliases: [skywars , swunlimited , skywarsunlimited]
     usage: /bw help
   group:
-    description: BedwarsUnlimited Groups
+    description: SkywarsUnlimited Groups
     aliases: [group,groups,party,p,g]
     usage: /group help
   leave:
-    description: BedwarsUnlimited Leave
+    description: SkywarsUnlimited Leave
     aliases: [l,hub,lobby]
     usage: /leave
   start:
-    description: BedwarsUnlimited Start
+    description: SkywarsUnlimited Start
     aliases: []
     usage: /start
   spectate:
-    description: BedwarsUnlimited Spectate
+    description: SkywarsUnlimited Spectate
     aliases: []
     usage: /spectate
